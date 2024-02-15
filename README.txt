@@ -5,7 +5,7 @@ Build tool: Make
 Instructions: 
 
 for build: 
-    use command "make build"
+    use command "make generate"
 
 for run: 
     use command "make run"
