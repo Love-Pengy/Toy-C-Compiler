@@ -41,8 +41,6 @@ void cmdLineParser(char ** input){
         printf("TEST: %s\n", input[i]);
     }
 
-    printf("here");
-
     for(int i = 1; i < arrayLength; i++){
         if(strcmp(input[i], "-help") == 0){   
             printf("Usage: tc [options] toyc_source_file\n");
@@ -104,6 +102,7 @@ void cmdLineParser(char ** input){
                     cut = strtok(NULL, ".");
                 }       
                 if(strcmp(last, "tc") == 0){
+                    strcat(input[i], ".tc");
                     inputFileName = input[i];
                     if(CLINEDEBUG){
                         printf("Input File Set To %s\n", inputFileName);

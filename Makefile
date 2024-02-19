@@ -13,7 +13,7 @@ test:
 	@gdb --args ./bin/tc $(ARGS)
 
 clean:	
-	@rm *.out
+	@rm ./bin/*
 	@echo "Cleaning Has Completed"
 
 run: 
