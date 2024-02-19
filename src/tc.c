@@ -24,10 +24,9 @@ int main(int argc, char **argv){
         for(int i = 0; i < strlen(currentLine); i++){
 
             if(isspace(currentLine[i])){
-                printf("%s\n", getLexeme(buffer));    
+                printf("[SCANNER] (<%s>, \"%s\")\n", getLexeme(buffer), buffer);    
                 buffer = malloc(sizeof(char) * 500);
             }
-
             else{
                 buffer[strlen(buffer)] = currentLine[i];
             }

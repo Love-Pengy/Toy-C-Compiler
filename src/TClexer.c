@@ -13,7 +13,7 @@
 #ifndef STRING_H
     #include <string.h>
 #endif
-int LEXERDEBUG = 1;
+int LEXERDEBUG = 0;
 
 /*
 * KEYWORD
@@ -30,14 +30,6 @@ int LEXERDEBUG = 1;
 *   %
 *   &&
 * ASSIGNOP
-* LPAREN
-* RPAREN
-* LBRACKET
-* RBRACKET
-* COMMA
-* SEMICOLON
-* NOT
-* COLON
 */
 static const char *keywordLUT[] = {
     "int", "char", "return", "if", "else", 
