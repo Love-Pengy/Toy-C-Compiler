@@ -2,19 +2,22 @@
 
 .DEFAULT_GOAL := generate
 
+ARGS=""
+
 generate: 
-	@gcc main.c mod1.c mod2.c -Wall -o compiler.out
+	@gcc ./src/tc.c ./src/TCCMDLineReader.c ./src/TCglobals.c -o ./bin/tc -Wall
 	@echo "Generation Has Completed"
 
 test: 
-	@echo "Testing Hasn't Been Set Up Yet!"
+	@gcc ./src/tc.c ./src/TCCMDLineReader.c ./src/TCglobals.c -g -o ./bin/tc 
+	@gdb --args ./bin/tc $(ARGS)
 
 clean:	
 	@rm *.out
 	@echo "Cleaning Has Completed"
 
 run: 
-	@./compiler.out
+	@./bin/tc $(ARGS) 
 
 
 
