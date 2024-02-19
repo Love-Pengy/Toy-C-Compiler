@@ -5,11 +5,11 @@
 ARGS=""
 
 generate: 
-	@gcc ./src/tc.c ./src/TCCMDLineReader.c ./src/TCglobals.c -o ./bin/tc -Wall
+	@gcc ./src/tc.c ./src/TCCMDLineReader.c ./src/TCglobals.c ./src/TClexer.c -o ./bin/tc -Wall
 	@echo "Generation Has Completed"
 
 test: 
-	@gcc ./src/tc.c ./src/TCCMDLineReader.c ./src/TCglobals.c -g -o ./bin/tc 
+	@gcc ./src/tc.c ./src/TCCMDLineReader.c ./src/TCglobals.c ./src/TClexer.c -g -o ./bin/tc 
 	@gdb --args ./bin/tc $(ARGS)
 
 clean:	

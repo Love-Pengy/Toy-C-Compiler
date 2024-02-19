@@ -30,15 +30,11 @@
 *   verbose does debug but also the source file 
 */
 
-int CLINEDEBUG = 1;
+int CLINEDEBUG = 0;
 
 void cmdLineParser(char ** input){
     int arrayLength = -1;
     while(input[++arrayLength] != NULL){    
-    }
-
-    for(int i = 0; i < arrayLength; i++){
-        printf("TEST: %s\n", input[i]);
     }
 
     for(int i = 1; i < arrayLength; i++){
