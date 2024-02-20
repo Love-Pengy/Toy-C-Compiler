@@ -13,6 +13,10 @@
 #ifndef STRING_H
     #include <string.h>
 #endif
+#ifndef CTYPE_H
+    #include <ctype.h>
+#endif
+
 int LEXERDEBUG = 0;
 
 /*
@@ -38,11 +42,21 @@ static const char *keywordLUT[] = {
     "break", "newline"
 };
 
+int checkLUT(char* inString){
+    for(int i = 0; i < (sizeof(keywordLUT)/sizeof(keywordLUT[0])); i++){
+        if(!strcmp(inString, keywordLUT[i])){
+            return(1);
+        }
+    }
+    return(0);
+}
+
 //gets raw string
 char *getLine(FILE* fptr){
     char *output = malloc(sizeof(char) * 500);
     return(fgets(output, 500, fptr));
 }
+
 //get the sequence of characters that we're lookiung for (or error ig)
 char *getLexeme(char *sequence){
     if(LEXERDEBUG){
@@ -74,6 +88,29 @@ char *getLexeme(char *sequence){
     }
     else if(!strcmp(sequence, ")")){
         return("RPAREN");
+    }
+    else if(!strcmp(sequence, "/") || !strcmp(sequence, "%") || !strcmp(sequence, "&&")){
+        return("MULOP");
+    }
+    else if(!strcmp(sequence, "/*") || !strcmp(sequence, "*/")){
+        return("COMMENT1");
+    }
+    else if(!strcmp(sequence, "//")){   
+        return("COMMENT2");
+    }
+    else if(isalpha(sequence[0])){
+        for(int i = 0; i < strlen(sequence); i++){
+            if(!isalnum(sequence[i])){
+                printf("Invalid sequence: %s\n", sequence); 
+                exit(EXIT_FAILURE);
+            }
+        }
+        if(checkLUT(sequence)){
+            return("KEYWORD");
+        }
+        else{
+            return("ID");
+        }
     }
     else{
         return("NOT IMPLEMENTED YET");
