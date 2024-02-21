@@ -7,3 +7,5 @@
 + Idea 3 make the getLexeme function manage everything on its own
     + if currentLine is empty get line
     + check each line with the DFAs I Was using before 
++ Idea 3 
+    + to finish and get it working I must go one by one but can keep the same DFA's I had I Just cant cheat it and go word by word 
