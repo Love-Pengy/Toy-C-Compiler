@@ -90,7 +90,7 @@ void cmdLineParser(char ** input){
                 }
             }
             if(charCount > 0){
-                char *cut = strtok(input[i], ".");
+                char *cut = strtok(strdup(input[i]), ".");
                 char *last = NULL;
 
                 while(cut != NULL){
@@ -98,7 +98,6 @@ void cmdLineParser(char ** input){
                     cut = strtok(NULL, ".");
                 }       
                 if(strcmp(last, "tc") == 0){
-                    strcat(input[i], ".tc");
                     inputFileName = input[i];
                     if(CLINEDEBUG){
                         printf("Input File Set To %s\n", inputFileName);

@@ -3,6 +3,6 @@
 #endif
 
 char* getLine(FILE*);
-char *getLexeme(char *);
+char *getLexeme(FILE*);
 int getLineNum();
 int getPos();

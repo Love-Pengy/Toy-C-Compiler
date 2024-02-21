@@ -17,41 +17,24 @@ int main(int argc, char **argv){
     cmdLineParser(argv);
 
 
-
-    char *currentLine = malloc(sizeof(char) * 501);
+    char * currentLexeme = malloc(sizeof(char) * 501);
     FILE *fp = fopen(inputFileName, "r");
     
 
     if(fp == NULL){
-        printf("file does not exist");
+        printf("File does not exist: %s", inputFileName);
         exit(EXIT_FAILURE);
     }
 
 
     //scanner
-    while(1){
-        currentLine = getLine(fp);
-        if(currentLine == NULL){
-            if(debug_scanner){
-                printf("[SCANNER] (<EOF>, \"EOF\")\n");    
-            }
-            break;
+    while(strcmp((currentLexeme = getLexeme(fp)), "<EOF>, \"EOF\"")){
+        //check if comment
+        if(!strcmp(currentLexeme, " ")){
+            continue;
         }
-        char *buffer = malloc(sizeof(char) * 500);
-        char *lexeme = malloc(sizeof(char) * 500);
-        for(int i = 0; i < strlen(currentLine); i++){
-            if(isspace(currentLine[i])){
-                strcpy(lexeme, getLexeme(buffer));
-                if(debug_scanner){
-                    printf("[SCANNER] (<%s>, \"%s\")\n",lexeme , buffer);    
-                }
-                buffer = malloc(sizeof(char) * 500);
-            }
-            else{
-                buffer[strlen(buffer)] = currentLine[i];
-            }
+        printf("%s\n", currentLexeme);
 
-        }
     }
         
     

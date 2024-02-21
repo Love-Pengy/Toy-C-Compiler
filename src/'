@@ -51,18 +51,11 @@ int checkLUT(char* inString){
 //gets raw string
 char *getLine(FILE* fptr){
     char *output = malloc(sizeof(char) * 500);
-    if(!fgets(output, 500, fptr)){
-        return(NULL);
-    }
-    if(output[strlen(output) - 1] == '\n'){
-        output[strlen(output) - 1] = '\0';
-    }
-    return(output);
+    return(fgets(output, 500, fptr));
 }
 
 //get the sequence of characters that we're lookiung for (or error ig)
 char *getLexeme(FILE* fp){
-    int count = 0;
     char *lexeme = malloc(sizeof(char) * 550);
     if(strlen(currentToken) == 0){
         currentLine = getLine(fp);
@@ -79,7 +72,6 @@ char *getLexeme(FILE* fp){
             if(!(currentLine = getLine(fp))){
                 return("<EOF>, \"EOF\"");
             }
-            currentToken = strtok(strdup(currentLine), " "); 
         }    
     }
 
@@ -147,56 +139,24 @@ char *getLexeme(FILE* fp){
         return(lexeme);
     }
     else if(!strcmp(currentToken, "/*") || !strcmp(currentToken, "*/")){
-        if(!strcmp(currentToken, "*/")){
-            printf("ERROR: Invalid Start To Group Comment %s\n", currentLine);
-            exit(EXIT_FAILURE);
-        }
-
-        //0 == out of comment, positive == more /* than */ and negative == error
-        int count = 1; 
-        while(count){
-            if(!(currentToken = strtok(NULL, " "))){ 
-                //got to EOF
-                if(!(currentLine = getLine(fp))){
-                    printf("ERROR: Group Comment Not Closed: %d\n", count);
-                    exit(EXIT_FAILURE);
-                }
-                currentToken = strtok(strdup(currentLine), " ");
-            }
-            if((!strcmp(currentToken, "/*")) || (!strcmp(currentToken, "/*\n"))){
-                count++;
-            }
-            else if(!strcmp(currentToken, "*/") || (!strcmp(currentToken, "*/\n"))){
-                count--;
-            }
-        }
-        return(" ");
+        return("COMMENT1");
     }
-
     else if(!strcmp(currentToken, "//")){   
-        currentLine = getLine(fp);
-        currentToken = ""; 
-        return(" ");
+        return("COMMENT2");
     }
     //KEYWOD & ID
     else if(isalpha(currentToken[0])){
         for(int i = 0; i < strlen(currentToken); i++){
             if(!isalnum(currentToken[i])){
-                printf("Invalid currentToken: %s at: .%c.\n", currentToken, currentToken[i]); 
+                printf("Invalid currentToken: %s\n", currentToken); 
                 exit(EXIT_FAILURE);
             }
         }
         if(checkLUT(currentToken)){
-            strcat(lexeme, "<KEYWORD>, \"");
-            strcat(lexeme, currentToken);
-            strcat(lexeme, "\"");
-            return(lexeme);
+            return("KEYWORD");
         }
         else{
-            strcat(lexeme, "<ID>, \"");
-            strcat(lexeme, currentToken);
-            strcat(lexeme, "\"");
-            return(lexeme);
+            return("ID");
         }
     }
     //NUMBER
@@ -234,25 +194,16 @@ char *getLexeme(FILE* fp){
                 }
             }
         }
-        strcat(lexeme, "<NUMBER>, \"");
-        strcat(lexeme, currentToken);
-        strcat(lexeme, "\"");
-        return(lexeme);
+        return("NUMBER");   
     }
     //CHARLITERAL
     else if(currentToken[0] == '\''){
         if(currentToken[1] == '\''){
-            strcat(lexeme, "<CHARLITERAL>, \"");
-            strcat(lexeme, currentToken);
-            strcat(lexeme, "\"");
-            return(lexeme);
+            return("CHARLITERAL");
         }
         if(isalpha(currentToken[1])){
             if(currentToken[2] == '\''){
-                strcat(lexeme, "<CHARLITERAL>, \"");
-                strcat(lexeme, currentToken);
-                strcat(lexeme, "\"");
-                return(lexeme);
+                return("CHARLITERAL");
             }
         }
         printf("Invalid Char Specification");
