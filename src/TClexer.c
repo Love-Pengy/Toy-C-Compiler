@@ -18,13 +18,9 @@
 #endif
 
 int LEXERDEBUG = 0;
+static char* currentLine; 
 
 /*
-* KEYWORD
-* COMMENT
-* ID
-* NUMBER
-* CHARLITERAL
 * STRING
 * RELOP
 * ADDOP
@@ -59,6 +55,9 @@ char *getLine(FILE* fptr){
 
 //get the sequence of characters that we're lookiung for (or error ig)
 char *getLexeme(char *sequence){
+    currentLine = malloc(sizeof(char) * 501);
+    currentLine = sequence;
+    printf("TEST: %s\n", currentLine);
     if(LEXERDEBUG){
         printf(".%s.\n", sequence);
     }
@@ -98,6 +97,7 @@ char *getLexeme(char *sequence){
     else if(!strcmp(sequence, "//")){   
         return("COMMENT2");
     }
+    //KEYWOD & ID
     else if(isalpha(sequence[0])){
         for(int i = 0; i < strlen(sequence); i++){
             if(!isalnum(sequence[i])){
@@ -112,9 +112,72 @@ char *getLexeme(char *sequence){
             return("ID");
         }
     }
+    //NUMBER
+    else if(isdigit(sequence[0])){
+        int fraction = 0; 
+        int exponent = 0;
+        for(int i = 0; i < strlen(sequence); i++){
+            if(isdigit(sequence[i])){
+                continue;
+            }
+            else{
+                if((sequence[i] == '+') || (sequence[i] == '-')){
+                    if(!exponent){
+                        printf("+ or - without exponent specifier");
+                        exit(EXIT_FAILURE);
+                    }
+                }
+                if(sequence[i] == '.'){
+                    if((!fraction) && (!exponent)){
+                        fraction = 1;
+                    }
+                    else{
+                        printf("Invalid Number of Float Identifiers\n");
+                        exit(EXIT_FAILURE);
+                    }
+                }
+                if(sequence[i] == 'E'){
+                    if(!exponent){
+                        exponent = 1;
+                    }
+                    else{
+                        printf("Invalid Number of Exponent Identifiers\n");
+                        exit(EXIT_FAILURE);
+                    }
+                }
+            }
+        }
+        return("NUMBER");   
+    }
+    //CHARLITERAL
+    else if(sequence[0] == '\''){
+        if(sequence[1] == '\''){
+            return("CHARLITERAL");
+        }
+        if(isalpha(sequence[1])){
+            if(sequence[2] == '\''){
+                return("CHARLITERAL");
+            }
+        }
+        printf("Invalid Char Specification");
+        exit(EXIT_FAILURE);
+    }
+
+    /*
+    //STRING
+    else if(sequence[0] == '\"'){
+        for(int i = 0; i < strlen(sequence); i++){
+            if(
+            if(isalpha(sequence[i])){
+                continue;
+            }
+        }
+    }
+    */
     else{
         return("NOT IMPLEMENTED YET");
     }
+
     
 
 
