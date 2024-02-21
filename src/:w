@@ -21,6 +21,14 @@ int LEXERDEBUG = 0;
 static char* currentLine; 
 static char* currentToken = "";
 /*
+* STRING
+* RELOP
+* ADDOP
+* MULOP
+*   *
+*   /
+*   %
+*   &&
 * ASSIGNOP
 */
 static const char *keywordLUT[] = {
@@ -258,15 +266,17 @@ char *getLexeme(FILE* fp){
         int found = 0;
         while(!found){
             for(int i = 1; i < strlen(currentToken); i++){
-                if(currentToken[i] == '\"'){
+                printf("%c\n", currentToken[i]);
+                if((!(currentToken[i] == '\n')) && (!(currentToken[i] == '\"'))){
+                    hold[i - 1] = currentToken[i];
+                    hold[strlen(hold)] = '\0';
+                    continue;
+                }
+                else if(currentToken[i] == '\"'){
                     strcat(lexeme, "<STRING>, \"");
-                    strncat(lexeme, hold, (strlen(hold) - 2));
+                    strncat(lexeme, hold, (strlen(hold) - 1));
                     strcat(lexeme, "\"");
                     return(lexeme);
-                }
-                else if((!(currentToken[i] == '\n')) && (!(currentToken[i] == '\"'))){
-                    hold[i - 1] = currentToken[i];
-                    continue;
                 }
                 else{
                     printf("ERROR: Invalid String\n");
@@ -283,36 +293,12 @@ char *getLexeme(FILE* fp){
         }
     }
 
-    else if((!(strcmp(currentToken, "=="))) || (!(strcmp(currentToken, "!="))) || (!(strcmp(currentToken, "<"))) || (!(strcmp(currentToken, "<="))) || (!(strcmp(currentToken, ">="))) || (!(strcmp(currentToken, ">")))){
-        strcat(lexeme, "<RELOP>, \"");
-        strcat(lexeme, currentToken);
-        strcat(lexeme, "\"");
-        return(lexeme);        
-    }
-
-    else if((!(strcmp(currentToken, "+"))) || (!strcmp(currentToken, "-")) || (!(strcmp(currentToken, "||")))){        
-        strcat(lexeme, "<ADDOP>, \"");
-        strcat(lexeme, currentToken);
-        strcat(lexeme, "\"");
-        return(lexeme);
-
-    }
-    else if((!strcmp(currentToken, "*"))){
-        strcat(lexeme, "<MULOP>, \"");
-        strcat(lexeme, currentToken);
-        strcat(lexeme, "\"");
-        return(lexeme);        
-    }
-    else if((!strcmp(currentToken, "="))){
-        strcat(lexeme, "<ASSIGNOP>, \"");
-        strcat(lexeme, currentToken);
-        strcat(lexeme, "\"");
-        return(lexeme);
-    }
-
     else{
         return("NOT IMPLEMENTED YET");
     }
+
+    
+
 
 }
 
