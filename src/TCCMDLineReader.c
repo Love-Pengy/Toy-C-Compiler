@@ -32,7 +32,8 @@
 
 int CLINEDEBUG = 0;
 
-void cmdLineParser(char ** input){
+//returns 1 if continue returns 0 if its not supposed to go to scanner
+int cmdLineParser(char ** input){
     int arrayLength = -1;
     while(input[++arrayLength] != NULL){    
     }
@@ -47,6 +48,7 @@ void cmdLineParser(char ** input){
             printf("                         0 - all messages\n");
             printf("                         1 - scanner messages only\n");
             printf("    -verbose           display all information\n");
+            return(0);
         }
         else if(strcmp(input[i], "-debug") == 0){
             i++;
@@ -59,19 +61,19 @@ void cmdLineParser(char ** input){
                 debug_parser = true;
                 debug_codeGen = true;
                 if(CLINEDEBUG){
-                    printf("debug 2 set\n");
+                    printf("Debug 0 Set\n");
                 }
                 //display all messages
             }
             else if(strcmp(input[i], "1") == 0){
                 debug_scanner = true;
                 if(CLINEDEBUG){
-                    printf("debug 1 set\n");
+                    printf("Debug 1 Set\n");
                 }
                 //scanner messages only
             }
             else{
-                printf("debug number error\n");
+                printf("ERROR: Debug Number Error\n");
                 exit(EXIT_FAILURE);
             }
         }
@@ -105,6 +107,7 @@ void cmdLineParser(char ** input){
                 }
                 else{
                     printf("Invalid argument passed\n");
+                    exit(EXIT_FAILURE);
                 }
             }
             else{
@@ -113,6 +116,7 @@ void cmdLineParser(char ** input){
             }
     }
 }
+    return(1);
 }
 
 

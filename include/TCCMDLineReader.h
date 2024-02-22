@@ -1,1 +1,1 @@
-void cmdLineParser(char **);
+int cmdLineParser(char **);

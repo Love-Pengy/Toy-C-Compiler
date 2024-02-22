@@ -1,69 +1,9 @@
-//max line size
-//max W's 200
-//max string size in chars
-//global value for randColor
-int color = 0; 
-//global randBool for randColor 
 bool randColor = false;
 int originalWs = 0; 
 char currentFilePath[300] = "";
 
 
 
-
-
-int consoleEscapeCodeSetup(void){
-    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    if (hOut == INVALID_HANDLE_VALUE)
-    {
-        return false;
-    }
-    HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
-    if (hIn == INVALID_HANDLE_VALUE)
-    {
-        return false;
-    }
-
-    DWORD dwOriginalOutMode = 0;
-    DWORD dwOriginalInMode = 0;
-    if (!GetConsoleMode(hOut, &dwOriginalOutMode))
-    {
-        return false;
-    }
-    if (!GetConsoleMode(hIn, &dwOriginalInMode))
-    {
-        return false;
-    }
-
-    DWORD dwRequestedOutModes = ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN;
-    DWORD dwRequestedInModes = ENABLE_VIRTUAL_TERMINAL_INPUT;
-
-    DWORD dwOutMode = dwOriginalOutMode | dwRequestedOutModes;
-    if (!SetConsoleMode(hOut, dwOutMode))
-    {
-        dwRequestedOutModes = ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-        dwOutMode = dwOriginalOutMode | dwRequestedOutModes;
-        if (!SetConsoleMode(hOut, dwOutMode))
-        {
-            return -1;
-        }
-    }
-
-    DWORD dwInMode = dwOriginalInMode | dwRequestedInModes;
-    if (!SetConsoleMode(hIn, dwInMode))
-    {
-        return -1;
-    }
-    return 0;
-}
-
-int getTotalCount(dllist d){
-        return(listSize(d));
-}
-int getSessionCount(dllist d, int original){
-        int hold = (listSize(d) - original);
-        return(hold);
-}
 
 
 int stringLengthNoSpace(char *string){
@@ -118,9 +58,7 @@ void userInputPrompt(void){
     system("cls");
     printf("You are about to enter input mode!\n");
     printf("To add a W you just type what you want and hit enter!\n");
-    printf("To enter \"roaming mode\" you type ROAM and hit enter\n");
     printf("Within roaming mode you will be able to view past W's as well as edit/delete them!\n");
-    printf("To fully exit type \"bye!\" and it enter! This will exit input mode and give you your recap! \n");
     printf("~~~ Press Any Key To Continue ~~~");
     char hold;
     scanf("%c", &hold);
@@ -284,7 +222,6 @@ void userInputRoam(dllist list){
                 }
                 printf("\e[25m");
                 printf("\e[?25l");
-                FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
                 continue;
             }
         }   
@@ -316,7 +253,6 @@ void userInputRoam(dllist list){
                 printf("\e[25m");
                 printf("\e[?25l");
                 //clear inputs that happened during invalid period 
-                FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
                 continue;
             }
         }   
@@ -331,7 +267,6 @@ void userInputRoam(dllist list){
                     continue;
                 }
                 removeAtIndex(list, currentIndex);
-                FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
                 continue;
             }
             else{
@@ -390,7 +325,6 @@ void userInputRoam(dllist list){
             printf("\n");
             printf("\e[1C");
             gets(buffer);
-            if((buffer == NULL) || (buffer[0] == '\n')){
                 continue;
             }
             replaceAtIndex(list, currentIndex, buffer);
@@ -399,7 +333,6 @@ void userInputRoam(dllist list){
             continue;
         }
     }
-    FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 }
 
 void userInputAction(dllist list){
@@ -440,7 +373,6 @@ void userInputAction(dllist list){
                 }
                 printf("\e[25m");
                 printf("\e[?25l");
-                FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
                 continue;
                 printf("\e[38;5;196m"); 
             }
@@ -454,7 +386,6 @@ void userInputAction(dllist list){
         else{
             addList(currentString, list);
             playRandAnimation(bossyBoss); 
-            FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
         }
     }
 }
@@ -493,7 +424,6 @@ char *textAdd(char *str){
     for(int i = 0; i < (size - sizeEnd); i++){
         textAdd[i] = str[i];
     }
-    textAdd[(strlen(str) - strlen(end))] = '\0';
     strcat(textAdd, ".txt");
     return(textAdd);
 }
@@ -544,14 +474,12 @@ char * stringParse(char *pString){
             j++;
         }
     }
-    newString[size-j] = '\0';
     return(newString);
 }
 
 void introInstruct(){
     char hold;
     system("cls");
-    printf("Hello! This app is inspired by Dr. K's talk about turning w's into l's (https://twitter.com/HealthyGamerGG/status/1615857210638180353?s=200).\nThis app is designed to help you keep track of your w's and put them in your respective \"column\"! \n");
     printf("~~Press any key to continue~~");
     hold = getch();
     system("cls");
@@ -584,7 +512,6 @@ char *getDir(){
 dllist loadWs(FILE *fp){
     int size = 0;
     if(fp != NULL){
-    fseek(fp, 0, SEEK_END);
     size = ftell(fp);
     rewind(fp);
     char *strChecker2 = malloc(sizeof(char) * 160);
@@ -608,7 +535,6 @@ dllist loadWs(FILE *fp){
         strcpy(currentFilePath, dir);
         fp = fopen(dir, "r");
             if(fp != NULL){
-            fseek(fp, 0, SEEK_END);
             size = ftell(fp);
             rewind(fp);
             char *strChecker = malloc(sizeof(char) * 160);

@@ -14,31 +14,32 @@ int main(int argc, char **argv){
     }
 
     //parse command line flags
-    cmdLineParser(argv);
-
-
-    char * currentLexeme = malloc(sizeof(char) * 501);
+    int checker = cmdLineParser(argv);
     FILE *fp = fopen(inputFileName, "r");
-    
 
-    if(fp == NULL){
-        printf("File does not exist: %s", inputFileName);
-        exit(EXIT_FAILURE);
-    }
-
-
-    //scanner
-    while(strcmp((currentLexeme = getLexeme(fp)), "<EOF>, \"EOF\"")){
-        //check if comment
-        if(!strcmp(currentLexeme, " ")){
-            continue;
-        }
-        if(debug_scanner){
-            printf("%s\n", currentLexeme);
-        }
-    }
+    if(checker){
+        char * currentLexeme = malloc(sizeof(char) * 501);
         
-    
+
+        if(fp == NULL){
+            printf("File does not exist: %s\n", inputFileName);
+            exit(EXIT_FAILURE);
+        }
+
+
+        //scanner
+        while(strcmp((currentLexeme = getLexeme(fp)), "<EOF>, \"EOF\"")){
+            //check if comment
+            if(!strcmp(currentLexeme, " ")){
+                continue;
+            }
+            if(debug_scanner){
+                printf("%s\n", currentLexeme);
+            }
+        }
+    } 
+    dumpScannedFile(fp);        
+        
 return(0);
 }
 //this is the main file

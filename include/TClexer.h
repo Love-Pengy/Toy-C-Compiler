@@ -6,3 +6,4 @@ char* getLine(FILE*);
 char *getLexeme(FILE*);
 int getLineNum();
 int getPos();
+void dumpScannedFile(FILE*);

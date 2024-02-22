@@ -21,6 +21,14 @@ int LEXERDEBUG = 0;
 static char* currentLine = ""; 
 static int currentIndex = -1;
 
+void dumpScannedFile(FILE* fptr){
+    rewind(fptr);
+    char *hold = malloc(sizeof(char) * 501);
+    while(fgets(hold, 500, fptr)){   
+        printf("%s", hold); 
+    }
+}
+
 void charConcat(char *string, char character){
     char charToStr[2] = "";
     charToStr[1] = '\0';
@@ -93,7 +101,6 @@ char *getLexeme(FILE* fp){
     char *lexeme = malloc(sizeof(char) * 550); 
     char currentChar = ' ';
     while(((currentChar = getChar(fp))) != ((char)0xFF)){
-        printf("%c\n", currentChar);
         if(currentChar == ':'){
             strcat(lexeme, "<COLON>, \"");
             strcat(lexeme, ":");
@@ -158,7 +165,6 @@ char *getLexeme(FILE* fp){
                         break;
                     }
                 }
-                currentChar = getChar(fp);
                 return(" ");
             }
             else if((strlen(currentLine) > (currentIndex + 1)) &&(currentLine[currentIndex + 1]) == '*'){
@@ -234,17 +240,21 @@ char *getLexeme(FILE* fp){
             string[0] = '\0';
             while((((int)currentChar) != (char)0xFE) && ((int)currentChar != (char)0xFF) && (currentChar != ' ')){
                 if(!isalnum(currentChar)){
-                    printf("ERROR: Invalid ID \n");
-                    exit(EXIT_FAILURE);
+                    break;
                 }
                 else{
-                    if((strlen(string) == 0)){
-                        string[0] = currentChar;
+                    charConcat(string, currentChar);
+                    if((strlen(currentLine) > (currentIndex + 1))){
+                        if(isalnum(currentLine[currentIndex + 1])){
+                            currentChar = getChar(fp);
+                        }
+                        else{
+                            break;
+                        }
                     }
                     else{
-                        charConcat(string, currentChar);
+                        break;
                     }
-                    currentChar = getChar(fp);
                 }
             }
             if(checkLUT(string)){
@@ -267,6 +277,18 @@ char *getLexeme(FILE* fp){
             char*output = malloc(sizeof(char) * 100);
             charConcat(output, currentChar);
             while(1){
+                if(strlen(currentLine) > (currentIndex + 1)){
+                    char next = currentLine[currentIndex + 1];
+                    if((next == '+') || (next == '-') || (next == 'E') || (next == '.') || isdigit(next)){
+                        
+                    }
+                    else{
+                        break;
+                    }
+                }
+                else{
+                    break; 
+                }
                 currentChar = getChar(fp);
                 if(((int)currentChar == (char)0xFE) || (currentChar == (char)0xFF)){
                     break;
@@ -296,7 +318,7 @@ char *getLexeme(FILE* fp){
                             charConcat(output, currentChar);
                         }
                         else{
-                            printf("Invalid Number of Float Identifiers\n");
+                            printf("ERROR: Invalid Number of Float Identifiers\n");
                             exit(EXIT_FAILURE);
                         }
                     }
@@ -307,7 +329,7 @@ char *getLexeme(FILE* fp){
                             strcat(output, &currentChar);
                         }
                         else{
-                            printf("Invalid Number of Exponent Identifiers\n");
+                            printf("ERROR: Invalid Number of Exponent Identifiers\n");
                             exit(EXIT_FAILURE);
                         }
                     }
@@ -333,7 +355,7 @@ char *getLexeme(FILE* fp){
                 strcat(lexeme, "\"");
                 return(lexeme);
             }
-            if(isalpha(currentChar)){
+            else{
                 currentChar = getChar(fp);
                 charConcat(output, currentChar);
                 if(currentChar == '\''){
@@ -343,7 +365,7 @@ char *getLexeme(FILE* fp){
                     return(lexeme);
                 }
             }
-            printf("Invalid Char Specification");
+            printf("ERROR: Invalid Char Specification %c\n", currentChar);
             exit(EXIT_FAILURE);
         }
 
@@ -395,7 +417,6 @@ char *getLexeme(FILE* fp){
                     }
                     else{
                         strcat(lexeme, "<ASSIGNOP>, \"");
-                        charConcat(holdString, currentChar);
                         strcat(lexeme, holdString);
                         strcat(lexeme, "\"");
                         return(lexeme);        
