@@ -33,8 +33,9 @@ int main(int argc, char **argv){
         if(!strcmp(currentLexeme, " ")){
             continue;
         }
-        printf("%s\n", currentLexeme);
-
+        if(debug_scanner){
+            printf("%s\n", currentLexeme);
+        }
     }
         
     

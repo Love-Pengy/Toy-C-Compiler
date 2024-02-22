@@ -1,20 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "dllist.h"
-#include <stdbool.h>
-#include <ctype.h>
-#include <conio.h>
-#include <time.h>
-#include <windows.h>
-#include "animations.h"
 //max line size
-#define LSIZE 300
 //max W's 200
-#define MAXWS 200   
 //max string size in chars
-#define MAXSTRSIZE 80
-
 //global value for randColor
 int color = 0; 
 //global randBool for randColor 

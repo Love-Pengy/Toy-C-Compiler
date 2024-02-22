@@ -19,7 +19,6 @@
 
 int LEXERDEBUG = 0;
 static char* currentLine = ""; 
-static char* currentToken = "";
 static int currentIndex = -1;
 
 void charConcat(char *string, char character){
@@ -60,10 +59,13 @@ char *getLine(FILE* fptr){
 
 //get char from line, will return 0xFE if its the eol will return 0xFF if its eof 
 unsigned char getChar(FILE *fp){
+    if(currentLine == NULL){
+        return((char)0xFF);
+    }
     if(strlen(currentLine) == 0){
         currentLine = getLine(fp);
         if(currentLine == NULL){
-            return(0xFF);
+            return((char)0xFF);
         }
         else{
             return(0xFE);
@@ -76,10 +78,10 @@ unsigned char getChar(FILE *fp){
     else{
         currentLine = getLine(fp);
         if(currentLine == NULL){
-            return(0xFF);
+            return((char)0xFF);
         }
         else{
-            currentIndex = 0;
+            currentIndex = -1;
             return(0xFE);
         }
     }
@@ -90,99 +92,87 @@ unsigned char getChar(FILE *fp){
 char *getLexeme(FILE* fp){
     char *lexeme = malloc(sizeof(char) * 550); 
     char currentChar = ' ';
-    while(((int)(currentChar = getChar(fp))) != 0xFF){
+    while(((currentChar = getChar(fp))) != ((char)0xFF)){
+        printf("%c\n", currentChar);
         if(currentChar == ':'){
             strcat(lexeme, "<COLON>, \"");
-            strcat(lexeme, &currentChar);
+            strcat(lexeme, ":");
             strcat(lexeme, "\"");
             return(lexeme);
         }
         else if(currentChar == ';'){
             strcat(lexeme, "<SEMICOLON>, \"");
-            strcat(lexeme, &currentChar);
+            strcat(lexeme, ";");
             strcat(lexeme, "\"");
             return(lexeme);
         }
         else if(currentChar == ','){
             strcat(lexeme, "<COMMA>, \"");
-            strcat(lexeme, &currentChar);
+            strcat(lexeme, ",");
             strcat(lexeme, "\"");
             return(lexeme);
         }
         else if(currentChar == ']'){
             strcat(lexeme, "<RBRACKET>, \"");
-            strcat(lexeme, &currentChar);
+            strcat(lexeme, "]");
             strcat(lexeme, "\"");
             return(lexeme);
         }
         else if(currentChar == '['){
             strcat(lexeme, "<LBRACKET>, \"");
-            strcat(lexeme, &currentChar);
+            strcat(lexeme, "[");
             strcat(lexeme, "\"");
             return(lexeme);
         }
         else if(currentChar == '}'){
             strcat(lexeme, "<RCURLY>, \"");
-            strcat(lexeme, &currentChar);
+            strcat(lexeme, "}");
             strcat(lexeme, "\"");
             return(lexeme);
         }
         else if(currentChar == '{'){
             strcat(lexeme, "<LCURLY>, \"");
-            strcat(lexeme, &currentChar);
+            strcat(lexeme, "{");
             strcat(lexeme, "\"");
             return(lexeme);
         }
         else if(currentChar == ')'){
             strcat(lexeme, "<RPAREN>, \"");
-            strcat(lexeme, &currentChar);
+            strcat(lexeme, ")");
             strcat(lexeme, "\"");
             return(lexeme);
         }
         else if(currentChar == '('){
             strcat(lexeme, "<RPAREN>, \"");
-            strcat(lexeme, &currentChar);
+            strcat(lexeme, "(");
             strcat(lexeme, "\"");
             return(lexeme);
             
-        }
-        else if((currentChar == '/') || (currentChar == '%') || (currentChar == '&')){
-            if(currentChar == '%'){
-                strcat(lexeme, "<MULOP>, \"");
-                strcat(lexeme, &currentChar);
-                strcat(lexeme, "\"");
-                return(lexeme);
-            }
-            if(currentChar == '&'){
-                currentChar = getChar(fp);
-                if(currentChar == '&'){
-                    strcat(lexeme, "<MULOP>, \"");
-                    strcat(lexeme, "&&");
-                    strcat(lexeme, "\"");
-                    return(lexeme);        
-                }
-            }
-        }
-        
-            //COMMENTS
+        } 
+        //COMMENTS
         else if(currentChar == '/'){
-            if((strlen(currentLine) < (currentIndex + 1)) && (currentLine[currentIndex + 1]) == '/'){
-                while((int)getChar(fp) != -2){
+            if((strlen(currentLine) > (currentIndex + 1)) && (currentLine[currentIndex + 1]) == '/'){
+                while(1){
+                    currentChar = getChar(fp);
+                    if((currentChar == (char)0xFE) || (currentChar == (char)0xFF)){
+                        break;
+                    }
                 }
+                currentChar = getChar(fp);
                 return(" ");
             }
-            else if((strlen(currentLine) < (currentIndex + 1)) &&(currentLine[currentIndex + 1]) == '*'){
+            else if((strlen(currentLine) > (currentIndex + 1)) &&(currentLine[currentIndex + 1]) == '*'){
                 int count = 1;
                 int start = 0;
                 int end = 0;
 
                 while(count){
                     currentChar = getChar(fp);
-                    if((int)currentChar == 0xFF){
+                    if((int)currentChar == (char)0xFF){
                         printf("ERROR: Comment Not Ended");
                         exit(EXIT_FAILURE);
                     }
-                    if((int)currentChar == -2){
+                    if((int)currentChar == (char)0xFE){
                         continue;
                     }        
                     if((currentChar == '/') && (!start)){
@@ -216,18 +206,35 @@ char *getLexeme(FILE* fp){
             }
             else{
                 strcat(lexeme, "<MULOP>, \"");
-                strcat(lexeme, &currentChar);
+                strcat(lexeme, "/");
                 strcat(lexeme, "\"");
                 return(lexeme);        
+            }
+        }
+        else if((currentChar == '%') || (currentChar == '&')){
+            if(currentChar == '%'){
+                strcat(lexeme, "<MULOP>, \"");
+                strcat(lexeme, &currentChar);
+                strcat(lexeme, "\"");
+                return(lexeme);
+            }
+            if(currentChar == '&'){
+                currentChar = getChar(fp);
+                if(currentChar == '&'){
+                    strcat(lexeme, "<MULOP>, \"");
+                    strcat(lexeme, "&&");
+                    strcat(lexeme, "\"");
+                    return(lexeme);        
+                }
             }
         }
         //KEYWORD & ID
         else if(isalpha(currentChar)){
             char* string = malloc(sizeof(char) * 500);
             string[0] = '\0';
-            while((((int)currentChar) != -2) && ((int)currentChar != 0xFF) && (currentChar != ' ')){
+            while((((int)currentChar) != (char)0xFE) && ((int)currentChar != (char)0xFF) && (currentChar != ' ')){
                 if(!isalnum(currentChar)){
-                    printf("ERROR: Invalid ID\n");
+                    printf("ERROR: Invalid ID \n");
                     exit(EXIT_FAILURE);
                 }
                 else{
@@ -258,10 +265,14 @@ char *getLexeme(FILE* fp){
             int fraction = 0; 
             int exponent = 0;
             char*output = malloc(sizeof(char) * 100);
-            strcat(output, &currentChar);
-            while(((currentChar = getChar(fp) != -2)) && (currentChar = getChar(fp) != 0xFF)){
+            charConcat(output, currentChar);
+            while(1){
+                currentChar = getChar(fp);
+                if(((int)currentChar == (char)0xFE) || (currentChar == (char)0xFF)){
+                    break;
+                }
                 if(isdigit(currentChar)){
-                    strcat(output, &currentChar);
+                    charConcat(output, currentChar);
                     continue;
                 }
                 else{
@@ -271,7 +282,7 @@ char *getLexeme(FILE* fp){
                             exit(EXIT_FAILURE);
                         }
                         else if(output[strlen(output) - 1] == 'E'){
-                            strcat(output, &currentChar);
+                            charConcat(output, currentChar);
                             continue;
                         }
                         else{
@@ -279,25 +290,29 @@ char *getLexeme(FILE* fp){
                             exit(EXIT_FAILURE);
                         }
                     }
-                    if(currentChar == '.'){
+                    else if(currentChar == '.'){
                         if((!fraction) && (!exponent)){
                             fraction = 1;
-                            strcat(output, &currentChar);
+                            charConcat(output, currentChar);
                         }
                         else{
                             printf("Invalid Number of Float Identifiers\n");
                             exit(EXIT_FAILURE);
                         }
                     }
-                    if(currentChar == 'E'){
+                    else if(currentChar == 'E'){
                         if(!exponent){
                             exponent = 1;
+                            charConcat(output, currentChar);
                             strcat(output, &currentChar);
                         }
                         else{
                             printf("Invalid Number of Exponent Identifiers\n");
                             exit(EXIT_FAILURE);
                         }
+                    }
+                    else{
+                        break;
                     }
                 }
             }
@@ -309,10 +324,10 @@ char *getLexeme(FILE* fp){
         //CHARLITERAL
         else if(currentChar == '\''){
             char * output = malloc(sizeof(char) * 10);
-            strcat(output, &currentChar);
+            charConcat(output, currentChar);
             currentChar = getChar(fp);
             if(currentChar == '\''){
-                strcat(output, &currentChar);
+                charConcat(output, currentChar);
                 strcat(lexeme, "<CHARLITERAL>, \"");
                 strcat(lexeme, output);
                 strcat(lexeme, "\"");
@@ -320,9 +335,10 @@ char *getLexeme(FILE* fp){
             }
             if(isalpha(currentChar)){
                 currentChar = getChar(fp);
+                charConcat(output, currentChar);
                 if(currentChar == '\''){
                     strcat(lexeme, "<CHARLITERAL>, \"");
-                    strcat(lexeme, currentToken);
+                    strcat(lexeme, output);
                     strcat(lexeme, "\"");
                     return(lexeme);
                 }
@@ -334,16 +350,24 @@ char *getLexeme(FILE* fp){
         //STRING
         else if(currentChar == '\"'){
             char *hold = malloc(sizeof(char) * 501);
-            strcat(hold, &currentChar);
-            while(((int)(currentChar = getChar(fp)) != 0xFF) && ((int)(currentChar = getChar(fp)) != -2)){
-                if(currentChar == '\"'){
+            charConcat(hold, currentChar);
+            while(1){
+                currentChar = getChar(fp);
+                if(((int)currentChar == (char)0xFF) && ((int)currentChar == (char)0xFE)){
                     strcat(lexeme, "<STRING>, \"");
                     strcat(lexeme, hold);
                     strcat(lexeme, "\"");
                     return(lexeme);
                 }
+                if(currentChar == '\"'){
+                    strcat(lexeme, "<STRING>, \"");
+                    charConcat(hold, currentChar);
+                    strcat(lexeme, hold);
+                    strcat(lexeme, "\"");
+                    return(lexeme);
+                }
                 else if((!(currentChar == '\n'))){ 
-                    strcat(hold, &currentChar);
+                    charConcat(hold, currentChar);
                     continue;
                 }
                 else{
@@ -356,9 +380,12 @@ char *getLexeme(FILE* fp){
         }
 
         else if((currentChar == '=') || (currentChar == '!') || (currentChar == '<') || (currentChar == '>')){
+            char* holdString = malloc(sizeof(char) * 20);
+            holdString[0] = '\0';
+            charConcat(holdString, currentChar);
             //assignop is here too
             if(currentChar == '='){
-                if((strlen(currentLine) < (currentIndex + 1))){
+                if((strlen(currentLine) > (currentIndex + 1))){
                     if(currentLine[currentIndex+1] == '='){
                         currentChar = getChar(fp);
                         strcat(lexeme, "<RELOP>, \"");
@@ -368,14 +395,15 @@ char *getLexeme(FILE* fp){
                     }
                     else{
                         strcat(lexeme, "<ASSIGNOP>, \"");
-                        strcat(lexeme, &currentChar);
+                        charConcat(holdString, currentChar);
+                        strcat(lexeme, holdString);
                         strcat(lexeme, "\"");
                         return(lexeme);        
                 }
             }
             }
             else if(currentChar == '!'){
-                if((strlen(currentLine) < (currentIndex + 1))){
+                if((strlen(currentLine) > (currentIndex + 1))){
                     if(currentLine[currentIndex+1] == '='){
                         currentChar = getChar(fp);
                         strcat(lexeme, "<RELOP>, \"");
@@ -386,15 +414,17 @@ char *getLexeme(FILE* fp){
                 }
                 else{
                     strcat(lexeme, "<NOT>, \"");
-                    strcat(lexeme, &currentChar);
+                    charConcat(holdString, currentChar);
+                    strcat(lexeme, holdString);
                     strcat(lexeme, "\"");
                     return(lexeme);       
                 }
             }
             else if(currentChar == '<'){
-                if((strlen(currentLine) < (currentIndex + 1))){
+                if((strlen(currentLine) > (currentIndex + 1))){
                     if(currentLine[currentIndex+1] == '='){
                         currentChar = getChar(fp);
+                        charConcat(holdString, currentChar);
                         strcat(lexeme, "<RELOP>, \"");
                         strcat(lexeme, "<=");
                         strcat(lexeme, "\"");
@@ -403,13 +433,13 @@ char *getLexeme(FILE* fp){
                 }
                 else{
                     strcat(lexeme, "<RELOP>, \"");
-                    strcat(lexeme, &currentChar);
+                    strcat(lexeme, holdString);
                     strcat(lexeme, "\"");
                     return(lexeme);       
                 }
             }
             else if(currentChar == '>'){
-                if((strlen(currentLine) < (currentIndex + 1))){
+                if((strlen(currentLine) > (currentIndex + 1))){
                     if(currentLine[currentIndex+1] == '='){
                         currentChar = getChar(fp);
                         strcat(lexeme, "<RELOP>, \"");
@@ -420,7 +450,8 @@ char *getLexeme(FILE* fp){
                 }
                 else{
                     strcat(lexeme, "<RELOP>, \"");
-                    strcat(lexeme, &currentChar);
+                    charConcat(holdString, currentChar);
+                    strcat(lexeme, holdString);
                     strcat(lexeme, "\"");
                     return(lexeme);       
                 }
@@ -428,25 +459,30 @@ char *getLexeme(FILE* fp){
         }
 
         else if((currentChar == '+') || (currentChar == '-') || (currentChar == '|')){        
+            char * holdString = malloc(sizeof(char) * 20);
+            charConcat(holdString, currentChar);
             if(currentChar == '+'){
                 strcat(lexeme, "<ADDOP>, \"");
-                strcat(lexeme, &currentChar);
+                charConcat(holdString, currentChar);
+                strcat(lexeme, holdString);
                 strcat(lexeme, "\"");
                 return(lexeme);
             }
             else if(currentChar == '-'){
                 strcat(lexeme, "<ADDOP>, \"");
-                strcat(lexeme, &currentChar);
+                charConcat(holdString, currentChar);
+                strcat(lexeme, holdString);
                 strcat(lexeme, "\"");
                 return(lexeme);
 
             }
             else if(currentChar == '|'){
-                if((strlen(currentLine) < (currentIndex + 1))){
+                if((strlen(currentLine) > (currentIndex + 1))){
                     if(currentLine[currentIndex + 1] == '|'){  
                         currentChar = getChar(fp);
                         strcat(lexeme, "<ADDOP>, \"");
-                        strcat(lexeme, &currentChar);
+                        charConcat(holdString, currentChar);
+                        strcat(lexeme, holdString);
                         strcat(lexeme, "\"");
                         return(lexeme);
                     }
@@ -454,26 +490,28 @@ char *getLexeme(FILE* fp){
             }
         }
         else if(currentChar == '*'){
+            char *holdString = malloc(sizeof(char) * 5);
+            holdString[0] = '\0';
             if((strlen(currentLine) < (currentIndex + 1))){
                 if(currentLine[currentIndex + 1] == '/'){
-                    printf("INVALID GROUP COMMENT\n");
                     exit(EXIT_FAILURE);
                 }
             }
             strcat(lexeme, "<MULOP>, \"");
-            strcat(lexeme, &currentChar);
+            charConcat(holdString, currentChar);
+            strcat(lexeme, holdString);
             strcat(lexeme, "\"");
             return(lexeme);        
         }
         else{
-            if(((int)currentChar == 0xFF) || ((int)currentChar == -2)){
+            if(((int)currentChar == (char)0xFF) || ((int)currentChar == (char)0xFE) || (currentChar == ' ')){
                 continue;
             }
-            printf("ERROR: INVALID CHARACTER .%d.\n", currentChar);
+            printf("ERROR: INVALID CHARACTER .%c.\n", currentChar);
             exit(EXIT_FAILURE);
         }
     }
-
+    return("<EOF>, \"EOF\"");
     }
 
 int getLineNum();
