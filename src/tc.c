@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include "../include/TCglobals.h"
 #include "../include/TClexer.h"
-#include <ctype.h>
 #include <string.h>
 int main(int argc, char **argv){
     
@@ -18,23 +17,26 @@ int main(int argc, char **argv){
     FILE *fp = fopen(inputFileName, "r");
 
     if(checker){
-        char * currentLexeme = malloc(sizeof(char) * 501);
+        token currentLexeme;
         
-
         if(fp == NULL){
             printf("File does not exist: %s\n", inputFileName);
             exit(EXIT_FAILURE);
         }
 
-
+        currentLexeme = getLexeme(fp);
+        while(currentLexeme == NULL){
+            currentLexeme = getLexeme(fp);
+        }
         //scanner
-        while(strcmp((currentLexeme = getLexeme(fp)), "<EOF>, \"EOF\"")){
+        while(strcmp(currentLexeme->lexeme, "EOF")){
             //check if comment
-            if(!strcmp(currentLexeme, " ")){
+            if(currentLexeme == NULL){
                 continue;
             }
-            if(debug_scanner){
-                printf("%s\n", currentLexeme);
+            currentLexeme = getLexeme(fp);
+            while(currentLexeme == NULL){
+                currentLexeme = getLexeme(fp);
             }
         }
     } 

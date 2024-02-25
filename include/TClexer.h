@@ -1,9 +1,12 @@
 #ifndef STDIO_H
     #include <stdio.h>
 #endif
+#ifndef TCTOKEN_H
+    #include "TCtoken.h"
+#endif
 
 char* getLine(FILE*);
-char *getLexeme(FILE*);
-int getLineNum();
-int getPos();
+token getLexeme(FILE*);
+int getLineNum(void);
+int getPos(void);
 void dumpScannedFile(FILE*);
