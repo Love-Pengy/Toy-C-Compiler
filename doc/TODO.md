@@ -3,5 +3,18 @@
 + ~~implement getLineNum~~
 + ~~implement getPos~~
 + ~~make a print function for the structs~~
-+ Write up a file for trees so I can just call it and test it seperately
-
+~~+ Write up a file for trees so I can just call it and test it seperately~~
+^^^ this tree structure is going to be the states stores within other states so the actual tree data structure isnt nescessary 
++ finish the command line arguments 
+    ~~+ help~~
+    ~~+ output ~~
+    + class
+    ~~+ debug ~~
+        ~~+ 0~~
+        ~~+ 1~~
+        ~~+ 2~~
+    ~~+ abstract~~ 
+    ~~+ symbol~~
+    ~~+ code~~
+    ~~+ verbose~~
+    ~~+ version~~ 

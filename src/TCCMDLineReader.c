@@ -59,7 +59,6 @@ int cmdLineParser(char ** input){
             if(strcmp(input[i], "0") == 0){
                 debug_scanner = true;
                 debug_parser = true;
-                debug_codeGen = true;
                 if(CLINEDEBUG){
                     printf("Debug 0 Set\n");
                 }
@@ -71,6 +70,35 @@ int cmdLineParser(char ** input){
                     printf("Debug 1 Set\n");
                 }
                 //scanner messages only
+            }
+            else if(strcmp(input[i], "2") == 0){
+                debug_parser = true;
+                if(CLINEDEBUG){
+                    printf("Debug 1 Set\n");
+                }
+            }
+            else if(strcmp(input[i], "-output") == 0){
+                if((i + 1) < arrayLength){
+                    i++;
+                    strcpy(inputFileName, input[i]);
+                }
+                //case for when there are no more left
+                else{
+                    printf("ERROR: Output File Not Specified");
+                    exit(EXIT_FAILURE);
+                }
+            }
+            else if(strcmp(input[i], "-abstract") == 0){
+                dump_abstractCode = true;
+            }
+            else if(strcmp(input[i], "-symbol") == 0){
+                dump_symbolTable = true;
+            }
+            else if(strcmp(input[i], "-code") == 0){
+                dump_objectCode = true;
+            }
+            else if(strcmp(input[i], "-version") == 0){
+                printf("Toy C Compiler 1.0.0\n          Created By Brandon Frazier");
             }
             else{
                 printf("ERROR: Debug Number Error\n");

@@ -13,3 +13,4 @@ extern bool dump_symbolTable;
 extern bool verbose;
 extern char *inputFileName;
 extern char *author;
+extern char *outputFileName;

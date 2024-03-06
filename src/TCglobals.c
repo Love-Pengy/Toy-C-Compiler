@@ -14,6 +14,8 @@ bool dump_objectCode = false;
 bool dump_symbolTable = false;
 bool verbose = false;
 char *author = "Brandon Frazier";
+char *outputFileName = "";
+
 
 void turnVerboseOn(){
       debug_scanner = true;
