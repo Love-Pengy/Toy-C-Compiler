@@ -22,10 +22,10 @@ static char* currentLine = "";
 static int currentIndex = -1;
 static int currentLineIndex = 0;
 
-void dumpScannedFile(FILE* fptr){
-    rewind(fptr);
+void dumpScannedFile(void){
+    rewind(filePointer);
     char *hold = malloc(sizeof(char) * 501);
-    while(fgets(hold, 500, fptr)){   
+    while(fgets(hold, 500, filePointer)){   
         printf("%s", hold); 
     }
 }
@@ -55,10 +55,10 @@ int checkLUT(char* inString){
 
 
 //gets raw string
-char *getLine(FILE* fptr){
+char *getLine(void){
     currentLineIndex++;
     char *output = malloc(sizeof(char) * 500);
-    if(!fgets(output, 500, fptr)){
+    if(!fgets(output, 500, filePointer)){
         return(NULL);
     }
     if(output[strlen(output) - 1] == '\n'){
@@ -69,12 +69,12 @@ char *getLine(FILE* fptr){
 
 
 //get char from line, will return 0xFE if its the eol will return 0xFF if its eof 
-unsigned char getChar(FILE *fp){
+unsigned char getChar(void){
     if(currentLine == NULL){
         return((char)0xFF);
     }
     if(strlen(currentLine) == 0){
-        currentLine = getLine(fp);
+        currentLine = getLine();
         if(currentLine == NULL){
             return((char)0xFF);
         }
@@ -87,7 +87,7 @@ unsigned char getChar(FILE *fp){
         return(currentLine[currentIndex]);
     }
     else{
-        currentLine = getLine(fp);
+        currentLine = getLine();
         if(currentLine == NULL){
             return((char)0xFF);
         }
@@ -100,10 +100,10 @@ unsigned char getChar(FILE *fp){
 }
 
 //get the sequence of characters that we're lookiung for (or error ig)
-token getLexeme(FILE* fp){
+token getLexeme(void){
     token lexeme; 
     char currentChar = ' ';
-    while(((currentChar = getChar(fp))) != ((char)0xFF)){
+    while(((currentChar = getChar())) != ((char)0xFF)){
         if(currentChar == ':'){
             lexeme = createToken("COLON", ":");
             if(debug_scanner){
@@ -172,7 +172,7 @@ token getLexeme(FILE* fp){
         else if(currentChar == '/'){
             if((strlen(currentLine) > (currentIndex + 1)) && (currentLine[currentIndex + 1]) == '/'){
                 while(1){
-                    currentChar = getChar(fp);
+                    currentChar = getChar();
                     if((currentChar == (char)0xFE) || (currentChar == (char)0xFF)){
                         break;
                     }
@@ -185,7 +185,7 @@ token getLexeme(FILE* fp){
                 int end = 0;
 
                 while(count){
-                    currentChar = getChar(fp);
+                    currentChar = getChar();
                     if((int)currentChar == (char)0xFF){
                         printf("ERROR: Comment Not Ended");
                         exit(EXIT_FAILURE);
@@ -238,7 +238,7 @@ token getLexeme(FILE* fp){
                 }
                 return(lexeme);
             }
-            currentChar = getChar(fp);
+            currentChar = getChar();
             if(currentChar == '&'){
                 lexeme = createToken("MULOP", "&&");
                 if(debug_scanner){
@@ -262,7 +262,7 @@ token getLexeme(FILE* fp){
                     charConcat(string, currentChar);
                     if((strlen(currentLine) > (currentIndex + 1))){
                         if(isalnum(currentLine[currentIndex + 1])){
-                            currentChar = getChar(fp);
+                            currentChar = getChar();
                         }
                         else{
                             break;
@@ -307,7 +307,7 @@ token getLexeme(FILE* fp){
                 else{
                     break; 
                 }
-                currentChar = getChar(fp);
+                currentChar = getChar();
                 if(((int)currentChar == (char)0xFE) || (currentChar == (char)0xFF)){
                     break;
                 }
@@ -365,7 +365,7 @@ token getLexeme(FILE* fp){
         else if(currentChar == '\''){
             char * output = malloc(sizeof(char) * 10);
             charConcat(output, currentChar);
-            currentChar = getChar(fp);
+            currentChar = getChar();
             if(currentChar == '\''){
                 charConcat(output, currentChar);
                 lexeme = createToken("CHARLITERAL", output);
@@ -375,7 +375,7 @@ token getLexeme(FILE* fp){
                 return(lexeme);
             }
             else{
-                currentChar = getChar(fp);
+                currentChar = getChar();
                 charConcat(output, currentChar);
                 if(currentChar == '\''){
                     lexeme = createToken("CHARLITERAL", output);
@@ -394,7 +394,7 @@ token getLexeme(FILE* fp){
             char *hold = malloc(sizeof(char) * 501);
             charConcat(hold, currentChar);
             while(1){
-                currentChar = getChar(fp);
+                currentChar = getChar();
                 if(((int)currentChar == (char)0xFF) && ((int)currentChar == (char)0xFE)){
                     lexeme = createToken("STRING", hold);
                     if(debug_scanner){
@@ -431,7 +431,7 @@ token getLexeme(FILE* fp){
             if(currentChar == '='){
                 if((strlen(currentLine) > (currentIndex + 1))){
                     if(currentLine[currentIndex+1] == '='){
-                        currentChar = getChar(fp);
+                        currentChar = getChar();
                         lexeme = createToken("RELOP","==");
                         if(debug_scanner){
                             printToken(lexeme);
@@ -451,7 +451,7 @@ token getLexeme(FILE* fp){
             else if(currentChar == '!'){
                 if((strlen(currentLine) > (currentIndex + 1))){
                     if(currentLine[currentIndex+1] == '='){
-                        currentChar = getChar(fp);
+                        currentChar = getChar();
                         lexeme = createToken("RELOP", "!=");
                         if(debug_scanner){
                             printToken(lexeme);
@@ -471,7 +471,7 @@ token getLexeme(FILE* fp){
             else if(currentChar == '<'){
                 if((strlen(currentLine) > (currentIndex + 1))){
                     if(currentLine[currentIndex+1] == '='){
-                        currentChar = getChar(fp);
+                        currentChar = getChar();
                         charConcat(holdString, currentChar);
                         lexeme = createToken("RELOP", holdString);
                         if(debug_scanner){
@@ -491,7 +491,7 @@ token getLexeme(FILE* fp){
             else if(currentChar == '>'){
                 if((strlen(currentLine) > (currentIndex + 1))){
                     if(currentLine[currentIndex+1] == '='){
-                        currentChar = getChar(fp);
+                        currentChar = getChar();
                         lexeme = createToken("RELOP", ">=");
                         if(debug_scanner){
                             printToken(lexeme);
@@ -533,7 +533,7 @@ token getLexeme(FILE* fp){
             else if(currentChar == '|'){
                 if((strlen(currentLine) > (currentIndex + 1))){
                     if(currentLine[currentIndex + 1] == '|'){  
-                        currentChar = getChar(fp);
+                        currentChar = getChar();
                         charConcat(holdString, currentChar);
                         lexeme = createToken("ADDOP", holdString);
                         if(debug_scanner){
@@ -581,3 +581,7 @@ int getPos(void){
     return(currentIndex);
 }
 
+//will return the current line
+char *getCurrentLine(void){
+    return(currentLine);
+}

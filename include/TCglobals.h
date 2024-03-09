@@ -1,6 +1,10 @@
 #ifndef STDBOOL_h
     #include <stdbool.h>
 #endif
+#ifndef STDIO_H
+    #include <stdio.h>
+#endif
+
 
 void turnVerboseOn(void);
 void turnVerboseOff(void);
@@ -14,3 +18,4 @@ extern bool verbose;
 extern char *inputFileName;
 extern char *author;
 extern char *outputFileName;
+extern FILE* filePointer;

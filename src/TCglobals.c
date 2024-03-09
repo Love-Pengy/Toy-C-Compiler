@@ -15,6 +15,7 @@ bool dump_symbolTable = false;
 bool verbose = false;
 char *author = "Brandon Frazier";
 char *outputFileName = "";
+FILE* filePointer = NULL;
 
 
 void turnVerboseOn(){

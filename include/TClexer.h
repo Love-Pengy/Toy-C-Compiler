@@ -5,8 +5,9 @@
     #include "TCtoken.h"
 #endif
 
-char* getLine(FILE*);
-token getLexeme(FILE*);
+char* getLine(void);
+token getLexeme(void);
 int getLineNum(void);
 int getPos(void);
-void dumpScannedFile(FILE*);
+void dumpScannedFile(void);
+char* getCurrentLine(void);

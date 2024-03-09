@@ -14,19 +14,19 @@ int main(int argc, char **argv){
 
     //parse command line flags
     int checker = cmdLineParser(argv);
-    FILE *fp = fopen(inputFileName, "r");
+    FILE *filePointer = fopen(inputFileName, "r");
 
     if(checker){
         token currentLexeme;
         
-        if(fp == NULL){
+        if(filePointer == NULL){
             printf("File does not exist: %s\n", inputFileName);
             exit(EXIT_FAILURE);
         }
 
-        currentLexeme = getLexeme(fp);
+        currentLexeme = getLexeme();
         while(currentLexeme == NULL){
-            currentLexeme = getLexeme(fp);
+            currentLexeme = getLexeme();
         }
         //scanner
         while(strcmp(currentLexeme->lexeme, "EOF")){
@@ -34,13 +34,13 @@ int main(int argc, char **argv){
             if(currentLexeme == NULL){
                 continue;
             }
-            currentLexeme = getLexeme(fp);
+            currentLexeme = getLexeme();
             while(currentLexeme == NULL){
-                currentLexeme = getLexeme(fp);
+                currentLexeme = getLexeme();
             }
         }
     } 
-    dumpScannedFile(fp);        
+    dumpScannedFile(filePointer);        
         
 return(0);
 }
