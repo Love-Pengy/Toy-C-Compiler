@@ -19,6 +19,7 @@
     + Type ID { COMMA Type ID } 
 + Statement
     + ExpressionStatement | BreakStatement | CompoundStatement | IfStatement | NullStatament | ReturnStatement | WhileStatement | ReadStatement | WriteStatement | NewLineStatement
+
 + ExpressionStatement
     + Expression SEMICOLON
 + BreakStatement
@@ -35,6 +36,7 @@
     + while RPAREN Expression LPAREN Statement
 + ReadStatement
     + read RPAREN ID { COMMA ID } LPAREN SEMICOLON
+---------------------------------------------------
 + WriteStatement
     + write RPAREN ActualParameters LPAREN SEMICOLON
 + NewLineStatement
