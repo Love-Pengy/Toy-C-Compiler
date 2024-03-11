@@ -8,6 +8,33 @@
 
 token currentToken;
 
+//make it so that it knows stuff exists
+void toyCProgram(void);
+void definition(void);
+void type(void);
+void functionDefinition(void);
+void functionHeader(void);
+void functionBody(void);
+void formalParamList(void);
+void statement(void);
+void expressionStatement(void);
+void breakStatement(void);
+void compoundStatement(void);
+void ifStatement(void);
+void nullStatement(void);
+void returnStatement(void);
+void whileStatement(void);
+void readStatement(void);
+void writeStatement(void);
+void newLineStatement(void);
+void expression(void);
+void relopExpression(void);
+void simpleExpression(void);
+void term(void);
+void primary(void);
+void functionCall(void);
+void actualParameters(void);
+
 void throwError(char expected){
     printf("%d :", getLineNum());
     printf("%s\n", getCurrentLine());
@@ -58,7 +85,7 @@ void exiting(char *exiteeLikeSomeTea){
 }
 
 //think of this like A() its the state itself. The leaf is defined elsewhere
-toyCProgramSynTree toyCProgram(void){
+void toyCProgram(void){
     entering("toyCProgram");
     getNextToken();    
     definition();
@@ -68,11 +95,11 @@ toyCProgramSynTree toyCProgram(void){
             printf("parse has been completed\n");
         }    
     }
-    throwError('\0');
+    throwStateError("EOF");
 }
 
 
-definitionSynTree definition(void){
+void definition(void){
     entering("definition");
     type(); 
     getNextToken();
@@ -104,28 +131,28 @@ typeSynTree type(void){
     exiting("type");
 }
 
-functionDefinitionSynTree functionDefinition(void){
+void functionDefinition(void){
     entering("functionDefinition");  
     functionHeader();
     functionBody();
     exiting("functionDefinition");
 }
 
-functionHeaderSynTree functionHeader(void){
+void functionHeader(void){
     entering("functionHeader"); 
-    accept("(");
+    accept('(');
     formalParamList();
-    accept(")");
+    accept(')');
     exiting("functionHeader");
 }
 
-functionBodySynTree functionBody(void){
+void functionBody(void){
     entering("functionBody");
     compoundStatement();
     exiting("functionBody");
 }
 
-formalParamListSynTree formalParamList(void){
+void formalParamList(void){
     entering("formalParamList");
     type();
     if(!strcmp(currentToken->lexeme, "ID")){
@@ -143,7 +170,7 @@ formalParamListSynTree formalParamList(void){
     exiting("formalParamList");
 }
 
-statementSynTree statement(void){
+void statement(void){
     entering("statement");
     if(!strcmp(currentToken->lexeme, "KEYWORD")){
         if(!strcmp(currentToken->value, "break")){
@@ -183,14 +210,14 @@ statementSynTree statement(void){
     exiting("statement");
 }
 
-expressionStatementSynTree expressionStatment(void){
+void expressionStatment(void){
     entering("expressionStatement");
     expression();
     accept(';');
     exiting("expressionStatement");
 }
 
-breakStatementSynTree breakStatement(void){
+void breakStatement(void){
     entering("breakStatement");
     if(!strcmp(currentToken->lexeme, "BREAK")){
         accept(';');
@@ -201,10 +228,10 @@ breakStatementSynTree breakStatement(void){
     exiting("breakStatement");
 }
 
-compoundStatementSynTree compoundStatement(void){
+void compoundStatement(void){
     entering("compoundStatement");
     accept(']');
-    if(!strcmp(currentToken->value, "int") || !strcmp(currentToken->value, "char")){
+    while(!strcmp(currentToken->value, "int") || !strcmp(currentToken->value, "char")){
         type();
         if(!strcmp(currentToken->lexeme, "ID")){
             accept(';');
@@ -220,12 +247,12 @@ compoundStatementSynTree compoundStatement(void){
     exiting("compoundStatement");
 }
 
-ifStatementSynTree ifStatement(void){
+void ifStatement(void){
     entering("ifStatement");
     if(!strcmp(currentToken->value, "if")){
-        accept(")");
+        accept(')');
         expression();
-        accept("(");
+        accept('(');
         statement();
         if(!strcmp(currentToken->value, "else")){
             getNextToken();
@@ -238,13 +265,13 @@ ifStatementSynTree ifStatement(void){
     exiting("ifStatement");
 }
 
-nullStatementSynTree nullStatement(void){
+void nullStatement(void){
     entering("nullStatement");
     accept(';');
     exiting("nullStatement");
 }
 
-returnStatementSynTree returnStatement(void){
+void returnStatement(void){
     entering("returnStatement");  
     if(!strcmp(currentToken->value, "return")){
         getNextToken();
@@ -259,12 +286,12 @@ returnStatementSynTree returnStatement(void){
     exiting("returnStatement");
 }
 
-whileStatementSynTree whileStatement(void){
+void whileStatement(void){
     entering("whileStatement");
     if(!strcmp(currentToken->value, "while")){
-        accept(")");
+        accept(')');
         expression();
-        accept("(");
+        accept('(');
         statement();
     }
     else{
@@ -273,18 +300,18 @@ whileStatementSynTree whileStatement(void){
     exiting("whileStatement");
 }
 
-readStatementSynTree readStatement(void){
+void readStatement(void){
     entering("readStatement");
     if(!strcmp(currentToken->value, "read")){
-        accept(")");
+        accept(')');
         if(!strcmp(currentToken->lexeme, "ID")){
             getNextToken();
         }
         else{
             throwStateError("ID");
         }
-        if(!strcmp(currentToken->lexeme, "COMMA")){
-            accept(",");
+        while(!strcmp(currentToken->lexeme, "COMMA")){
+            accept(',');
             if(!strcmp(currentToken->lexeme, "ID")){
                 getNextToken();
             }
@@ -292,8 +319,8 @@ readStatementSynTree readStatement(void){
                 throwStateError("ID");     
             }
         }
-        accept("(");
-        accept(";");
+        accept('(');
+        accept(';');
     }
     else{
         throwStateError("read");
@@ -301,7 +328,137 @@ readStatementSynTree readStatement(void){
     exiting("readStatement");
 }
 
-writeStatementSynTree writeStatement(void){
-
+void writeStatement(void){
+    entering("writeStatement"); 
+    if(!strcmp(currentToken->value, "write")){
+        accept('(');
+        actualParameters();
+        accept(')');
+        accept(';');
+    }
+    else{
+        throwStateError("write");
+    }
+    exiting("writeStatement");
 }
+
+void newlineStatement(void){
+    entering("newlineStatement");
+    if(!strcmp(currentToken->value, "newline")){
+        getNextToken();
+        accept(';');
+    }
+    else{
+        throwStateError("newline");
+    }
+    exiting("newlineStatement");
+}
+
+void expression(void){
+    entering("expression");
+    relopExpression();
+    while(!strcmp(currentToken->lexeme, "ASSIGNOP")){
+        getNextToken();
+        relopExpression();
+    }
+    exiting("expression");
+}
+
+void relopExpression(void){
+    entering("relopExpression");
+    simpleExpression();
+    while(!strcmp(currentToken->lexeme, "RELOP")){
+        getNextToken(); 
+        simpleExpression();
+    }
+    exiting("relopExpression");
+}
+
+void simpleExpression(void){
+    entering("simpleExpression");
+    term();
+    while(!strcmp(currentToken->lexeme, "ADDOP")){
+        getNextToken();
+        term();
+    }
+    exiting("simpleExpression");
+}
+
+void term(void){
+    entering("term");
+    primary();
+    while(!strcmp(currentToken->lexeme, "MULOP")){
+        getNextToken();
+        primary();
+    }
+    exiting("term");
+}
+
+void primary(void){
+    entering("primary");
+    if(!strcmp(currentToken->lexeme, "ID")){
+        getNextToken();
+        if(!strcmp(currentToken->lexeme, "RPAREN")){
+            functionCall(); 
+        } 
+    }
+    else if(!strcmp(currentToken->lexeme, "NUMBER")){
+        getNextToken();
+    }
+    else if(!strcmp(currentToken->lexeme, "STRING")){
+        getNextToken();
+    }
+    else if(!strcmp(currentToken->lexeme, "CHARLITERAL")){
+        getNextToken();
+    }
+    else if(!strcmp(currentToken->lexeme, "RPAREN")){
+        accept(')');
+        expression();
+        accept('('); 
+    }
+    else if((!strcmp(currentToken->value, "-")) || (!strcmp(currentToken->lexeme, "NOT"))){
+        getNextToken();
+        primary();
+    }
+    else{
+        throwStateError("ID, NUMBER, STRING, CHARLITERAL, RPAREN, -, or NOT");
+    }
+    exiting("primary");
+}
+
+void functionCall(void){
+    entering("functionCall");
+    accept(')');
+    if(!strcmp(currentToken->lexeme, "ID")){
+        actualParameters();
+    }
+    else if(!strcmp(currentToken->lexeme, "NUMBER")){
+        actualParameters();
+    }
+    else if(!strcmp(currentToken->lexeme, "STRING")){
+        actualParameters();
+    }
+    else if(!strcmp(currentToken->lexeme, "CHARLITERAL")){
+        actualParameters();
+    }
+    else if(!strcmp(currentToken->lexeme, "RPAREN")){
+        actualParameters();
+    }
+    else if((!strcmp(currentToken->value, "-")) || (!strcmp(currentToken->lexeme, "NOT"))){
+        actualParameters();
+    }
+    accept(')');
+    exiting("functionCall");
+}
+
+void actualParameters(void){
+    entering("actualParameters");
+    expression();
+    while(!strcmp(currentToken->lexeme, "COMMA")){
+        getNextToken(); 
+        expression();
+    }
+    exiting("actualParameters");
+}
+
 

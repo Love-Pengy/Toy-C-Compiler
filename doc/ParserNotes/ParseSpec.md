@@ -36,7 +36,6 @@
     + while RPAREN Expression LPAREN Statement
 + ReadStatement
     + read RPAREN ID { COMMA ID } LPAREN SEMICOLON
----------------------------------------------------
 + WriteStatement
     + write RPAREN ActualParameters LPAREN SEMICOLON
 + NewLineStatement
