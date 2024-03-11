@@ -22,7 +22,7 @@
 + WhileStatement
 + ReadStatement
 + WriteStatement
-+ NewLineStatement
++ newLineStatement
 + Expression
 + RelopExpression
 + SimpleExpression

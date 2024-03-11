@@ -4,6 +4,8 @@
 #include "../include/TCglobals.h"
 #include "../include/TClexer.h"
 #include <string.h>
+#include "../include/TCparser.h"
+
 int main(int argc, char **argv){
     
     //check if only runner was called 
@@ -13,35 +15,29 @@ int main(int argc, char **argv){
     }
 
     //parse command line flags
-    int checker = cmdLineParser(argv);
+    cmdLineParser(argv);
     FILE *filePointer = fopen(inputFileName, "r");
 
-    if(checker){
-        token currentLexeme;
-        
-        if(filePointer == NULL){
-            printf("File does not exist: %s\n", inputFileName);
-            exit(EXIT_FAILURE);
-        }
+    
+    if(filePointer == NULL){
+        printf("File does not exist: %s\n", inputFileName);
+        exit(EXIT_FAILURE);
+    }
 
+    toyCProgram();
+
+    /* just scanner
+    token currentLexeme;
+    while(strcmp(currentLexeme->lexeme, "EOF")){
+        //check if comment
+        if(currentLexeme == NULL){
+            continue;
+        }
         currentLexeme = getLexeme();
         while(currentLexeme == NULL){
             currentLexeme = getLexeme();
         }
-        //scanner
-        while(strcmp(currentLexeme->lexeme, "EOF")){
-            //check if comment
-            if(currentLexeme == NULL){
-                continue;
-            }
-            currentLexeme = getLexeme();
-            while(currentLexeme == NULL){
-                currentLexeme = getLexeme();
-            }
-        }
-    } 
-    dumpScannedFile(filePointer);        
-        
-return(0);
+    }
+    */
+    return(0);
 }
-//this is the main file

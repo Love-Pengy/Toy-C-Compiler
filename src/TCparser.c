@@ -5,6 +5,9 @@
 #ifndef STRING_H
     #include <string.h>
 #endif
+#ifndef TCGLOBALS_H
+    #include "../include/TCglobals.h"
+#endif
 
 token currentToken;
 
@@ -60,7 +63,7 @@ void throwStateError(char *expected){
 }
 
 void accept(char terminal){
-    if(terminal == currentToken->value){
+    if(terminal == currentToken->value[0]){
         getLexeme();
     }
     else{
@@ -104,7 +107,7 @@ void definition(void){
     type(); 
     getNextToken();
     if(!strcmp(currentToken->lexeme, "ID")){
-        if(!strcmp(currenttoken->lexeme, "SEMICOLON")){
+        if(!strcmp(currentToken->lexeme, "SEMICOLON")){
             
         }
         else{
@@ -117,7 +120,7 @@ void definition(void){
     exiting("definition");
 }
 
-typeSynTree type(void){
+void type(void){
     entering("type"); 
     if(!strcmp(currentToken->lexeme, "KEYWORD") && !strcmp(currentToken->value, "int")){
         getNextToken();    
@@ -192,7 +195,7 @@ void statement(void){
             writeStatement();
         }
         else if(!strcmp(currentToken->value, "newline")){
-            newlineStatement();
+            newLineStatement();
         }
         else{
             throwStateError("Statement");
@@ -210,7 +213,7 @@ void statement(void){
     exiting("statement");
 }
 
-void expressionStatment(void){
+void expressionStatement(void){
     entering("expressionStatement");
     expression();
     accept(';');
@@ -342,6 +345,18 @@ void writeStatement(void){
     exiting("writeStatement");
 }
 
+void newLineStatement(void){
+    entering("newLineStatement");
+    if(!strcmp(currentToken->value, "newline")){
+        getNextToken();
+        accept(';');
+    }
+    else{
+        throwStateError("newline");
+    }
+    exiting("newLineStatement");
+}
+
 void newlineStatement(void){
     entering("newlineStatement");
     if(!strcmp(currentToken->value, "newline")){
@@ -460,5 +475,6 @@ void actualParameters(void){
     }
     exiting("actualParameters");
 }
+
 
 
