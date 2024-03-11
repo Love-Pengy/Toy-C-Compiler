@@ -44,6 +44,9 @@ void cmdLineParser(char ** input){
             printf("                         3 - code generation messages only\n");
             printf("    -abstract         dump the abstract syntax tree\n");
             printf("    -symbol           dump the symbol table\n");
+            printf("    -code             dump the generated program\n");
+            printf("    -verbose          display all information\n");
+            printf("    -version          display program version\n");
             exit(EXIT_SUCCESS);
         }
         else if(strcmp(input[i], "-debug") == 0){
@@ -52,27 +55,29 @@ void cmdLineParser(char ** input){
                 printf("ERROR: Debug number not specified\n");
                 exit(EXIT_FAILURE);
             }
+            //display all messages
             if(strcmp(input[i], "0") == 0){
                 debug_scanner = true;
                 debug_parser = true;
                 if(CLINEDEBUG){
                     printf("ERROR:Debug 0 Set\n");
                 }
-                //display all messages
             }
+            //scanner messages only
             else if(strcmp(input[i], "1") == 0){
                 debug_scanner = true;
                 if(CLINEDEBUG){
                     printf("ERROR: Debug 1 Set\n");
                 }
-                //scanner messages only
             }
+            //parser messages only 
             else if(strcmp(input[i], "2") == 0){
                 debug_parser = true;
                 if(CLINEDEBUG){
                     printf("ERROR: Debug 2 Set\n");
                 }
             }
+            //code generation messages only 
             else if (strcmp(input[i], "3") == 0){ 
                debug_codeGen = true; 
                 if(CLINEDEBUG){
