@@ -2,6 +2,7 @@
 
 ## NOTE: {} IN THIS CONTEXT MEANS 0 OR MORE. BASICALLY THE * OPERATOR 
 ## ANOTHER NOTE I THINK [] IN THIS CONTENXT MEANS YOU CAN ONLY HAVE ONE OR 0
+## two |'s are completely optional
 
 + Program
     + {Definition} EOF
@@ -12,7 +13,7 @@
 + FunctionDefinition
     + FunctionHeader FunctionBody
 + FunctionHeader
-    + "("FormalParamList")"
+    + "("|FormalParamList|")"
 + FunctionBody
     + CompoundStatement
 + FormalParamList
@@ -25,7 +26,7 @@
 + BreakStatement
     + break SEMICOLON
 + CompoundStatement 
-    + RBRACKET { Type ID SEMICOLON } { Statement } LBRACKET
+    + LCURLY { Type ID SEMICOLON } { Statement } RCURLY
 + IfStatement
     + if RPAREN Expression LPAREN Statement [ else Statement ] 
 + NullStatament

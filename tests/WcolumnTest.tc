@@ -1,4 +1,3 @@
-bool randColor = false;
 int originalWs = 0; 
 char currentFilePath[300] = "";
 

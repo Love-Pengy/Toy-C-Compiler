@@ -16,7 +16,7 @@ int main(int argc, char **argv){
 
     //parse command line flags
     cmdLineParser(argv);
-    FILE *filePointer = fopen(inputFileName, "r");
+    filePointer = fopen(inputFileName, "r");
 
     
     if(filePointer == NULL){

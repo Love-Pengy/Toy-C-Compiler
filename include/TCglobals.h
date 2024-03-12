@@ -18,4 +18,4 @@ extern bool verbose;
 extern char *inputFileName;
 extern char *author;
 extern char *outputFileName;
-extern FILE* filePointer;
+extern FILE *filePointer;

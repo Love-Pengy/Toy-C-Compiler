@@ -45,13 +45,13 @@ void throwError(char expected){
     for(int i = 0; i < getPos(); i++){
         printf(" ");
     }
-
+    
     printf("^ '%c' expected\n", expected); 
     exit(EXIT_FAILURE);
 }
 
 void throwStateError(char *expected){
-    printf("%d :", getLineNum());
+    printf("%d: ", getLineNum());
     printf("%s\n", getCurrentLine());
 
     for(int i = 0; i < getPos(); i++){
@@ -62,18 +62,20 @@ void throwStateError(char *expected){
     exit(EXIT_FAILURE);
 }
 
+void getNextToken(void){
+    currentToken = getLexeme();
+}
+
 void accept(char terminal){
     if(terminal == currentToken->value[0]){
-        getLexeme();
+        getNextToken();
     }
     else{
         throwError(terminal);
     }
 
 }
-void getNextToken(void){
-    currentToken = getLexeme();
-}
+
 
 void entering(char *entereeLikeABee){
     if(debug_parser){
@@ -91,24 +93,21 @@ void exiting(char *exiteeLikeSomeTea){
 void toyCProgram(void){
     entering("toyCProgram");
     getNextToken();    
-    definition();
-    if(!strcmp(currentToken->lexeme, "EOF")){
-        if(debug_parser){
-            exiting("toyCProgram");
-            printf("parse has been completed\n");
-        }    
+    while(strcmp(currentToken->lexeme, "EOF")){
+        definition();
     }
-    throwStateError("EOF");
+    exiting("toyCProgram");
+    printf("parse has been completed\n");
 }
 
 
 void definition(void){
     entering("definition");
     type(); 
-    getNextToken();
     if(!strcmp(currentToken->lexeme, "ID")){
+        getNextToken();
         if(!strcmp(currentToken->lexeme, "SEMICOLON")){
-            
+            getNextToken();
         }
         else{
             functionDefinition();
@@ -122,13 +121,14 @@ void definition(void){
 
 void type(void){
     entering("type"); 
-    if(!strcmp(currentToken->lexeme, "KEYWORD") && !strcmp(currentToken->value, "int")){
+    if(!strcmp(currentToken->value, "int")){
         getNextToken();    
     }
-    else if(!strcmp(currentToken->lexeme, "CHARLITERAL")){
+    else if(!strcmp(currentToken->value, "char")){
         getNextToken();
     }
     else{
+        printf("Token Failed On: %s\n", currentToken->value);
         throwStateError("Int Or Char"); 
     }
     exiting("type");
@@ -144,7 +144,9 @@ void functionDefinition(void){
 void functionHeader(void){
     entering("functionHeader"); 
     accept('(');
-    formalParamList();
+    if(strcmp(currentToken->lexeme, "RPAREN") != 0){
+        formalParamList();
+    }
     accept(')');
     exiting("functionHeader");
 }
@@ -233,20 +235,19 @@ void breakStatement(void){
 
 void compoundStatement(void){
     entering("compoundStatement");
-    accept(']');
-    while(!strcmp(currentToken->value, "int") || !strcmp(currentToken->value, "char")){
-        type();
-        if(!strcmp(currentToken->lexeme, "ID")){
-            accept(';');
+    accept('{');
+    while(strcmp(currentToken->lexeme, "RCURLY") != 0){
+        if(!strcmp(currentToken->value, "int") || !strcmp(currentToken->value, "char")){
+            type();
+            if(!strcmp(currentToken->lexeme, "ID")){
+                accept(';');
+            }
         }
         else{
-            throwStateError("ID");
+            statement();
         }
     }
-    if(!strcmp(currentToken->lexeme, "LBRACKET")){
-        statement();
-    }
-    accept(']');
+    accept('}');
     exiting("compoundStatement");
 }
 
