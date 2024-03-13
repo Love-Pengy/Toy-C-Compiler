@@ -50,7 +50,7 @@
 + Term 
     + Primary { MULOP Primary } 
 + Primary 
-    + ID [ FunctionCall ] | NUMBER | STRING | CHARLITERAL | RPAREN Expression LPAREN | ( - | NOT ) Primary
+    + ID [ FunctionCall ] | NUMBER | STRING | CHARLITERAL | LPAREN Expression RPAREN | ( - | NOT ) Primary
 + FunctionCall
     + RPAREN [ ActualParameters ] LPAREN
 + ActualParameters

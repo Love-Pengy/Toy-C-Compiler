@@ -5,10 +5,9 @@ int main(){
     write("Enter an upper bound for loop: ");
     read(a);
     b = 1;
-    while b <= a do
-    begin
+    while(b <= a){
         write(b); write(" ");
         b = b + 1;
-    end;
+    }
     newline;
 }

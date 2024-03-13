@@ -128,7 +128,6 @@ void type(void){
         getNextToken();
     }
     else{
-        printf("Token Failed On: %s\n", currentToken->value);
         throwStateError("Int Or Char"); 
     }
     exiting("type");
@@ -144,7 +143,7 @@ void functionDefinition(void){
 void functionHeader(void){
     entering("functionHeader"); 
     accept('(');
-    if(strcmp(currentToken->lexeme, "RPAREN") != 0){
+    if ((!strcmp(currentToken->value, "int")) || (!strcmp(currentToken->value, "char"))){
         formalParamList();
     }
     accept(')');
@@ -167,6 +166,7 @@ void formalParamList(void){
         throwStateError("ID");
     }
     while(!strcmp(currentToken->lexeme, "COMMA")){
+        accept(',');
         type();
         if(!strcmp(currentToken->lexeme, "ID")){
             getNextToken();
@@ -203,7 +203,7 @@ void statement(void){
             throwStateError("Statement");
         }
     }
-    else if(!strcmp(currentToken->lexeme, "RBRACKET")){
+    else if(!strcmp(currentToken->lexeme, "LCURLY")){
         compoundStatement();
     }
     else if(!strcmp(currentToken->lexeme, "SEMICOLON")){
@@ -225,6 +225,7 @@ void expressionStatement(void){
 void breakStatement(void){
     entering("breakStatement");
     if(!strcmp(currentToken->lexeme, "BREAK")){
+        getNextToken();
         accept(';');
     }
     else{
@@ -240,6 +241,7 @@ void compoundStatement(void){
         if(!strcmp(currentToken->value, "int") || !strcmp(currentToken->value, "char")){
             type();
             if(!strcmp(currentToken->lexeme, "ID")){
+                getNextToken();
                 accept(';');
             }
         }
@@ -254,9 +256,9 @@ void compoundStatement(void){
 void ifStatement(void){
     entering("ifStatement");
     if(!strcmp(currentToken->value, "if")){
-        accept(')');
-        expression();
         accept('(');
+        expression();
+        accept(')');
         statement();
         if(!strcmp(currentToken->value, "else")){
             getNextToken();
@@ -293,9 +295,10 @@ void returnStatement(void){
 void whileStatement(void){
     entering("whileStatement");
     if(!strcmp(currentToken->value, "while")){
-        accept(')');
-        expression();
+        getNextToken();
         accept('(');
+        expression();
+        accept(')');
         statement();
     }
     else{
@@ -307,7 +310,8 @@ void whileStatement(void){
 void readStatement(void){
     entering("readStatement");
     if(!strcmp(currentToken->value, "read")){
-        accept(')');
+        getNextToken();
+        accept('(');
         if(!strcmp(currentToken->lexeme, "ID")){
             getNextToken();
         }
@@ -323,7 +327,7 @@ void readStatement(void){
                 throwStateError("ID");     
             }
         }
-        accept('(');
+        accept(')');
         accept(';');
     }
     else{
@@ -335,6 +339,7 @@ void readStatement(void){
 void writeStatement(void){
     entering("writeStatement"); 
     if(!strcmp(currentToken->value, "write")){
+        getNextToken();
         accept('(');
         actualParameters();
         accept(')');
@@ -356,18 +361,6 @@ void newLineStatement(void){
         throwStateError("newline");
     }
     exiting("newLineStatement");
-}
-
-void newlineStatement(void){
-    entering("newlineStatement");
-    if(!strcmp(currentToken->value, "newline")){
-        getNextToken();
-        accept(';');
-    }
-    else{
-        throwStateError("newline");
-    }
-    exiting("newlineStatement");
 }
 
 void expression(void){
@@ -414,7 +407,7 @@ void primary(void){
     entering("primary");
     if(!strcmp(currentToken->lexeme, "ID")){
         getNextToken();
-        if(!strcmp(currentToken->lexeme, "RPAREN")){
+        if(!strcmp(currentToken->lexeme, "LPAREN")){
             functionCall(); 
         } 
     }
@@ -427,24 +420,24 @@ void primary(void){
     else if(!strcmp(currentToken->lexeme, "CHARLITERAL")){
         getNextToken();
     }
-    else if(!strcmp(currentToken->lexeme, "RPAREN")){
-        accept(')');
+    else if(!strcmp(currentToken->lexeme, "LPAREN")){
+        accept('(');
         expression();
-        accept('('); 
+        accept(')'); 
     }
     else if((!strcmp(currentToken->value, "-")) || (!strcmp(currentToken->lexeme, "NOT"))){
         getNextToken();
         primary();
     }
     else{
-        throwStateError("ID, NUMBER, STRING, CHARLITERAL, RPAREN, -, or NOT");
+        throwStateError("ID, NUMBER, STRING, CHARLITERAL, LPAREN, -, or NOT");
     }
     exiting("primary");
 }
 
 void functionCall(void){
     entering("functionCall");
-    accept(')');
+    accept('(');
     if(!strcmp(currentToken->lexeme, "ID")){
         actualParameters();
     }
@@ -457,7 +450,7 @@ void functionCall(void){
     else if(!strcmp(currentToken->lexeme, "CHARLITERAL")){
         actualParameters();
     }
-    else if(!strcmp(currentToken->lexeme, "RPAREN")){
+    else if(!strcmp(currentToken->lexeme, "LPAREN")){
         actualParameters();
     }
     else if((!strcmp(currentToken->value, "-")) || (!strcmp(currentToken->lexeme, "NOT"))){
