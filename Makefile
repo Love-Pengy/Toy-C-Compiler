@@ -32,6 +32,10 @@ test:
 	$(DEBUG)gcc ./build/tc.o ./build/TCCMDLineReader.o ./build/TCglobals.o ./build/TClexer.o ./build/TCtoken.o ./build/TCparser.o -g -o ./bin/tc -Wall 
 	@gdb --args ./bin/tc $(ARGS)
 
+test2: 
+	$(DEBUG)gcc -fsanitize=address ./build/tc.o ./build/TCCMDLineReader.o ./build/TCglobals.o ./build/TClexer.o ./build/TCtoken.o ./build/TCparser.o -g -o ./bin/tc -Wall 
+	@gdb --args ./bin/tc $(ARGS)
+
 clean:	
 	$(DEBUG)rm ./bin/tc
 	$(DEBUG)rm ./build/*
