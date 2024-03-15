@@ -161,7 +161,7 @@ token getLexeme(void){
             return(lexeme);
         }
         else if(currentChar == '('){
-            lexeme = createToken("RPAREN", "(");
+            lexeme = createToken("LPAREN", "(");
             if(debug_scanner){
                 printToken(lexeme);
             }

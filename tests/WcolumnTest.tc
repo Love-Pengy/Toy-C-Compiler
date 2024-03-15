@@ -1,23 +1,18 @@
-int originalWs = 0; 
-char currentFilePath[300] = "";
+int originalWs; 
+char currentFilePath;
 
-
-
-
-
-int stringLengthNoSpace(char *string){
-    int length = 0; 
-    for(int i = 0; i < (strlen(string)); i++){
-        if(!(isspace(string[i]))){
-            length++;
-        }
-    }
-    return(length);
+int stringLengthNoSpace(char string){
+    int length; 
+    length = 0;
+    return(10);
 }
+
 //returns the int that corresponds to the next color. 
-void randColorDuplicateDestroyer(void){
-    if((randColor != true) && (color != 4)){
-        color++; 
+char DuplicateDestroyer(char random){
+    if(randColor != true){
+        if(color != 4){
+            color++; 
+        }
     }
     else if(randColor == true){
         randColor = false; 
@@ -685,6 +680,7 @@ void dumpWs(dllist dl, FILE * fp){
 
     
 int main(void){
+    originalWs = 0;
     //ensures that escape codes work properly regardless of what program runs before it 
     consoleEscapeCodeSetup();
     //hides cursor

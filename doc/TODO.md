@@ -20,6 +20,7 @@
     ~~+ version~~ 
 
 ~~+ fix up makefile to actually make use of .o files and dont rewrite everytime~~
-+ finish the parser 
 ~~+ make file pointer global so that it doesn't have to be passed in everywhere~~
-
++ finish the parser 
++ make errors flush buffer before exiting the program
++ make readme file dumb verbose - explain every function in the make file 

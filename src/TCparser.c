@@ -64,6 +64,10 @@ void throwStateError(char *expected){
 
 void getNextToken(void){
     currentToken = getLexeme();
+    //lexer returns NULL if token is a comment
+    while(currentToken == NULL){
+        currentToken = getLexeme();
+    }
 }
 
 void accept(char terminal){
@@ -93,7 +97,7 @@ void exiting(char *exiteeLikeSomeTea){
 void toyCProgram(void){
     entering("toyCProgram");
     getNextToken();    
-    while(strcmp(currentToken->lexeme, "EOF")){
+    while(strcmp(currentToken->lexeme, "EOF")){ 
         definition();
     }
     exiting("toyCProgram");
@@ -107,7 +111,7 @@ void definition(void){
     if(!strcmp(currentToken->lexeme, "ID")){
         getNextToken();
         if(!strcmp(currentToken->lexeme, "SEMICOLON")){
-            getNextToken();
+            accept(';');
         }
         else{
             functionDefinition();
@@ -256,6 +260,7 @@ void compoundStatement(void){
 void ifStatement(void){
     entering("ifStatement");
     if(!strcmp(currentToken->value, "if")){
+        getNextToken();
         accept('(');
         expression();
         accept(')');
