@@ -84,6 +84,9 @@ unsigned char getChar(void){
     }
     else if(strlen(currentLine) > (currentIndex + 1)){
         currentIndex++;
+        if(LEXERDEBUG){
+            printf("CURRENTCHAR: %c\n", currentLine[currentIndex]);
+        }
         return(currentLine[currentIndex]);
     }
     else{
@@ -447,7 +450,6 @@ token getLexeme(void){
                     }
                 }
             }
-
             else if(currentChar == '!'){
                 if((strlen(currentLine) > (currentIndex + 1))){
                     if(currentLine[currentIndex+1] == '='){
@@ -479,6 +481,13 @@ token getLexeme(void){
                         }
                         return(lexeme);       
                     }
+                    else{
+                        lexeme = createToken("RELOP", holdString);
+                        if(debug_scanner){
+                            printToken(lexeme);
+                        }
+                        return(lexeme);       
+                    }
                 }
                 else{
                     lexeme = createToken("RELOP", holdString);
@@ -498,9 +507,15 @@ token getLexeme(void){
                         }
                         return(lexeme);       
                     }
+                    else{
+                        lexeme = createToken("RELOP", holdString);
+                        if(debug_scanner){
+                            printToken(lexeme);
+                        }
+                        return(lexeme);       
+                    }
                 }
                 else{
-                    charConcat(holdString, currentChar);
                     lexeme = createToken("RELOP", holdString);
                     if(debug_scanner){
                         printToken(lexeme);
