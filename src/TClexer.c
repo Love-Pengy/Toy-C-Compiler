@@ -388,7 +388,7 @@ token getLexeme(void){
                     return(lexeme);
                 }
             }
-            printf("ERROR: Invalid Char Specification %c\n", currentChar);
+            printf("ERROR: Invalid Char Specification\n");
             exit(EXIT_FAILURE);
         }
 

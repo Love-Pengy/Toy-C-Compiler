@@ -232,12 +232,12 @@ void expressionStatement(void){
 
 void breakStatement(void){
     entering("breakStatement");
-    if(!strcmp(currentToken->lexeme, "BREAK")){
+    if(!strcmp(currentToken->value, "break")){
         getNextToken();
         accept(';');
     }
     else{
-        throwStateError("BREAK");
+        throwStateError("break");
     }
     exiting("breakStatement");
 }

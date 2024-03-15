@@ -18,8 +18,8 @@ typedef struct tokenStruct *token;
 
 token createToken(char * tokenName, char *string){
     token new = malloc(sizeof(struct tokenStruct));
-    new->lexeme = malloc(sizeof(char) * strlen(tokenName));
-    new->value = malloc(sizeof(char) * strlen(string));
+    new->lexeme = malloc(sizeof(char) * (strlen(tokenName) + 1));
+    new->value = malloc(sizeof(char) * (strlen(string) + 1));
     strcpy(new->lexeme, tokenName);
     strcpy(new->value, string);
     return(new);
