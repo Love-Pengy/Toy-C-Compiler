@@ -358,26 +358,23 @@ char textAdd(char str){
         return(textAdd);
     }
     char end;
-    end = ' ';
+    //this should fail at the scanner level for an invalid char specification 
+    end = 'random';
     end = malloc(sizeof(character) * 10);
     //get last occurance
     end = strrchr(str, '.');
-    int sizeEnd;
-    sizeEnd = strlen(end);
+    int sizeEnd = strlen(end);
     strcat(textAdd, ".txt");
     return(textAdd);
 }
 
 
-int checkText(char str){
-    char  newString;
-    newString =  malloc(sizeof(character) * strlen(str));
+int checkText(char *str){
+    char * newString = malloc(sizeof(char) * strlen(str));
     strcpy(newString, str);
-    char token;
-    token = strtok(newString, ".");
-    char lastToken; 
-    lastToken = malloc(sizeof(character) * strlen(token));
-    while(token != NULL ) {
+    char * token = strtok(newString, ".");
+    char * lastToken = malloc(sizeof(char) * strlen(token));
+    while( token != NULL ) {
         strcpy(lastToken, token);
         token = strtok(NULL, ".");
     }
@@ -387,8 +384,8 @@ int checkText(char str){
     return 0;
 }
 
-int checkIdent(char str){
-    char strCheck;
+int checkIdent(char *str){
+    char strCheck[50];
     strcpy(strCheck, "~W Column App By LovePengy~");
     if(!strcmp(str, strCheck)){
         return(1); 
@@ -396,27 +393,24 @@ int checkIdent(char str){
     return(0);
 }
 
-char stringParse(char pString){
-    int size;
-    size = strlen(pString);
-    char newString;
-    newString= malloc(sizeof(character) * (size + 1));
-    int j;
-    j = 0;
-    int spaceCount; 
-    spaceCount = 0;
-    int countValid;
-    countValid = 0;
-    if((spaceCount == 0) && (countValid > 0)){
-        return(spaceCount);
+char * stringParse(char *pString){
+    int size = strlen(pString);
+    char *newString = malloc(sizeof(char) * (size + 1));
+    int j = 0;
+    int spaceCount = 0;
+    int countValid = 0;
+    else if((spaceCount == 0) && (countValid > 0)){
+        newString[i-j] = pString[i];
+        spaceCount++;
     }
         else{
-            j = 'm';
+            j++;
         }
+    }
     return(newString);
 }
 
-int introInstruct(){
+void introInstruct(){
     char hold;
     system("cls");
     printf("~~Press any key to continue~~");
@@ -431,6 +425,7 @@ int introInstruct(){
 int checkReturnUser(){
     char ans;
     printf("Are you a returning user? (T/F)\n");
+    scanf(" %c", &ans);
     if((ans == 'T') || (ans == 't')){
         return(1);
     }
@@ -439,58 +434,51 @@ int checkReturnUser(){
     }
     }
 
-char getDir(){
-    char hold;
-    hold = malloc(sizeof(character) * 160);
+char *getDir(){
+    char *hold = malloc(sizeof(char) * 160);
     printf("What is the file path to where your W's are held?\n");
+    scanf(" %s", hold);
     return(hold);
 }
 
 
-char loadWs(char fp){
-    int size;
-    size = 0;
+dllist loadWs(FILE *fp){
+    int size = 0;
     if(fp != NULL){
     size = ftell(fp);
     rewind(fp);
-    char strChecker2;
-    strChecker2 = malloc(sizeof(character) * 160);
+    char *strChecker2 = malloc(sizeof(char) * 160);
     fgets(strChecker2, LSIZE, fp);
     strChecker2 = trailingNLDestroyer(strChecker2);
 
     if(size == 0 || !checkIdent(strChecker2)){
-        int returning;
-        returning = 0;
+        int returning = 0;
         returning = checkReturnUser();
         if(returning == 0){
-            int d;
-            d = initList();
+            dllist d = initList();
             rewind(fp);
             fprintf(fp, "~W Column App By LovePengy~\n");
             return(d);
         }
 
         else{
-        int finLoop;
-        finLoop = 0;
+        int finLoop = 0;
         while(finLoop == 0){
-        char dir;
-        dir = getDir();
+        char* dir = getDir();
         strcpy(currentFilePath, dir);
         fp = fopen(dir, "r");
             if(fp != NULL){
             size = ftell(fp);
             rewind(fp);
-            char strChecker;
-            strChecker = malloc(sizeof(character) * 160);
+            char *strChecker = malloc(sizeof(char) * 160);
             fgets(strChecker, LSIZE, fp);
             strChecker = trailingNLDestroyer(strChecker);
                 if(size == 0 || (checkIdent(strChecker) == 0) || (!checkText(dir))){
                     printf("size: %d, ident: %d, checkText: %d\n", size, checkIdent(strChecker), (!checkText(dir)));
-                    int hold;
-                    hold = 0;
+                    int hold = 0;
                     printf("That File Is Empty Or Not Formatted Correctly! Would You Like To Continue With This Directory(1), continue with the default directory(2), or pick another directory(3)?\n");
                     printf("NOTE: Continuing with this directory will delete everything within this file. \n"); 
+                    scanf(" %d", &hold);
                         if(hold == 1){
                             if(!checkText(dir)){
                                 fclose(fp);
@@ -503,21 +491,23 @@ char loadWs(char fp){
                                 fp = fopen(dir, "w");
                                 strcpy(currentFilePath, dir);
                             }
+                            dllist d = initList();
                             fprintf(fp,"~W Column App By LovePengy~\n");
                             return(d);
                         }
                         else if(hold == 2){
                             fp = fopen("wcolhold.txt", "w"); 
                             strcpy(currentFilePath, "wcolhold.txt");
-                            char d;
-                            d = initList();
+                            dllist d = initList();
                             fprintf(fp,"~W Column App By LovePengy~\n");
                             return(d);
                         }
                         else{ 
                             printf("Invalid Option! Please Try Again!\n");
+                            continue;
                         }
                     printf("File is empty \n");
+                    continue;
                 }
                 else{
                     printf("HERE\n");
@@ -525,10 +515,8 @@ char loadWs(char fp){
                     fclose(fp);
                     fp = fopen(dir, "a+");
                     strcpy(currentFilePath, dir);
-                    char d;
-                    d = initList();
-                    char sTemp;
-                    sTemp = malloc(sizeof(character) * 81);
+                    dllist d = initList();
+                    char* sTemp = malloc(sizeof(char) * 81);
                     fgets(sTemp, LSIZE, fp);
                         while(1){
                         fgets(sTemp, LSIZE, fp);
@@ -557,8 +545,7 @@ char loadWs(char fp){
                                 fp = fopen(textAdd(dir), "w");
                                 strcpy(currentFilePath, textAdd(dir));
                             }
-                            char d;
-                            d = initList();
+                            dllist d = initList();
                             fprintf(fp,"~W Column App By LovePengy~\n");
                             return(d);
                 }
@@ -566,9 +553,11 @@ char loadWs(char fp){
                     fp = fopen("wcolhold.txt", "w");
                     strcpy(currentFilePath, "wcolhold.txt");
                     fprintf(fp, "~W Column App By LovePengy~\n");
+                    dllist d = initList();
                     return(d);
                 }
                 else{
+                    continue;
                 }
             }
         }
@@ -576,14 +565,17 @@ char loadWs(char fp){
     }
     else{
         if(size == 0){
+            dllist d = initList();
             fp = fopen("wcolhold.txt", "w");
             strcpy(currentFilePath, "wcolhold.txt");
             return(d);
         }
         if(checkIdent(strChecker2) && (size != 0)){
+            dllist d = initList();
+            char* sTemp = malloc(sizeof(char) * 81);
             rewind(fp);
             fgets(sTemp, 80, fp); 
-            sTemp = malloc(sizeof(character) * 81);
+            sTemp = malloc(sizeof(char) * 81);
             while(1){
                 fgets(sTemp, 80, fp);
                 sTemp = trailingNLDestroyer(sTemp);
@@ -609,7 +601,7 @@ return(NULL);
 
 
 
-int dumpWs(char dl,int fp){
+void dumpWs(dllist dl, FILE * fp){
         fclose(fp);
         fp = fopen(currentFilePath, "w");  
         fprintf(fp, "~W Column App By LovePengy~\n");
@@ -623,7 +615,7 @@ int dumpWs(char dl,int fp){
 
 
     
-int main(){
+int main(void){
     originalWs = 0;
     //ensures that escape codes work properly regardless of what program runs before it 
     consoleEscapeCodeSetup();
@@ -634,6 +626,7 @@ int main(){
     FILE* fptr;
     fptr = fopen("wcolhold.txt", "a+");
     strcpy(currentFilePath, "wcolhold.txt");
+    dllist wList = loadWs(fptr);
     originalWs = listSize(wList);    
     userInputAction(wList);
     system("cls");

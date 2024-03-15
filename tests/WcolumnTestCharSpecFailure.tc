@@ -510,14 +510,18 @@ char loadWs(char fp){
                             fp = fopen("wcolhold.txt", "w"); 
                             strcpy(currentFilePath, "wcolhold.txt");
                             char d;
+                            //this is invalid because space is a character therefore you can't chain them; this should fail at the scanner level
+                            d = '                ';
                             d = initList();
                             fprintf(fp,"~W Column App By LovePengy~\n");
                             return(d);
                         }
                         else{ 
                             printf("Invalid Option! Please Try Again!\n");
+                            continue;
                         }
                     printf("File is empty \n");
+                    continue;
                 }
                 else{
                     printf("HERE\n");
@@ -525,10 +529,8 @@ char loadWs(char fp){
                     fclose(fp);
                     fp = fopen(dir, "a+");
                     strcpy(currentFilePath, dir);
-                    char d;
-                    d = initList();
-                    char sTemp;
-                    sTemp = malloc(sizeof(character) * 81);
+                    dllist d = initList();
+                    char* sTemp = malloc(sizeof(char) * 81);
                     fgets(sTemp, LSIZE, fp);
                         while(1){
                         fgets(sTemp, LSIZE, fp);
@@ -557,8 +559,7 @@ char loadWs(char fp){
                                 fp = fopen(textAdd(dir), "w");
                                 strcpy(currentFilePath, textAdd(dir));
                             }
-                            char d;
-                            d = initList();
+                            dllist d = initList();
                             fprintf(fp,"~W Column App By LovePengy~\n");
                             return(d);
                 }
@@ -566,9 +567,11 @@ char loadWs(char fp){
                     fp = fopen("wcolhold.txt", "w");
                     strcpy(currentFilePath, "wcolhold.txt");
                     fprintf(fp, "~W Column App By LovePengy~\n");
+                    dllist d = initList();
                     return(d);
                 }
                 else{
+                    continue;
                 }
             }
         }
@@ -576,14 +579,17 @@ char loadWs(char fp){
     }
     else{
         if(size == 0){
+            dllist d = initList();
             fp = fopen("wcolhold.txt", "w");
             strcpy(currentFilePath, "wcolhold.txt");
             return(d);
         }
         if(checkIdent(strChecker2) && (size != 0)){
+            dllist d = initList();
+            char* sTemp = malloc(sizeof(char) * 81);
             rewind(fp);
             fgets(sTemp, 80, fp); 
-            sTemp = malloc(sizeof(character) * 81);
+            sTemp = malloc(sizeof(char) * 81);
             while(1){
                 fgets(sTemp, 80, fp);
                 sTemp = trailingNLDestroyer(sTemp);
@@ -609,7 +615,7 @@ return(NULL);
 
 
 
-int dumpWs(char dl,int fp){
+void dumpWs(dllist dl, FILE * fp){
         fclose(fp);
         fp = fopen(currentFilePath, "w");  
         fprintf(fp, "~W Column App By LovePengy~\n");
@@ -623,7 +629,7 @@ int dumpWs(char dl,int fp){
 
 
     
-int main(){
+int main(void){
     originalWs = 0;
     //ensures that escape codes work properly regardless of what program runs before it 
     consoleEscapeCodeSetup();
@@ -634,6 +640,7 @@ int main(){
     FILE* fptr;
     fptr = fopen("wcolhold.txt", "a+");
     strcpy(currentFilePath, "wcolhold.txt");
+    dllist wList = loadWs(fptr);
     originalWs = listSize(wList);    
     userInputAction(wList);
     system("cls");
