@@ -11,7 +11,7 @@ int stringLengthNoSpace(char string){
 char DuplicateDestroyer(char random){
     if(randColor != true){
         if(color != 4){
-            color++; 
+            color = "meow"; 
         }
     }
     else if(randColor == true){
@@ -24,7 +24,7 @@ char DuplicateDestroyer(char random){
     }
 }
 
-void setRandomCLIColor(void){
+int setRandomCLIColor(){
     randColorDuplicateDestroyer();
     if(color == 0){
         //Blue
@@ -48,61 +48,44 @@ void setRandomCLIColor(void){
     }
 }
 
-void userInputPrompt(void){
+char userInputPrompt(int test){
     system("cls");
     printf("You are about to enter input mode!\n");
     printf("To add a W you just type what you want and hit enter!\n");
     printf("Within roaming mode you will be able to view past W's as well as edit/delete them!\n");
     printf("~~~ Press Any Key To Continue ~~~");
     char hold;
-    scanf("%c", &hold);
     printf("Got Input\n");
     system("cls");
 }
 
-void fillTop(void){
+char fillTop(){
     printf(" ");
-    for(int i = 0; i < 79; i++){
-        printf("-");
-    }
     printf("\n");
 }
 
 void fillSides(void){
-    for(int i = 0; i < 9; i++){
-        for(int j = 0; j < 79; j++){
-            if(j == 0){
-                printf("|");
-            }
-            else if(j == 78){
-                printf("|");
-            }
-            printf(" ");
-        }
-        printf("\n");
+    if(j == 0){
+        printf("|");
     }
+    else if(j == 78){
+        printf("|");
+    }
+    printf(" ");
+    printf("\n");
 }
 void fillBottom(void){
     printf(" ");
-    for(int i = 0; i < 79; i++){
-        printf("-");
-    }
 }
 
 void createRoamUI(void){
     system("cls");
-    for(int i = 0; i < 10; i++){
-        printf(" ");
-    }
     printf("\e[1m");
     printf("\e[48;5;230m");
     printf("\e[38;5;232m");  
     printf("MOVE: w & s");
     printf("\e[0m");
     printf("\e[?25l");
-    for(int i = 0; i < 10; i++){
-        printf(" ");
-    }
 
     printf("\e[1m");
     printf("\e[48;5;230m");
@@ -110,18 +93,12 @@ void createRoamUI(void){
     printf("EDIT: e");
     printf("\e[0m");
     printf("\e[?25l");
-    for(int i = 0; i < 10; i++){
-        printf(" ");
-    }
     printf("\e[1m");
     printf("\e[48;5;230m");
     printf("\e[38;5;232m"); 
     printf("DELETE: d");
     printf("\e[0m");
     printf("\e[?25l");
-    for(int i = 0; i < 10; i++){
-        printf(" ");
-    }
     printf("\e[1m");
     printf("\e[48;5;230m");
     printf("\e[38;5;232m"); 
@@ -196,7 +173,6 @@ void userInputRoam(dllist list){
                 continue;
             }
             else{
-                for(int i = 0; i < 5; i++){
                     createRoamUI();
                     createBoxNoClear();
                     if((i % 2) == 0){
@@ -206,9 +182,6 @@ void userInputRoam(dllist list){
                     else{
                         //white
                         printf("\e[38;5;255m");
-                    }
-                    for(int j = 0; j < 30; j++){
-                        printf(" ");
                     }
                     printf("Hit The Oldest Item!");
                     Sleep(75);
@@ -228,7 +201,6 @@ void userInputRoam(dllist list){
                 continue;
             }
             else{
-                for(int i = 0; i < 5; i++){
                     createRoamUI();
                     createBoxNoClear();
                     if((i % 2) == 0){
@@ -236,9 +208,6 @@ void userInputRoam(dllist list){
                     }
                     else{
                         printf("\e[38;5;255m");
-                    }
-                    for(int j = 0; j < 30; j++){
-                        printf(" ");
                     }
                     printf("Hit The Newest Item!");
                     Sleep(75);
@@ -264,7 +233,6 @@ void userInputRoam(dllist list){
                 continue;
             }
             else{
-                for(int i = 0; i < 5; i++){ 
                     createRoamUI();
                     createBoxNoClear();
                     if((i % 2) == 0){
@@ -273,21 +241,11 @@ void userInputRoam(dllist list){
                     else{
                         printf("\e[38;5;255m");
                     }
-                    for(int j = 0; j < 30; j++){
-                        printf(" ");
-                    }
                     printf("!!Removing Last Item!!");
                     Sleep(75);
                     system("cls");
-                    for(int j = 0; j < 30; j++){
-                        printf(" ");
-                    }
-                }
                 removeAtIndex(list, currentIndex);
                 printf("\n\n\n\n\n");
-                for(int i = 0; i < 30; i++){
-                    printf(" ");
-                }
                 printf("Returning To Insert Mode");
                 Sleep(2000);
                 printf("\e[25m");
@@ -310,11 +268,6 @@ void userInputRoam(dllist list){
             printf("\e[1C");
             int size = stringLengthNoSpace(hold); 
             printf("\e[38;5;76m");
-            for(int i = 0; i < size; i++){
-                if((i % 2) == 0){
-                    printf("v ");
-                }
-            }
             printf("\e[0m");
             printf("\n");
             printf("\e[1C");
@@ -332,7 +285,6 @@ void userInputRoam(dllist list){
 void userInputAction(dllist list){
     manager bossyBoss = initManager();
     animationSetup(bossyBoss);
-    for(int i = 0; i < MAXWS; i++){
         if(i != 0){
             setRandomCLIColor();
         }
@@ -349,7 +301,6 @@ void userInputAction(dllist list){
         }
         else if(!strcmp(currentString, "ROAM")){
             if(listSize(list) == 0){
-                for(int i = 0; i < 5; i++){
                     createRoamUI();
                     createBoxNoClear();
                     if((i % 2) == 0){
@@ -357,9 +308,6 @@ void userInputAction(dllist list){
                     }
                     else{
                         printf("\e[38;5;255m");
-                    }
-                    for(int j = 0; j < 30; j++){
-                        printf(" ");
                     }
                     printf("Not Enough W's To ROAM!");
                     Sleep(75);
@@ -415,9 +363,6 @@ char *textAdd(char *str){
     //get last occurance
     end = strrchr(str, '.');
     int sizeEnd = strlen(end);
-    for(int i = 0; i < (size - sizeEnd); i++){
-        textAdd[i] = str[i];
-    }
     strcat(textAdd, ".txt");
     return(textAdd);
 }
@@ -453,13 +398,6 @@ char * stringParse(char *pString){
     int j = 0;
     int spaceCount = 0;
     int countValid = 0;
-    
-    for(int i = 0; i < size; i++){
-        if(!isspace(pString[i])){
-            newString[i-j] = pString[i];
-            spaceCount = 0;
-            countValid++;
-    }
     else if((spaceCount == 0) && (countValid > 0)){
         newString[i-j] = pString[i];
         spaceCount++;
@@ -667,9 +605,6 @@ void dumpWs(dllist dl, FILE * fp){
         fp = fopen(currentFilePath, "w");  
         fprintf(fp, "~W Column App By LovePengy~\n");
         if(listSize(dl) != 0){
-            for(int i = 1; i < (listSize(dl)+1); i++){
-                    fprintf(fp, "%s\n", getItemAtIndex(dl, i));
-            }
         }
 }
 

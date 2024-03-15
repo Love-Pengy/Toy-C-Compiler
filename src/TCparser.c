@@ -47,6 +47,7 @@ void throwError(char expected){
     }
     
     printf("^ '%c' expected\n", expected); 
+    fflush(stdout);
     exit(EXIT_FAILURE);
 }
 
@@ -59,6 +60,7 @@ void throwStateError(char *expected){
     }
 
     printf("^ '%s' expected\n", expected); 
+    fflush(stdout);
     exit(EXIT_FAILURE);
 }
 
@@ -84,12 +86,14 @@ void accept(char terminal){
 void entering(char *entereeLikeABee){
     if(debug_parser){
         printf("[PARSER] entering %s\n", entereeLikeABee);
+        fflush(stdout);
     }
 }
 
 void exiting(char *exiteeLikeSomeTea){
     if(debug_parser){
         printf("[PARSER] exiting %s\n", exiteeLikeSomeTea);
+        fflush(stdout);
     }
 }
 

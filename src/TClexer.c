@@ -514,7 +514,6 @@ token getLexeme(void){
             char * holdString = malloc(sizeof(char) * 20);
             charConcat(holdString, currentChar);
             if(currentChar == '+'){
-                charConcat(holdString, currentChar);
                 lexeme = createToken("ADDOP", holdString);
                 if(debug_scanner){
                     printToken(lexeme);
@@ -522,7 +521,6 @@ token getLexeme(void){
                 return(lexeme);
             }
             else if(currentChar == '-'){
-                charConcat(holdString, currentChar);
                 lexeme = createToken("ADDOP", holdString);
                 if(debug_scanner){
                     printToken(lexeme);
