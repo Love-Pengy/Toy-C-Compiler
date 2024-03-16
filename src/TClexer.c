@@ -25,7 +25,7 @@ static int currentLineIndex = 0;
 
 
 void throwLexerError(char *problem){
-    printf("ERROR: %s\n", problem);
+    printf("%d: ERROR: %s\n", getLineNum(), problem);
     fflush(stdout);
 }
 
