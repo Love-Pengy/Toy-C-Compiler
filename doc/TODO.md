@@ -27,6 +27,6 @@
 ~~+ make scanner messages output useful information for location~~
 ~~+ make command line parser not require .tc at the end~~ 
 + to make message pointer make more sense you might have to make it only go to the beginning/end of tokens 
-+ put name on files
+~~+ put name on file~~
 + make a free tree option for the ast when done with it
 + make a free token option for when it's done with

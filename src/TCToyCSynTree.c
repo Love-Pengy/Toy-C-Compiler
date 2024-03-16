@@ -1,3 +1,4 @@
+//B. Frazier 3/16/24
 #ifndef SYNTREE_H
     #include "../include/synTree.h"
 #endif
