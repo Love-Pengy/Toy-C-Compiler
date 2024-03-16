@@ -22,7 +22,7 @@
 ~~+ fix up makefile to actually make use of .o files and dont rewrite everytime~~
 ~~+ make file pointer global so that it doesn't have to be passed in everywhere~~
 ~~+ finish the parser ~~
-+ make errors flush buffer before exiting the program
+~~+ make errors flush buffer before exiting the program~~
 + make readme file dumb verbose - explain every function in the make file 
 + make scanner messages output useful information for location
 + make command line parser not require .tc at the end 

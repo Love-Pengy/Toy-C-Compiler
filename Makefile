@@ -1,4 +1,4 @@
-.PHONY: all generate test clean run 
+.PHONY: all generate test test2 clean run 
 
 .DEFAULT_GOAL := generate
 
