@@ -22,6 +22,13 @@ static char* currentLine = "";
 static int currentIndex = -1;
 static int currentLineIndex = 0;
 
+
+
+void throwLexerError(char *problem){
+    printf("ERROR: %s\n", problem);
+    fflush(stdout);
+}
+
 void dumpScannedFile(void){
     rewind(filePointer);
     char *hold = malloc(sizeof(char) * 501);
@@ -190,7 +197,7 @@ token getLexeme(void){
                 while(count){
                     currentChar = getChar();
                     if((int)currentChar == (char)0xFF){
-                        printf("ERROR: Comment Not Ended");
+                        throwLexerError("Comment Not Ended");
                         exit(EXIT_FAILURE);
                     }
                     if((int)currentChar == (char)0xFE){
@@ -321,7 +328,7 @@ token getLexeme(void){
                 else{
                     if((currentChar == '+') || (currentChar == '-')){
                         if(!exponent){
-                            printf("ERROR: + or - without exponent specifier\n");
+                            throwLexerError("+ Or - Without Exponent Specifier");
                             exit(EXIT_FAILURE);
                         }
                         else if(output[strlen(output) - 1] == 'E'){
@@ -329,7 +336,7 @@ token getLexeme(void){
                             continue;
                         }
                         else{
-                            printf("ERROR: Invalid Number Specification\n");
+                            throwLexerError("Invalid Number Specification");
                             exit(EXIT_FAILURE);
                         }
                     }
@@ -339,7 +346,7 @@ token getLexeme(void){
                             charConcat(output, currentChar);
                         }
                         else{
-                            printf("ERROR: Invalid Number of Float Identifiers\n");
+                            throwLexerError("Invalid Number of Float Identifiers");
                             exit(EXIT_FAILURE);
                         }
                     }
@@ -349,7 +356,7 @@ token getLexeme(void){
                             charConcat(output, currentChar);
                         }
                         else{
-                            printf("ERROR: Invalid Number of Exponent Identifiers\n");
+                            throwLexerError("Invalid Number Of Exponent Identifiers");
                             exit(EXIT_FAILURE);
                         }
                     }
@@ -388,7 +395,7 @@ token getLexeme(void){
                     return(lexeme);
                 }
             }
-            printf("ERROR: Invalid Char Specification\n");
+            throwLexerError("Invalid Char Specification");
             exit(EXIT_FAILURE);
         }
 
@@ -418,11 +425,11 @@ token getLexeme(void){
                     continue;
                 }
                 else{
-                    printf("ERROR: Invalid String\n");
+                    throwLexerError("Invalid String");
                     exit(EXIT_FAILURE);
                 }
             }
-            printf("ERROR: Invalid String\n");
+            throwLexerError("Invalid String");
             exit(EXIT_FAILURE);
         }
 
@@ -576,7 +583,7 @@ token getLexeme(void){
             if(((int)currentChar == (char)0xFF) || ((int)currentChar == (char)0xFE) || (currentChar == ' ')){
                 continue;
             }
-            printf("ERROR: INVALID CHARACTER .%c.\n", currentChar);
+            throwLexerError("Invalid Character");
             exit(EXIT_FAILURE);
         }
     }
