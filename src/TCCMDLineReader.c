@@ -23,12 +23,20 @@
 
 int CLINEDEBUG = 0;
 
-//returns 1 if continue returns 0 if its not supposed to go to scanner
+
+void throwCmdLineError(char* error){
+    printf("ERROR: %s\n", error);
+    fflush(stdout);
+    exit(EXIT_FAILURE);
+}
+
+
 void cmdLineParser(char ** input){
     int arrayLength = -1;
+    bool fileSpecified = false;
     while(input[++arrayLength] != NULL){    
     }
-
+    
     for(int i = 1; i < arrayLength; i++){
         if(strcmp(input[i], "-help") == 0){   
             printf("Usage: tc [options] toyc_source_file\n");
@@ -52,41 +60,39 @@ void cmdLineParser(char ** input){
         else if(strcmp(input[i], "-debug") == 0){
             i++;
             if(i >= arrayLength){
-                printf("ERROR: Debug number not specified\n");
-                exit(EXIT_FAILURE);
+                throwCmdLineError("Debug Number Not Specified");
             }
             //display all messages
             if(strcmp(input[i], "0") == 0){
                 debug_scanner = true;
                 debug_parser = true;
                 if(CLINEDEBUG){
-                    printf("ERROR:Debug 0 Set\n");
+                    printf("Debug 0 Set\n");
                 }
             }
             //scanner messages only
             else if(strcmp(input[i], "1") == 0){
                 debug_scanner = true;
                 if(CLINEDEBUG){
-                    printf("ERROR: Debug 1 Set\n");
+                    printf("Debug 1 Set\n");
                 }
             }
             //parser messages only 
             else if(strcmp(input[i], "2") == 0){
                 debug_parser = true;
                 if(CLINEDEBUG){
-                    printf("ERROR: Debug 2 Set\n");
+                    printf("Debug 2 Set\n");
                 }
             }
             //code generation messages only 
             else if (strcmp(input[i], "3") == 0){ 
                debug_codeGen = true; 
                 if(CLINEDEBUG){
-                    printf("ERRROR: Debug 3 Set\n");
+                    printf("Debug 3 Set\n");
                 }
             }
             else{
-                printf("ERROR: Debug Number Not Specified\n");
-                exit(EXIT_FAILURE);
+                throwCmdLineError("Debug Number Not Specified");
             }
         }
         else if(strcmp(input[i], "-output") == 0){
@@ -96,8 +102,7 @@ void cmdLineParser(char ** input){
             }
             //case for when there are no more left
             else{
-                printf("ERROR: Output File Not Specified");
-                exit(EXIT_FAILURE);
+                throwCmdLineError("Output File Not Specified");
             }
         }
         else if(strcmp(input[i], "-abstract") == 0){
@@ -120,34 +125,12 @@ void cmdLineParser(char ** input){
             //display all information and dump source file
         }
         else{  
-            int charCount = 0;
-            for(int j = 0; j < strlen(input[i]); j++){
-                if(!isspace(input[i][j])){
-                    charCount++;
-                }
-            }
-            if(charCount > 0){
-                char *cut = strtok(strdup(input[i]), ".");
-                char *last = NULL;
-
-                while(cut != NULL){
-                    last = cut;
-                    cut = strtok(NULL, ".");
-                }       
-                if(strcmp(last, "tc") == 0){
-                    inputFileName = input[i];
-                    if(CLINEDEBUG){
-                        printf("Input File Set To %s\n", inputFileName);
-                    }
-                }
-                else{
-                    printf("ERROR: Invalid argument passed\n");
-                    exit(EXIT_FAILURE);
-                }
+            if(fileSpecified){
+                throwCmdLineError("Multiple Files Specified");
             }
             else{
-                printf("ERROR: Filename Not Specified Correctly\n");
-                exit(EXIT_FAILURE);
+                inputFileName = input[i]; 
+                fileSpecified = true;
             }
         }
     }

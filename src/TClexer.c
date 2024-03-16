@@ -27,6 +27,7 @@ static int currentLineIndex = 0;
 void throwLexerError(char *problem){
     printf("%d: ERROR: %s\n", getLineNum(), problem);
     fflush(stdout);
+    exit(EXIT_FAILURE);
 }
 
 void dumpScannedFile(void){
@@ -198,7 +199,6 @@ token getLexeme(void){
                     currentChar = getChar();
                     if((int)currentChar == (char)0xFF){
                         throwLexerError("Comment Not Ended");
-                        exit(EXIT_FAILURE);
                     }
                     if((int)currentChar == (char)0xFE){
                         continue;
@@ -329,7 +329,6 @@ token getLexeme(void){
                     if((currentChar == '+') || (currentChar == '-')){
                         if(!exponent){
                             throwLexerError("+ Or - Without Exponent Specifier");
-                            exit(EXIT_FAILURE);
                         }
                         else if(output[strlen(output) - 1] == 'E'){
                             charConcat(output, currentChar);
@@ -337,7 +336,6 @@ token getLexeme(void){
                         }
                         else{
                             throwLexerError("Invalid Number Specification");
-                            exit(EXIT_FAILURE);
                         }
                     }
                     else if(currentChar == '.'){
@@ -347,7 +345,6 @@ token getLexeme(void){
                         }
                         else{
                             throwLexerError("Invalid Number of Float Identifiers");
-                            exit(EXIT_FAILURE);
                         }
                     }
                     else if(currentChar == 'E'){
@@ -357,7 +354,6 @@ token getLexeme(void){
                         }
                         else{
                             throwLexerError("Invalid Number Of Exponent Identifiers");
-                            exit(EXIT_FAILURE);
                         }
                     }
                     else{
@@ -396,7 +392,6 @@ token getLexeme(void){
                 }
             }
             throwLexerError("Invalid Char Specification");
-            exit(EXIT_FAILURE);
         }
 
         //STRING
@@ -426,11 +421,9 @@ token getLexeme(void){
                 }
                 else{
                     throwLexerError("Invalid String");
-                    exit(EXIT_FAILURE);
                 }
             }
             throwLexerError("Invalid String");
-            exit(EXIT_FAILURE);
         }
 
         else if((currentChar == '=') || (currentChar == '!') || (currentChar == '<') || (currentChar == '>')){
@@ -584,7 +577,6 @@ token getLexeme(void){
                 continue;
             }
             throwLexerError("Invalid Character");
-            exit(EXIT_FAILURE);
         }
     }
     lexeme = createToken("EOF", "EOF");
