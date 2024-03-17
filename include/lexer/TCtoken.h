@@ -7,3 +7,4 @@ struct tokenStruct{
 typedef struct tokenStruct *token;
 token createToken(char *, char *);
 void printToken(token);
+void freeToken(token);

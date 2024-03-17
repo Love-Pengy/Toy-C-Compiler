@@ -3,7 +3,7 @@
     #include <stdbool.h>
 #endif
 #ifndef TCGLOBALS_H
-    #include "../include/TCglobals.h"
+    #include "../../include/cmdLine/TCglobals.h"
 #endif
 
 char *inputFileName = "";

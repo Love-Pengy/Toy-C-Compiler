@@ -1,13 +1,13 @@
 //B. Frazier 3/16/24
 #include <stdlib.h>
 #ifndef TCLEXER_H
-    #include "../include/TClexer.h"
+    #include "../../include/lexer/TClexer.h"
 #endif
 #ifndef STRING_H
     #include <string.h>
 #endif
 #ifndef TCGLOBALS_H
-    #include "../include/TCglobals.h"
+    #include "../../include/cmdLine/TCglobals.h"
 #endif
 
 token currentToken;
@@ -66,11 +66,12 @@ void throwStateError(char *expected){
 }
 
 void getNextToken(void){
+    freeToken(currentToken);
     currentToken = getLexeme();
     //lexer returns NULL if token is a comment
     while(currentToken == NULL){
         currentToken = getLexeme();
-    }
+    } 
 }
 
 void accept(char terminal){

@@ -3,7 +3,7 @@
     #include <string.h>
 #endif
 #ifndef TCTOKEN_H
-    #include "../include/TCtoken.h"
+    #include "../../include/lexer/TCtoken.h"
 #endif
 #ifndef STDLIB_H
     #include <stdlib.h>
@@ -28,5 +28,9 @@ token createToken(char * tokenName, char *string){
 
 void printToken(token input){
     printf("[SCANNER] (<%s>,\"%s\")\n", input->lexeme, input->value);
+}
+
+void freeToken(token f){
+    free(f);
 }
 

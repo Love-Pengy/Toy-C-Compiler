@@ -1,11 +1,11 @@
 //B. Frazier 3/16/24
-#include "../include/TCCMDLineReader.h"
+#include "../include/cmdLine/TCCMDLineReader.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include "../include/TCglobals.h"
-#include "../include/TClexer.h"
+#include "../include/cmdLine/TCglobals.h"
+#include "../include/lexer/TClexer.h"
 #include <string.h>
-#include "../include/TCparser.h"
+#include "../include/parser/TCparser.h"
 
 int main(int argc, char **argv){
     

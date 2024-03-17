@@ -1,6 +1,6 @@
 //B. Frazier 3/16/24
 #ifndef TCLEXER_H
-    #include "../include/TClexer.h"
+    #include "../../include/lexer/TClexer.h"
 #endif
 #ifndef STDLIB_H
     #include <stdlib.h>
@@ -15,7 +15,7 @@
     #include <ctype.h>
 #endif
 #ifndef TCGLOBALS_H
-    #include "../include/TCglobals.h"
+    #include "../../include/cmdLine/TCglobals.h"
 #endif
 
 int LEXERDEBUG = 0;

@@ -8,7 +8,7 @@
     #include <stdio.h>
 #endif
 #ifndef TCCMDLINEREADER_H
-    #include "../include/TCCMDLineReader.h"
+    #include "../../include/cmdLine/TCCMDLineReader.h"
 #endif
 #ifndef STRING_H
     #include <string.h>
@@ -17,7 +17,7 @@
     #include <ctype.h>
 #endif
 #ifndef TCGLOBALS_H 
-    #include "../include/TCglobals.h"
+    #include "../../include/cmdLine/TCglobals.h"
 #endif
 #ifndef STDBOOL_H
     #include <stdbool.h>
