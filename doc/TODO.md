@@ -30,7 +30,7 @@
 ~~+ make a free token option for when it's done with~~
 ~~+ make tokens free when next token is loaded into currentToken ~~
 ~~+ make a dynamic array library for the holding of the string for the print functions in the AST files because I don't want to hard code it~~ 
-+ test said dynamic array library 
+~~+ test said dynamic array library~~ 
 + to make message pointer make more sense you might have to make it only go to the beginning/end of tokens 
 + make a free tree option for the ast when done with it
 + update the make file with the dynamic array library and AST stuff

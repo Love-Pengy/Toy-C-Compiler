@@ -1,10 +1,15 @@
+#ifndef DYNAMICARRAY_H
+    #include "../../lib/dynamicArray/dynamicArray.h"
+#endif
+
 #ifndef ASSYNTREE_H
     #include "../../include/parser/ASsynTree.h"
 #endif
+
 #ifndef STDLIB_H
     #include <stdlib.h>
 #endif
-#include "../../lib/dynamicArray/dynamicArray.h"
+
 
 //this can hold 0 or more definitions
 struct programTreeType{
@@ -26,7 +31,7 @@ list programTreeToString(programTree pst){
     listCat(string, "prog("); 
 
     for(int i = 0; i < defSize; i++){
-        listCat(string, definitionTreeToString(pst->dTrees[i]));
+        listCat(string, definitionTreeToString(&(pst->dTrees[i])));
     }
 
     listCat(string, ")\n");

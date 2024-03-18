@@ -1,5 +1,10 @@
 //B. Frazier 3/16/24
 
+#ifndef DYNAMICARRAY_H
+    #include "../../lib/dynamicArray/dynamicArray.h"
+#endif
+
+
 //Program 
 typedef struct programTreeType *programTree; 
 //definition 
@@ -45,3 +50,8 @@ typedef struct notTreeType *notTree;
 //Operator
 typedef struct operatorTreeType *operatorTree;
 
+
+programTree createProgramTree(definitionTree*);
+list programTreeToString(programTree);
+
+enum defTypeProd {functionDef, variableDef};
