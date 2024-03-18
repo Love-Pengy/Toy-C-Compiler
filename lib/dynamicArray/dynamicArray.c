@@ -35,11 +35,16 @@ void expandList(list expandee){
 void listCat(list dest, char *source){
     if((strlen(source) + dest->size) > dest->buffSize){
         expandList(dest);
+        strcat(dest->string, source);
     }
     else{
         dest->size = (dest->size + strlen(source));
         strcat(dest->string, source);
     }
+}
+
+char *listToString(list printee){
+    return(printee->string);       
 }
 
 void freeList(list goodbye){

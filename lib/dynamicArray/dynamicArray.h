@@ -3,3 +3,4 @@ list createList(void);
 void expandList(list);
 void listCat(list, char*);
 void freeList(list);
+char* listToString(list);
