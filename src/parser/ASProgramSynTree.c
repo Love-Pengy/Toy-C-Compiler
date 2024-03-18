@@ -1,12 +1,17 @@
-#ifndef DYNAMICARRAY_H
+//B. Frazier 3/17/24
+
+#ifndef DYNAMICARRAY
+    #define DYNAMICARRAY
     #include "../../lib/dynamicArray/dynamicArray.h"
 #endif
 
-#ifndef ASSYNTREE_H
+#ifndef ASSYNTREE
+    #define ASSYNTREE
     #include "../../include/parser/ASsynTree.h"
 #endif
 
-#ifndef STDLIB_H
+#ifndef STDLIB
+    #define STDLIB
     #include <stdlib.h>
 #endif
 

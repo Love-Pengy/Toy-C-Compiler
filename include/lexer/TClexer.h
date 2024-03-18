@@ -1,8 +1,12 @@
 //B. Frazier 3/16/24
-#ifndef STDIO_H
+
+#ifndef STDIO
+    #define STDIO
     #include <stdio.h>
 #endif
-#ifndef TCTOKEN_H
+
+#ifndef TCTOKEN
+    #define TCTOKEN
     #include "TCtoken.h"
 #endif
 

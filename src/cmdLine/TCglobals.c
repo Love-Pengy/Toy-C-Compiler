@@ -1,8 +1,11 @@
 //B. Frazier 3/16/24
-#ifndef STDBOOL_h
+#ifndef STDBOOL
+    #define STDBOOL
     #include <stdbool.h>
 #endif
-#ifndef TCGLOBALS_H
+
+#ifndef TCGLOBALS
+    #define TCGLOBALS
     #include "../../include/cmdLine/TCglobals.h"
 #endif
 

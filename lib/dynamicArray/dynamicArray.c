@@ -1,10 +1,16 @@
-#ifndef DYNAMICARRAY_H
+//B. Frazier 3/17/24
+#ifndef DYNAMICARRAY
+    #define DYNAMICARRAY
     #include "./dynamicArray.h"
 #endif
-#ifndef STDLIB_H
+
+#ifndef STDLIB
+    #define STDLIB
     #include <stdlib.h>
 #endif 
-#ifndef STRING_H
+
+#ifndef STRING
+    #define STRING
     #include <string.h>
 #endif
 
@@ -34,7 +40,9 @@ void expandList(list expandee){
 
 void listCat(list dest, char *source){
     if((strlen(source) + dest->size) > dest->buffSize){
-        expandList(dest);
+        while((strlen(source) + dest->size) > dest->buffSize){
+            expandList(dest);
+        }
         strcat(dest->string, source);
     }
     else{

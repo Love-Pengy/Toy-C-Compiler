@@ -1,6 +1,6 @@
 //B. Frazier 3/16/24
-#ifndef TCTOKENS_H
-    #define TCTOKENS_H
+#ifndef TCTOKENS
+    #define TCTOKENS
 
 static const char* tokens[] {
     "int", "char", "return", "if", "else", 

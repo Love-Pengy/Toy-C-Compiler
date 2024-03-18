@@ -1,25 +1,37 @@
-//B. Frazier 
+//B. Frazier 3/16/23 
 
-
-#ifndef STDLIB_H
+#ifndef STDLIB
+    #define STDLIB
     #include <stdlib.h>
 #endif
-#ifndef STDIO_H
+
+#ifndef STDIO
+    #define STDIO
     #include <stdio.h>
 #endif
-#ifndef TCCMDLINEREADER_H
+
+#ifndef TCCMDLINEREADER
+    #define TCCMDLINEREADER
     #include "../../include/cmdLine/TCCMDLineReader.h"
 #endif
-#ifndef STRING_H
+
+#ifndef STRING
+    #define STRING
     #include <string.h>
 #endif
-#ifndef CTYPE_H
+
+#ifndef CTYPE
+    #define CTYPE
     #include <ctype.h>
 #endif
-#ifndef TCGLOBALS_H 
+
+#ifndef TCGLOBALS 
+    #define TCGLOBALS
     #include "../../include/cmdLine/TCglobals.h"
 #endif
-#ifndef STDBOOL_H
+
+#ifndef STDBOOL
+    #define STDBOOL
     #include <stdbool.h>
 #endif
 

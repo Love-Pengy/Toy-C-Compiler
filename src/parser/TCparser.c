@@ -1,12 +1,22 @@
 //B. Frazier 3/16/24
-#include <stdlib.h>
-#ifndef TCLEXER_H
+
+#ifndef STDLIB
+    #define STDLIB
+    #include <stdlib.h>
+#endif 
+
+#ifndef TCLEXER
+    #define TCLEXER
     #include "../../include/lexer/TClexer.h"
 #endif
-#ifndef STRING_H
+
+#ifndef STRING
+    #define STRING
     #include <string.h>
 #endif
-#ifndef TCGLOBALS_H
+
+#ifndef TCGLOBALS
+    #define TCGLOBALS
     #include "../../include/cmdLine/TCglobals.h"
 #endif
 

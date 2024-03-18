@@ -1,16 +1,27 @@
-#ifndef DYNAMICARRAY_H
+//B. Frazier 3/18/24
+
+#ifndef DYNAMICARRAY
+    #define DYNAMICARRAY
     #include "../../lib/dynamicArray/dynamicArray.h"
 #endif
 
-#ifndef ASSYNTREE_H
+#ifndef ASSYNTREE
+    #define ASSYNTREE
     #include "../../include/parser/ASsynTree.h"
 #endif
 
-#ifndef STDLIB_H
+#ifndef STDLIB
+    #define STDLIB
     #include <stdlib.h>
 #endif
 
+#ifndef STDIO
+    #define STDIO
+    #include <stdio.h>
+#endif
+
 #ifndef DYNAMICARRAY_H
+    #define DYNAMICARRAY
     #include "../../lib/dynamicArray/dynamicArray.h"
 #endif
 
@@ -25,9 +36,9 @@ struct definitionTreeType{
 };
 
 
-definitionTree createDefinitionTree(enum defTypeProd, void* prod){
+definitionTree createDefinitionTree(enum defTypeProd prodType, void* prod){
     definitionTree dst = malloc(sizeof(struct definitionTreeType));
-    switch(defTypeProd){
+    switch(prodType){
         case functionDef: 
             dst->type = defTypeProd;
             dst->fDef = &prod;
@@ -59,7 +70,7 @@ char *definitionTreeToString(definitionTree dst){
             listCat(string, "[error]\n");
             break; 
     }
-    strcat(string, ")\n");
+    listCat(string, ")\n");
 }
 
 

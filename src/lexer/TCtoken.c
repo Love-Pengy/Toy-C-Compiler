@@ -1,15 +1,22 @@
 //B. Frazier 3/16/24
-#ifndef STRING_H
+
+#ifndef STRING
+    #define STRING
     #include <string.h>
 #endif
-#ifndef TCTOKEN_H
+
+#ifndef TCTOKEN
+    #define TCTOKEN
     #include "../../include/lexer/TCtoken.h"
 #endif
-#ifndef STDLIB_H
+
+#ifndef STDLIB
+    #define STDLIB
     #include <stdlib.h>
 #endif 
 
-#ifndef STDIO_H
+#ifndef STDIO
+    #define STDIO
     #include <stdio.h>
 #endif
 

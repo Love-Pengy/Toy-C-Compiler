@@ -1,14 +1,23 @@
 //B. Frazier 3/16/24
 
-#ifndef DYNAMICARRAY_H
+#ifndef DYNAMICARRAY
+    #define DYNAMICARRAY
     #include "../../lib/dynamicArray/dynamicArray.h"
 #endif
 
+typedef struct programTreeType *programTree; 
+typedef struct definitionTreeType *definitionTree;
+
+//definition 
+definitionTree createDefinitionTree(enum defTypeProd, void*);
+char *definitionTreeToString(definitionTree);
+enum defTypeProd {functionDef, variableDef};
 
 //Program 
-typedef struct programTreeType *programTree; 
-//definition 
-typedef struct definitionTreeType *definitionTree;
+programTree createProgramTree(definitionTree*);
+list programTreeToString(programTree);
+
+
 //funcdef 
 typedef struct functionDefinitionTreeType *functionDefinitionTree;  
 //Type 
@@ -51,7 +60,3 @@ typedef struct notTreeType *notTree;
 typedef struct operatorTreeType *operatorTree;
 
 
-programTree createProgramTree(definitionTree*);
-list programTreeToString(programTree);
-
-enum defTypeProd {functionDef, variableDef};
