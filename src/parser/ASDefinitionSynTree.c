@@ -41,11 +41,11 @@ definitionTree createDefinitionTree(enum defTypeProd prodType, void* prod){
     switch(prodType){
         case functionDef: 
             dst->type = defTypeProd;
-            dst->fDef = &prod;
+            dst->fDef = *prod;
             break;
         case variableDef:
             dst->type = defTypeProd;
-            dst->vDef = &prod;
+            dst->vDef = *prod;
             break; 
         default:
             printf("internal error\n");

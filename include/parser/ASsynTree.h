@@ -7,6 +7,9 @@
 
 typedef struct programTreeType *programTree; 
 typedef struct definitionTreeType *definitionTree;
+typedef struct functionDefinitionTreeType *functionDefinitionTree;  
+typedef struct variableDefinitionTreeType *variableDefinitionTree;
+typedef struct expressionStatementTreeType *expressionStatementTree;
 
 //definition 
 definitionTree createDefinitionTree(enum defTypeProd, void*);
@@ -14,20 +17,21 @@ char *definitionTreeToString(definitionTree);
 enum defTypeProd {functionDef, variableDef};
 
 //Program 
-programTree createProgramTree(definitionTree*);
+programTree createProgramTree(definitionTree*, int);
 list programTreeToString(programTree);
 
-
 //funcdef 
-typedef struct functionDefinitionTreeType *functionDefinitionTree;  
-//Type 
-typedef struct typeTreeType *typeDefinitionTree;
-//Statement 
-typedef struct statementTreeType *statementDefinitionTree;
+functionDefinitionTree createFunctionDefinitionTree(char*, char*, variableDefinitionTree*, int, char*);
+list functionDefinitionTreeToString(functionDefinitionTree fst);
+
 //varDef 
-typedef struct variableDefinitionTreeType *variableDefinitionTree;
+variableDefinitionTree createVariableDefinitionTree(char *, char**, int);
+list variableDefinitionTreeToString(variableDefinitionTree);
+
 //exprState 
-typedef struct expressionStatementTreeType *expressionStatementTree;
+expressionStatementTree createExpressionStatementTree(char *);
+list expressionStatementTreeToString(expressionStatementTree);
+
 //breakState 
 typedef struct breakStatementTreeType *breakStatementTree;
 //blockState 
