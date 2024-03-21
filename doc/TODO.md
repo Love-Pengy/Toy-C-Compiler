@@ -40,8 +40,8 @@ IMPORTANT
             + statement
             + expression
             + operator
-+ implement creation of the AST into the parser
 
++ implement creation of the AST into the parser
 + to make message pointer make more sense you might have to make it only go to the beginning/end of tokens 
 + make a free tree option for the ast when done with it
 + update the make file with the dynamic array library and AST stuff

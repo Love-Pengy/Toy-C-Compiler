@@ -22,14 +22,13 @@
 
 
 struct expressionStatementTreeType{
-    char* expression;
+    expressionTree expression;
 };
 
 
-expressionStatementTree createExpressionStatementTree(char * expr){
+expressionStatementTree createExpressionStatementTree(expressionTree expr){
     expressionStatementTree est = malloc(sizeof(struct expressionStatementTreeType));
-    est->expression = malloc(sizeof(char) * (strlen(expr) + 1));
-    strcpy(est->expression, expr);
+    est->expression = expr;
     return(est);
 }
 
@@ -37,7 +36,7 @@ expressionStatementTree createExpressionStatementTree(char * expr){
 list expressionStatementTreeToString(expressionStatementTree est){
     list string = createList();
     listCat(string, "exprState(");
-    listCat(string, est->expression);    
+    listCat(string, expressionTreeToString(est->expression));    
     listCat(string, ")\n");
     return(string);
 }

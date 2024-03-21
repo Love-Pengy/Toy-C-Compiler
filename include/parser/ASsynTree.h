@@ -35,7 +35,7 @@ variableDefinitionTree createVariableDefinitionTree(char *, char**, int);
 list variableDefinitionTreeToString(variableDefinitionTree);
 
 //exprState 
-expressionStatementTree createExpressionStatementTree(char *);
+expressionStatementTree createExpressionStatementTree(expressionTree );
 list expressionStatementTreeToString(expressionStatementTree);
 
 //breakState 
@@ -43,7 +43,7 @@ breakStatementTree createBreakStatementTree(void);
 list breakStatementTreeToString(breakStatementTree);
 
 //blockState 
-blockStatementTree createBlockStatementTree(variableDefinitionTree *, int, char **, int);
+blockStatementTree createBlockStatementTree(variableDefinitionTree *, int, statementTree *, int);
 list blockStatementTreeToString(blockStatementTree);
 
 //ifState 

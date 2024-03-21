@@ -27,12 +27,12 @@ struct functionDefinitionTreeType{
     //array of variable definitions
     variableDefinitionTree* vDef;
     int varAmount;
-    char* sDef;
+    statementTree sDef;
 };
 
 
 //if there aren't any variable definitions then the var definitions passed will be NULL
-functionDefinitionTree createFunctionDefinitionTree(char *identifier, char *type, variableDefinitionTree* v, int amount, char* s){
+functionDefinitionTree createFunctionDefinitionTree(char *identifier, char *type, variableDefinitionTree* v, int amount, statementTree s){
     functionDefinitionTree output = malloc(sizeof(struct functionDefinitionTreeType));
     output->id = malloc(sizeof(char) * (strlen(identifier) + 1));
     strcpy(output->id, identifier);
@@ -40,8 +40,10 @@ functionDefinitionTree createFunctionDefinitionTree(char *identifier, char *type
     strcpy(output->type, type);
     output->vDef = malloc(sizeof(v) + 1);
     output->vDef = v;
-    output->sDef = malloc(sizeof(char) * (strlen(s) + 1));
-    strcpy(output->sDef, s);
+    if(output->vDef = NULL){
+        output->varAmount = 0;
+    }
+    output->sDef = s;
     output->varAmount = amount;
     return(output);
 }
@@ -52,10 +54,12 @@ list functionDefinitionTreeToString(functionDefinitionTree fst){
     listCat(string, "funcDef(");
     listCat(string, fst->type);    
     listCat(string, fst->id);
-    for(int i = 0; i < fst->varAmount; i++){
-        listCat(string, variableDefinitionTreeToString(fst->vDef[i]));
+    if(fst->varAmount){
+        for(int i = 0; i < fst->varAmount; i++){
+            listCat(string, variableDefinitionTreeToString(fst->vDef[i]));
+        }
     }
-    listCat(string, fst->sDef);
+    listCat(string, statementTreeToString(fst->sDef));
     listCat(string, ")\n");
     return(string);
 }
