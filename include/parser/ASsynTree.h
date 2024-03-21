@@ -10,6 +10,12 @@ typedef struct definitionTreeType *definitionTree;
 typedef struct functionDefinitionTreeType *functionDefinitionTree;  
 typedef struct variableDefinitionTreeType *variableDefinitionTree;
 typedef struct expressionStatementTreeType *expressionStatementTree;
+typedef struct breakStatementTreeType *breakStatementTree;
+typedef struct blockStatementTreeType *blockStatementTree;
+typedef struct ifStatementTreeType *ifStatementTree;
+typedef struct nullStatementTreeType *nullStatementTree;
+typedef struct returnStatementTreeType *returnStatementTree;
+typedef struct whileStatementTreeType *whileStatementTree;
 
 //definition 
 definitionTree createDefinitionTree(enum defTypeProd, void*);
@@ -22,7 +28,7 @@ list programTreeToString(programTree);
 
 //funcdef 
 functionDefinitionTree createFunctionDefinitionTree(char*, char*, variableDefinitionTree*, int, char*);
-list functionDefinitionTreeToString(functionDefinitionTree fst);
+list functionDefinitionTreeToString(functionDefinitionTree);
 
 //varDef 
 variableDefinitionTree createVariableDefinitionTree(char *, char**, int);
@@ -33,17 +39,31 @@ expressionStatementTree createExpressionStatementTree(char *);
 list expressionStatementTreeToString(expressionStatementTree);
 
 //breakState 
-typedef struct breakStatementTreeType *breakStatementTree;
+breakStatementTree createBreakStatementTree(void);
+list breakStatementTreeToString(breakStatementTree);
+
 //blockState 
-typedef struct blockStatementTreeType *blockStatementTree;
+blockStatementTree createBlockStatementTree(variableDefinitionTree *, int, char **, int);
+list blockStatementTreeToString(blockStatementTree);
+
 //ifState 
-typedef struct ifStatementTreeType *ifStatementTree;
+//specifier = number | id | charLiteral | stringLiteral
+enum expressionTypeEnum {Specifier, FuncCall, Expr, Minus, Not}; 
+list ifStatementTreeToString(ifStatementTree ist);
+ifStatementTree createIfStatementTree(enum expressionTypeEnum, void*, char*, char*);
+
 //nullState
-typedef struct nullStatementTreeType *nullStatementTree;
+nullStatementTree createNullStatementTree(void);
+list nullStatementTreeToString(nullStatementTree);
+
 //returnState
-typedef struct returnStatementTreeType *returnStatementTree;
+returnStatementTree createReturnStatementTree(expressionTree);
+list returnStatementTreeToString(returnStatementTree);
+
 //whileState
-typedef struct whileStatementTreeType *whileStatementTree;
+whileStatementTree createWhileStatementTree(expressionTree expr, statementTree stt);
+list whileStatementTreeToString(whileStatementTree ws);
+
 //readState
 typedef struct readStatementTreeType *readStatementTree;
 //writeState

@@ -5,10 +5,10 @@
 + ~~make a print function for the structs~~
 + ~~Write up a file for trees so I can just call it and test it seperately~~
 ^^^ this tree structure is going to be the states stores within other states so the actual tree data structure isnt nescessary 
-+ finish the command line arguments 
+~~+ finish the command line arguments~~ 
     ~~+ help~~
     ~~+ output ~~
-    + class
+    ~~+ class~~
     ~~+ debug ~~
         ~~+ 0~~
         ~~+ 1~~
@@ -32,7 +32,16 @@
 ~~+ make a dynamic array library for the holding of the string for the print functions in the AST files because I don't want to hard code it~~ 
 ~~+ test said dynamic array library~~ 
 ~~+ make a while loop for the expand function so that you can expand as many chunks as needed~~
+IMPORTANT 
+    all of the overall categories need to have their own structs and be part of this all, so all of the functions that had expression in them need to be changed to the struct
+        + ones that need to be made: 
+            + ~~program ~~
+            + ~~definition~~ 
+            + statement
+            + expression
+            + operator
 + implement creation of the AST into the parser
+
 + to make message pointer make more sense you might have to make it only go to the beginning/end of tokens 
 + make a free tree option for the ast when done with it
 + update the make file with the dynamic array library and AST stuff
