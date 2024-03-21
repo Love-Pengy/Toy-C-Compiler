@@ -40,7 +40,7 @@ IMPORTANT
             + statement
             + expression
             + operator
-
++ make a string to list functon to easily convert items to lists when concatonating things like new line or whatever 
 + implement creation of the AST into the parser
 + to make message pointer make more sense you might have to make it only go to the beginning/end of tokens 
 + make a free tree option for the ast when done with it
