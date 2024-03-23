@@ -40,7 +40,7 @@ functionDefinitionTree createFunctionDefinitionTree(char *identifier, char *type
     strcpy(output->type, type);
     output->vDef = malloc(sizeof(v) + 1);
     output->vDef = v;
-    if(output->vDef = NULL){
+    if(output->vDef == NULL){
         output->varAmount = 0;
     }
     output->sDef = s;
@@ -56,10 +56,10 @@ list functionDefinitionTreeToString(functionDefinitionTree fst){
     listCat(string, fst->id);
     if(fst->varAmount){
         for(int i = 0; i < fst->varAmount; i++){
-            listCat(string, variableDefinitionTreeToString(fst->vDef[i]));
+            llistCat(string, variableDefinitionTreeToString(fst->vDef[i]));
         }
     }
-    listCat(string, statementTreeToString(fst->sDef));
+    llistCat(string, statementTreeToString(fst->sDef));
     listCat(string, ")\n");
     return(string);
 }

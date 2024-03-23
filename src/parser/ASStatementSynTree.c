@@ -82,34 +82,34 @@ list statementTreeToString(statementTree state){
     listCat(string, "Statement(");
     switch(state->type){
         case exprState:
-            listCat(string, expressionStatementTreeToString(state->exp));
+            llistCat(string, expressionStatementTreeToString(state->exp));
             break;
         case breakState:
-            listCat(string, breakStatementTreeToString(state->bst));
+            llistCat(string, breakStatementTreeToString(state->bst));
             break;
         case blockState:
-            listCat(string, blockStatementTreeToString(state->blt));
+            llistCat(string, blockStatementTreeToString(state->blt));
             break;
         case ifState:
-            listCat(string, ifStatementTreeToString(state->ist)):
+            llistCat(string, ifStatementTreeToString(state->ist)):
             break;
         case nullState:
-            listCat(string, nullStatementTreeToString(state->nst));
+            llistCat(string, nullStatementTreeToString(state->nst));
             break;
         case returnState:
-            listCat(string, returnStatementTreeToString(state->rst));
+            llistCat(string, returnStatementTreeToString(state->rst));
             break;
         case whileState:
-            listCat(string, whileStatementTreeToString(state->wst));
+            llistCat(string, whileStatementTreeToString(state->wst));
             break;
         case readState:
-            listCat(string, readStatementTreeToString(state->book));
+            llistCat(string, readStatementTreeToString(state->book));
             break;
         case writeState:
-            listCat(string, writeStatementTreeToString(state->author));
+            llistCat(string, writeStatementTreeToString(state->author));
             break;
         case newLineState:
-            listCat(string, newLineStatementTreeToString(state->nlst));
+            llistCat(string, newLineStatementTreeToString(state->nlst));
             break;
         default:
             printf("internal error\n");

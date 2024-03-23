@@ -83,28 +83,28 @@ list expressionTreeToString(expressionTree exprT){
     listCat(string, "Expression(");
     switch(exprT->Type){
         case Number:
-            listCat(string, exprT->number);
+            listCat(string, (exprT->number));
             break;
         case ID:
-            listCat(string, exprT->id);
+            listCat(string, (exprT->id));
             break;
         case CharLiteral:
-            listCat(string, exprT->charLit);
+            listCat(string, (exprT->charLit));
             break;
         case StringLiteral:
-            listCat(string, exprT->string);
+            listCat(string, (exprT->string));
             break;
         case funcCall:
-            listCat(string, exprT->funcC);
+            llistCat(string, functionCallTreeToString(exprT->funcC));
             break;
         case Expr:
-            listCat(string, exprT->exp);
+            llistCat(string, expressionStatementTreeToString(exprT->exp));
             break;
         case Minus:
-            listCat(string, exprT->min);
+            llistCat(string, minusTreeToString(exprT->min));
             break;
         case Not:
-            listCat(string, exprT->not);
+            llistCat(string, notTree(exprT->not));
             break;
         default:
             printf("internal error\n");

@@ -37,7 +37,7 @@ list programTreeToString(programTree pst){
     listCat(string, "prog("); 
 
     for(int i = 0; i < pst->numDefs; i++){
-        listCat(string, definitionTreeToString(pst->dTrees[i]));
+        llistCat(string, definitionTreeToString(pst->dTrees[i]));
     }
 
     listCat(string, ")\n");

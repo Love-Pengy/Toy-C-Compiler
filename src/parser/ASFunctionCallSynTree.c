@@ -48,7 +48,7 @@ list functionCallTreeToString(functionCallTree fct){
     listCat(string, fct->id);
 
     for(int i = 0; i < fct->numExprs; i++){
-        listCat(string, expressionTreeToString(fct->exprs[i]));
+        llistCat(string, expressionTreeToString(fct->exprs[i]));
     } 
 
     listCat(string, ")\n");

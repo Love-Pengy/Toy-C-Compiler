@@ -38,7 +38,7 @@ returnStatementTree createReturnStatementTree(expressionTree ex){
 list returnStatementTreeToString(returnStatementTree rsi){
     list string = createList();
     listCat(string, "returnState(");
-    listCat(string, expressionTreeToString(rsi->exp);
+    llistCat(string, expressionTreeToString(rsi->exp));
     listCat(string, ")\n");
     return(string);
 }

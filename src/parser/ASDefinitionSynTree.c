@@ -40,11 +40,11 @@ definitionTree createDefinitionTree(enum defTypeProd prodType, void* prod){
     definitionTree dst = malloc(sizeof(struct definitionTreeType));
     switch(prodType){
         case functionDef: 
-            dst->type = defTypeProd;
+            dst->type = prodType;
             dst->fDef = *prod;
             break;
         case variableDef:
-            dst->type = defTypeProd;
+            dst->type = prodType;
             dst->vDef = *prod;
             break; 
         default:
@@ -61,10 +61,10 @@ char *definitionTreeToString(definitionTree dst){
     listCat(string, "definition(\n");
     switch(dst->type){
         case functionDef: 
-            listCat(string, functionDefinitionTreeToString(dst->fDef));
+            llistCat(string, functionDefinitionTreeToString(dst->fDef));
             break;
         case variableDef:
-            listCat(string, variableDefinitionTreeToString(dst->vDef));
+            llistCat(string, variableDefinitionTreeToString(dst->vDef));
             break;
         default:
             listCat(string, "[error]\n");

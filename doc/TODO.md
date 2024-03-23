@@ -39,7 +39,7 @@ IMPORTANT
             + ~~definition~~ 
             + ~~statement~~
             + ~~expression~~
-            + operator
+            + ~~operator~~
 + make a string to list functon to easily convert items to lists when concatonating things like new line or whatever 
 + implement creation of the AST into the parser
 + to make message pointer make more sense you might have to make it only go to the beginning/end of tokens 

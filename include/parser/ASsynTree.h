@@ -23,18 +23,22 @@ typedef struct statementTreeType *statementTree;
 typedef struct expressionTreeType *expressionTree;
 typedef struct functionCallTreeType *functionCallTree;
 typedef struct opExpressionTreeType *opExpressionTree;
+typedef struct minusTreeType *minusTree;
+typedef struct notTreeType *notTree;
+typedef struct operatorTreeType *operatorTree;
+
 
 //definition 
+enum defTypeProd {functionDef, variableDef};
 definitionTree createDefinitionTree(enum defTypeProd, void*);
 char *definitionTreeToString(definitionTree);
-enum defTypeProd {functionDef, variableDef};
 
 //Program 
 programTree createProgramTree(definitionTree*, int);
 list programTreeToString(programTree);
 
 //funcdef 
-functionDefinitionTree createFunctionDefinitionTree(char*, char*, variableDefinitionTree*, int, char*);
+functionDefinitionTree createFunctionDefinitionTree(char*, char*, variableDefinitionTree*, int, statementTree);
 list functionDefinitionTreeToString(functionDefinitionTree);
 
 //varDef 
@@ -42,7 +46,7 @@ variableDefinitionTree createVariableDefinitionTree(char *, char**, int);
 list variableDefinitionTreeToString(variableDefinitionTree);
 
 //exprState 
-expressionStatementTree createExpressionStatementTree(expressionTree );
+expressionStatementTree createExpressionStatementTree(expressionTree);
 list expressionStatementTreeToString(expressionStatementTree);
 
 //breakState 
@@ -88,10 +92,9 @@ enum statementType {exprState, breakState, blockState, ifState, nullState, retur
 list statementTreeToString(statementTree);
 statementTree createStatementTree(enum statementType,  void*);
 
-//Expression
-enum expressionType {Number, ID, CharLiteral, StringLiteral, funcCall, Expr, Minus, Not};
-expressionStatementTree createExpressionStatementTree(enum expressionType, void*);
-list expressionTreeToString(expressionTree);
+//expression
+expressionStatementTree createExpressionStatementTree(expressionTree);
+list expressionTreeToString(expressionStatementTree);
 
 //funcCall
 list functionCallTreeToString(functionCallTree);
@@ -102,10 +105,19 @@ list opExpressionTreeToString(opExpressionTree);
 opExpressionTree createOpExpressionTree(operatorTree, expressionTree, expressionTree);
 
 //minus
-typedef struct minusTreeType *minusTree;
-//not
-typedef struct notTreeType *notTree;
-//Operator
-typedef struct operatorTreeType *operatorTree;
+list minusTreeToString(minusTree);
+minusTree createMinusTree(expressionTree);
 
+//not
+list notTreeToString(notTree);
+notTree createNotTree(expressionTree);
+
+//Operator
+list operatorTreeToString(operatorTree);
+operatorTree createOperatorTree(char*);
+
+//expression
+enum expressionType {Number, ID, CharLiteral, StringLiteral, funcCall, Expr, Minus, Not};
+expressionStatementTree createExpressionStatementTree(enum expressionType, void*);
+list expressionTreeToString(expressionTree);
 

@@ -38,9 +38,9 @@ opExpressionTree createOpExpressionTree(operatorTree oper, expressionTree ex1, e
 list opExpressionTreeToString(opExpressionTree oe){
     list string = createList();
     listCat(string, "expr(");
-    listCat(string, operatorTreeToString(oe->op));
-    listCat(string, expressionTreeToString(oe->exp1)); 
-    listCat(string, expressionTreeToString(oe->exp2)); 
+    llistCat(string, operatorTreeToString(oe->op));
+    llistCat(string, expressionTreeToString(oe->exp1)); 
+    llistCat(string, expressionTreeToString(oe->exp2)); 
     listCat(string, ")\n");
     return(string);
 }

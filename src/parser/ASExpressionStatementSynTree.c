@@ -10,10 +10,6 @@
     #include "../../include/parser/ASsynTree.h"
 #endif
 
-#ifndef STRING
-    #define STRING
-    #include <string.h>
-#endif
 
 #ifndef STDLIB
     #define STDLIB
@@ -36,7 +32,7 @@ expressionStatementTree createExpressionStatementTree(expressionTree expr){
 list expressionStatementTreeToString(expressionStatementTree est){
     list string = createList();
     listCat(string, "exprState(");
-    listCat(string, expressionTreeToString(est->expression));    
+    llistCat(string, expressionTreeToString(est->expression));    
     listCat(string, ")\n");
     return(string);
 }

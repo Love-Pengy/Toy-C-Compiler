@@ -38,12 +38,21 @@ void expandList(list expandee){
     expandee->string = newList;
 }
 
+void llistCat(list dest, list source){
+    while(dest->buffSize < (dest->size + source->size + 1)){
+        expandList(dest);
+    }
+    strcat(dest->string, source->string);
+    dest->size = (dest->size + strlen(source->size));
+}
+
 void listCat(list dest, char *source){
     if((strlen(source) + dest->size) > dest->buffSize){
         while((strlen(source) + dest->size) > dest->buffSize){
             expandList(dest);
         }
         strcat(dest->string, source);
+        dest->size = (dest->size + strlen(source));
     }
     else{
         dest->size = (dest->size + strlen(source));
@@ -53,6 +62,12 @@ void listCat(list dest, char *source){
 
 char *listToString(list printee){
     return(printee->string);       
+}
+
+list stringToList(char *string){
+    list output = createList();
+    listCat(output, string);
+    return(output);
 }
 
 void freeList(list goodbye){

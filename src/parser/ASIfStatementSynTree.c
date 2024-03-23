@@ -46,10 +46,10 @@ ifStatementTree createIfStatementTree(expressionTree expr, statementTree ifS, st
 list ifStatementTreeToString(ifStatementTree ist){
     list string = createList();
     listCat(string, "ifState(");
-    listCat(string, expressionTreeToString(ist->exp));
-    listCat(string, statementTreeToString(ist->ifExpression));
+    llistCat(string, expressionTreeToString(ist->exp));
+    llistCat(string, statementTreeToString(ist->ifExpression));
     if(ist->elseExpression != NULL){
-        listCat(string, statementTreeToString(ist->elseExpression));
+        llistCat(string, statementTreeToString(ist->elseExpression));
     }
     listCat(string, ")\n");
     return(string);
