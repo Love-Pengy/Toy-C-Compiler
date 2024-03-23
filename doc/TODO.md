@@ -32,15 +32,14 @@
 ~~+ make a dynamic array library for the holding of the string for the print functions in the AST files because I don't want to hard code it~~ 
 ~~+ test said dynamic array library~~ 
 ~~+ make a while loop for the expand function so that you can expand as many chunks as needed~~
-IMPORTANT 
-    all of the overall categories need to have their own structs and be part of this all, so all of the functions that had expression in them need to be changed to the struct
-        + ones that need to be made: 
+~~IMPORTANT~~ 
+    ~~all of the overall categories need to have their own structs and be part of this all, so all of the functions that had expression in them need to be changed to the struct~~
+        + ~~ones that need to be made: ~~
             + ~~program ~~
             + ~~definition~~ 
             + ~~statement~~
             + ~~expression~~
             + ~~operator~~
-+ make a string to list functon to easily convert items to lists when concatonating things like new line or whatever 
 + implement creation of the AST into the parser
 + to make message pointer make more sense you might have to make it only go to the beginning/end of tokens 
 + make a free tree option for the ast when done with it

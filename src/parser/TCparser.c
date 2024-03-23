@@ -20,6 +20,12 @@
     #include "../../include/cmdLine/TCglobals.h"
 #endif
 
+#ifndef ASSYNTREE
+    #define ASSYNTREE
+    #include "../../include/parser/ASsynTree.h"
+#endif
+
+
 token currentToken;
 
 //make it so that it knows stuff exists
@@ -110,61 +116,96 @@ void exiting(char *exiteeLikeSomeTea){
 }
 
 //think of this like A() its the state itself. The leaf is defined elsewhere
-void toyCProgram(void){
+programTree toyCProgram(void){
     entering("toyCProgram");
+    //this needs to be dynamic if I keep running in to the threshold but theoretically I should not 
+    definitionTree* dtt = malloc(sizeof(struct definitionTreetType) * 500);
     getNextToken();    
+    int counter = 0;
     while(strcmp(currentToken->lexeme, "EOF")){ 
-        definition();
+        dtt[counter] = definition();
+        counter++;
     }
     exiting("toyCProgram");
+    return(createProgramTree(dtt));
     printf("parse has been completed\n");
 }
 
 
-void definition(void){
+definitionTree definition(void){
     entering("definition");
-    type(); 
-    if(!strcmp(currentToken->lexeme, "ID")){
+    enum defTypeProd type;
+
+    //char is four letters
+    char *typeSpec = malloc(sizeof(char) * 5);
+    strcpy(typeSpec, type()); 
+    if(!strcmp(currentToken->lexeme, "ID")){ 
+        char *idHold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
+        strcpy(idHold, currentToken->value);
         getNextToken();
         if(!strcmp(currentToken->lexeme, "SEMICOLON")){
+            type = variableDef;
             accept(';');
         }
         else{
-            functionDefinition();
+            type = functionDef;
+            functionDefinitionTree fd = malloc(sizeof(struct functionDefinitionTreeType)); 
+            fd = functionDefinition(typeSpec, idHold);
+            
         }
     }
     else{
         throwStateError("ID");   
     }
     exiting("definition");
+    if(type == functionDef){
+        return(createDefinitionTree(type, &fd));
+    }
+    else{
+        return(createDefinitionTree(type, &idHold);
+    }
 }
 
-void type(void){
+
+char* type(void){
     entering("type"); 
+    char* t = malloc(sizeof(char) * 5);
     if(!strcmp(currentToken->value, "int")){
+        strcpy(t, currentToken->value);
         getNextToken();    
     }
     else if(!strcmp(currentToken->value, "char")){
+        strcpy(t, currentToken->value);
         getNextToken();
     }
     else{
         throwStateError("Int Or Char"); 
     }
     exiting("type");
+    return(t);
 }
 
-void functionDefinition(void){
+functionDefinitionTree functionDefinition(char *type, char* id){
     entering("functionDefinition");  
-    functionHeader();
-    functionBody();
+    functionDefinitionTree fdt = malloc(sizeof(struct functionDefinitionTreeTYpe));
+
+    fdt->type = malloc(sizeof(char) * (strlen(type) + 1));
+    strcpy(fdt->type, type); 
+
+    fdt->id = malloc(sizeof(char) * (strlen(id) + 1));
+    strcpy(fdt->id, id);
+
+    functionHeader(fdt);
+    functionBody(fdt);
     exiting("functionDefinition");
+    return(fdt);
 }
 
-void functionHeader(void){
+functionDefinitionTree functionHeader(functionDefinitionTree f){
     entering("functionHeader"); 
     accept('(');
     if ((!strcmp(currentToken->value, "int")) || (!strcmp(currentToken->value, "char"))){
-        formalParamList();
+        f = formalParamList(f);
     }
     accept(')');
     exiting("functionHeader");
@@ -172,14 +213,23 @@ void functionHeader(void){
 
 void functionBody(void){
     entering("functionBody");
-    compoundStatement();
+    statementTree output = malloc(sizeof(struct statementTreeType));
+    output = compoundStatement();
     exiting("functionBody");
+    return(output);
 }
 
-void formalParamList(void){
+functionDefinitionTree formalParamList(functionDefinitionTree f){
     entering("formalParamList");
-    type();
+    variableDefinitionTree *v = malloc(sizeof(struct variableDefinitionTreeType) * 500);
+    char * typeHold = malloc(sizeof(char) * 5);
+    char * idHold;
+    int i = 0;
+    strcpy(typeHold, type());
     if(!strcmp(currentToken->lexeme, "ID")){
+        idHold = malloc(sizeof(char) * (strlen(currentLexeme->value) + 1));
+        strcpy(idHold, currentLexeme->value);
+        v[i] = createVariableDefinitionTree(typeHold, idHold, 1);
         getNextToken();
     }
     else{
@@ -187,55 +237,76 @@ void formalParamList(void){
     }
     while(!strcmp(currentToken->lexeme, "COMMA")){
         accept(',');
-        type();
+        typeHold = malloc(sizeof(char) * 5);
+        strcpy(typeHold, type()); 
         if(!strcmp(currentToken->lexeme, "ID")){
+            idHold = malloc(sizeof(char) * (strlen(currentLexeme->value) + 1));
+            strcpy(idHold, currentLexeme->value);
+            v[i] = createVariableDefinitionTree(typeHold, idHold, 1);
             getNextToken();
+        }
+        else{
+            throwStateError("ID");
         }
     }
     exiting("formalParamList");
+    f->vDef = v;
+    f->varAmount = i+1;
+    return(f);
 }
 
-void statement(void){
+statementTree statement(void){
     entering("statement");
+    statementTree output = malloc(sizeof(struct statementTreeType));
     if(!strcmp(currentToken->lexeme, "KEYWORD")){
         if(!strcmp(currentToken->value, "break")){
-            breakStatement();
+            output->type = breakState;
+            output->bst = breakStatement();
         }
         else if(!strcmp(currentToken->value, "if")){
-            ifStatement();
+            output->type = ifState;
+            output->ist = ifStatement();
         }
         else if(!strcmp(currentToken->value, "return")){
-            returnStatement();
+            output->type = returnState;
+            output->rst =  returnStatement();
         }
         else if(!strcmp(currentToken->value, "while")){
-            whileStatement();
+            output->type = whileState;
+            output->wst = whileStatement();
         }
         else if(!strcmp(currentToken->value, "read")){
-            readStatement();
+            output->type = readState;
+            output->rst = readStatement();
         }
         else if(!strcmp(currentToken->value, "write")){
-            writeStatement();
+            output->type = writeState;
+            output->author = writeStatement();
         }
         else if(!strcmp(currentToken->value, "newline")){
-            newLineStatement();
+            output->type = newLineState; 
+            output->nlst = newLineStatement();
         }
         else{
             throwStateError("Statement");
         }
     }
     else if(!strcmp(currentToken->lexeme, "LCURLY")){
-        compoundStatement();
+        output = compoundStatement();
     }
     else if(!strcmp(currentToken->lexeme, "SEMICOLON")){
-        nullStatement();
+        output->type = nullState;
+        output->nst = nullStatement();
     }
     else{
-        expressionStatement();
+        output->type = exprState;
+        output->exp = expressionStatement();
     }
     exiting("statement");
+    return(output);
 }
 
-void expressionStatement(void){
+expressionStatementTree expressionStatement(void){
     entering("expressionStatement");
     expression();
     accept(';');
@@ -384,7 +455,7 @@ void newLineStatement(void){
     exiting("newLineStatement");
 }
 
-void expression(void){
+expressionStatementTree expression(void){
     entering("expression");
     relopExpression();
     while(!strcmp(currentToken->lexeme, "ASSIGNOP")){
