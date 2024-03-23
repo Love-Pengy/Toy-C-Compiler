@@ -21,6 +21,8 @@ typedef struct writeStatementTreeType *writeStatementTree;
 typedef struct newLineStatementTreeType *newLineStatementTree;
 typedef struct statementTreeType *statementTree;
 typedef struct expressionTreeType *expressionTree;
+typedef struct functionCallTreeType *functionCallTree;
+typedef struct opExpressionTreeType *opExpressionTree;
 
 //definition 
 definitionTree createDefinitionTree(enum defTypeProd, void*);
@@ -92,9 +94,13 @@ expressionStatementTree createExpressionStatementTree(enum expressionType, void*
 list expressionTreeToString(expressionTree);
 
 //funcCall
-typedef struct functionCallTreeType *functionCallTree;
+list functionCallTreeToString(functionCallTree);
+functionCallTree createFunctionCallTree(char *, expressionTree*, int);
+
 //expr
-typedef struct opExpressionTreeType *opExpressionTree;
+list opExpressionTreeToString(opExpressionTree);
+opExpressionTree createOpExpressionTree(operatorTree, expressionTree, expressionTree);
+
 //minus
 typedef struct minusTreeType *minusTree;
 //not

@@ -37,8 +37,8 @@ IMPORTANT
         + ones that need to be made: 
             + ~~program ~~
             + ~~definition~~ 
-            + statement
-            + expression
+            + ~~statement~~
+            + ~~expression~~
             + operator
 + make a string to list functon to easily convert items to lists when concatonating things like new line or whatever 
 + implement creation of the AST into the parser
