@@ -211,17 +211,17 @@ functionDefinitionTree functionHeader(functionDefinitionTree f){
     exiting("functionHeader");
 }
 
-void functionBody(void){
+blockStatementTree functionBody(functionDefinitionTree f){
     entering("functionBody");
-    statementTree output = malloc(sizeof(struct statementTreeType));
-    output = compoundStatement();
+    //create a statement tree with the blockStatement
+    blockStatementTree output = compoundStatement();
     exiting("functionBody");
     return(output);
 }
 
 functionDefinitionTree formalParamList(functionDefinitionTree f){
     entering("formalParamList");
-    variableDefinitionTree *v = malloc(sizeof(struct variableDefinitionTreeType) * 500);
+    variableDefinitionTree *v = malloc(sizeof(struct variableDefinitionTreeType));
     char * typeHold = malloc(sizeof(char) * 5);
     char * idHold;
     int i = 0;
@@ -308,12 +308,13 @@ statementTree statement(void){
 
 expressionStatementTree expressionStatement(void){
     entering("expressionStatement");
-    expression();
+    expressionStatementTree et = expression();
     accept(';');
     exiting("expressionStatement");
+    return(et);
 }
 
-void breakStatement(void){
+breakStatementTree breakStatement(void){
     entering("breakStatement");
     if(!strcmp(currentToken->value, "break")){
         getNextToken();
@@ -323,58 +324,78 @@ void breakStatement(void){
         throwStateError("break");
     }
     exiting("breakStatement");
+    return(createBreakStatementTree());
 }
 
-void compoundStatement(void){
+//blockstatement
+blockStatementTree compoundStatement(void){
     entering("compoundStatement");
     accept('{');
+    char * typeHold = malloc(sizeof(char) * 5);
+    char * idHold;
+    variableDefinitionTree * vHold = malloc(sizeof(struct variableDefinitionTreeType));
+    int numDef = 0;
+    statementTree * sHold = malloc(sizeof(struct statementTreeType));
+    int numStat = 0;
     while(strcmp(currentToken->lexeme, "RCURLY") != 0){
         if(!strcmp(currentToken->value, "int") || !strcmp(currentToken->value, "char")){
-            type();
+            strcpy(typeHold, type());
             if(!strcmp(currentToken->lexeme, "ID")){
+                idHold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
+                strcpy(idHold, currentToken->value);
                 getNextToken();
                 accept(';');
+                vHold[numDef] = createVariableDefinitionTree(typeHold, idHold, 1);
+                numDef++;
             }
         }
         else{
-            statement();
+            statementTree[numStat] = statement();
+            numStat++;
         }
     }
     accept('}');
     exiting("compoundStatement");
+    return(createBlockStatementTree(vHold, numDef, sHold, numStat);
 }
 
-void ifStatement(void){
+ifStatementTree ifStatement(void){
     entering("ifStatement");
+    expressionTree e = malloc(sizeof(struct expressionTreeType));
+    statementTree st = malloc(sizeof(struct statementTreeType));
+    statementTree st1 = malloc(sizeof(struct statementTreeType));
+    st1 = NULL;
     if(!strcmp(currentToken->value, "if")){
         getNextToken();
         accept('(');
-        expression();
+        e = expression();
         accept(')');
-        statement();
+        st = statement();
         if(!strcmp(currentToken->value, "else")){
             getNextToken();
-            statement();
+            st1 = statement();
         }
     }
     else{
         throwStateError("if");
     }
     exiting("ifStatement");
+    return(createIfStatementTree(e, st, st1));
 }
 
-void nullStatement(void){
+nullStatementTree nullStatement(void){
     entering("nullStatement");
     accept(';');
     exiting("nullStatement");
+    return(createNullStatementTree());
 }
 
-void returnStatement(void){
+returnStatementTree returnStatement(void){
     entering("returnStatement");  
     if(!strcmp(currentToken->value, "return")){
         getNextToken();
         if(strcmp(currentToken->lexeme, "SEMICOLON")){
-            expression();  
+            returnStatementTree output = expression();  
         }
         accept(';');
     }
@@ -382,29 +403,38 @@ void returnStatement(void){
         throwStateError("return");
     }
     exiting("returnStatement");
+    return(output);
 }
 
-void whileStatement(void){
+whileStatementTree whileStatement(void){
     entering("whileStatement");
+    expressionTree eHold = malloc(sizeof(struct expressionTreeType));
+    statementTree sHold = malloc(sizeof(struct statementTreeType));
     if(!strcmp(currentToken->value, "while")){
         getNextToken();
         accept('(');
-        expression();
+        eHold = expression();
         accept(')');
-        statement();
+        sHold = statement();
     }
     else{
         throwStateError("while");
     }
     exiting("whileStatement");
+    return(createWhileStatementTree(eHold, sHold)); 
 }
 
-void readStatement(void){
+readStatementTree readStatement(void){
     entering("readStatement");
+    char ** idHold;
+    int numHold = 0;
     if(!strcmp(currentToken->value, "read")){
         getNextToken();
         accept('(');
         if(!strcmp(currentToken->lexeme, "ID")){
+            idHold[numHold] = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
+            strcpy(idHold[numHold], currentToken->value);
+            numHold++;
             getNextToken();
         }
         else{
@@ -413,6 +443,9 @@ void readStatement(void){
         while(!strcmp(currentToken->lexeme, "COMMA")){
             accept(',');
             if(!strcmp(currentToken->lexeme, "ID")){
+                idHold[numHold] = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
+                strcpy(idHold[numHold], currentToken->value);
+                numHold++;
                 getNextToken();
             }
             else{
@@ -426,14 +459,16 @@ void readStatement(void){
         throwStateError("read");
     }
     exiting("readStatement");
+    return(createReadStatementTree(idHold, numHold));
 }
 
-void writeStatement(void){
+writeStatementTree writeStatement(void){
     entering("writeStatement"); 
+    expressionTree *et = malloc(sizeof(struct expressionTreeType));
     if(!strcmp(currentToken->value, "write")){
         getNextToken();
         accept('(');
-        actualParameters();
+        et = actualParameters();
         accept(')');
         accept(';');
     }
@@ -441,6 +476,7 @@ void writeStatement(void){
         throwStateError("write");
     }
     exiting("writeStatement");
+    //need to figure out how to get size fo the create write statement argument
 }
 
 void newLineStatement(void){

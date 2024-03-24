@@ -59,7 +59,7 @@ list blockStatementTreeToString(blockStatementTree);
 
 //ifState 
 list ifStatementTreeToString(ifStatementTree);
-ifStatementTree createIfStatementTree(enum expressionTypeEnum, void*, char*, char*);
+ifStatementTree createIfStatementTree(expressionTree, statementTree, statementTree){
 
 //nullState
 nullStatementTree createNullStatementTree(void);

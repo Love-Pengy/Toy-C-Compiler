@@ -38,7 +38,7 @@ functionDefinitionTree createFunctionDefinitionTree(char *identifier, char *type
     strcpy(output->id, identifier);
     output->type = malloc(sizeof(char) * (strlen(type) + 1));
     strcpy(output->type, type);
-    output->vDef = malloc(sizeof(v) + 1);
+    output->vDef = malloc(sizeof(struct variableDefinitionTreeType));
     output->vDef = v;
     if(output->vDef == NULL){
         output->varAmount = 0;

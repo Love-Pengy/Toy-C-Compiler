@@ -26,7 +26,7 @@ struct blockStatementTreeType{
 //if a parameter is 0 then it will be passed NULL and an amount of 0
 blockStatementTree createBlockStatementTree(variableDefinitionTree *variables, int amountVars, statementTree *stats, int amountStats){
     blockStatementTree output = malloc(sizeof(struct blockStatementTreeType));
-    output->vdt = malloc(sizeof(variableDefinitionTree) * amountVars);
+    output->vdt = malloc(sizeof(variableDefinitionTree));
     output->vdt = variables; 
     output->vAmount = amountVars;
     output->statements = stats;
