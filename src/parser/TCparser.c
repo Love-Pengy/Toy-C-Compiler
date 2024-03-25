@@ -359,7 +359,7 @@ blockStatementTree compoundStatement(void){
     return(createBlockStatementTree(vHold, numDef, sHold, numStat);
 }
 
-ifStatementTree ifStatement(void){
+statementTree ifStatement(void){
     entering("ifStatement");
     expressionTree e = malloc(sizeof(struct expressionTreeType));
     statementTree st = malloc(sizeof(struct statementTreeType));
@@ -380,22 +380,29 @@ ifStatementTree ifStatement(void){
         throwStateError("if");
     }
     exiting("ifStatement");
-    return(createIfStatementTree(e, st, st1));
+    return(createStatementTree(ifState, createIfStatementTree(e, st, st1)));
 }
 
-nullStatementTree nullStatement(void){
+statementTree nullStatement(void){
     entering("nullStatement");
     accept(';');
     exiting("nullStatement");
-    return(createNullStatementTree());
+    return(createStatementTree(nullState, createNullStatementTree()));
 }
 
-returnStatementTree returnStatement(void){
+statementTree returnStatement(void){
     entering("returnStatement");  
+    enum statementType type;
     if(!strcmp(currentToken->value, "return")){
         getNextToken();
         if(strcmp(currentToken->lexeme, "SEMICOLON")){
-            returnStatementTree output = expression();  
+            expressionTree et = expression();  
+            type = returnState;
+            returnStatementTree temp = createReturnStatementTree(et);
+        }
+        else{
+            type = returnState;
+            returnStatementTree temp = createReturnStatementTree(NULL);
         }
         accept(';');
     }
@@ -403,10 +410,10 @@ returnStatementTree returnStatement(void){
         throwStateError("return");
     }
     exiting("returnStatement");
-    return(output);
+    return(createStatementTree(type, temp));
 }
 
-whileStatementTree whileStatement(void){
+statementTree whileStatement(void){
     entering("whileStatement");
     expressionTree eHold = malloc(sizeof(struct expressionTreeType));
     statementTree sHold = malloc(sizeof(struct statementTreeType));
@@ -421,10 +428,10 @@ whileStatementTree whileStatement(void){
         throwStateError("while");
     }
     exiting("whileStatement");
-    return(createWhileStatementTree(eHold, sHold)); 
+    return(createStatementTree(whileState, createWhileStatementTree(eHold, sHold))); 
 }
 
-readStatementTree readStatement(void){
+statementTree readStatement(void){
     entering("readStatement");
     char ** idHold;
     int numHold = 0;
@@ -459,10 +466,10 @@ readStatementTree readStatement(void){
         throwStateError("read");
     }
     exiting("readStatement");
-    return(createReadStatementTree(idHold, numHold));
+    return(createStatementTree(readState, createReadStatementTree(idHold, numHold)));
 }
 
-writeStatementTree writeStatement(void){
+statementTree writeStatement(void){
     entering("writeStatement"); 
     expressionTree *et = malloc(sizeof(struct expressionTreeType));
     if(!strcmp(currentToken->value, "write")){
@@ -476,10 +483,10 @@ writeStatementTree writeStatement(void){
         throwStateError("write");
     }
     exiting("writeStatement");
-    return(createWriteStatementTree(et, size));
+    return(createStatementTree(writeState, (createWriteStatementTree(et, size))));
 }
 
-newLineStatementTree newLineStatement(void){
+statementTree newLineStatement(void){
     entering("newLineStatement");
     if(!strcmp(currentToken->value, "newline")){
         getNextToken();
@@ -489,79 +496,96 @@ newLineStatementTree newLineStatement(void){
         throwStateError("newline");
     }
     exiting("newLineStatement");
-    return(createNewLineStatementTree());
+    return(createStatementTree(newLineState(createNewLineStatementTree())));
 }
 
 expressionTree expression(void){
     //both relops and the operator are going to be part of the opExpressionTree and then the opExpressionTree goes into the expressionTree
     entering("expression");
-    opExpressionTree et = malloc(sizeof(struct opExpressionTreeType));
-    opExpressionTree et1 = malloc(sizeof(struct opExpressionTreeType));
-    operatorTree op = malloc(sizeof(struct operatorTreeType));
-    et = relopExpression();
+    expressionTree et1 = relopExpression();
+    expressionTree et2; 
+    opExpressionTree currentOp = NULL;
     while(!strcmp(currentToken->lexeme, "ASSIGNOP")){
+        operatorTree operator = createOperatorTree(currentToken->value);
         //this needs to be recurssion of some sort because the expression can be another expression
         getNextToken();
-        opExpressionTree et = relopExpression();
+        expressionTree et2 = relopExpression();
+        currentOp = createOpExpressionTree(operator, et1, et2);
     }
     exiting("expression");
+    if(currentOp == NULL){
+        expressionTree output = createExpressionTree(Expr, et1);
+    }
+    else{
+        expressionTree output = createExpressionTree(Expr, currentOp);
+    }
 }
 
-opExpressionTree relopExpression(void){
+expressionTree relopExpression(void){
     entering("relopExpression");
-    opExpressionTree op1 = simpleExpression();
+    expressionTree re1 = simpleExpression();
+    expressionTree re2;
+    opExpessionTree currentOp = NULL;
+
     while(!strcmp(currentToken->lexeme, "RELOP")){
-        char * operator = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
-        strcpy(operator,currentToken->value); 
+        operatorTree operator = createOperatorTree(currentToken->value);
         getNextToken(); 
-        op2 = simpleExpression();
+        re2 = simpleExpression();
+        currentOp = createOpExpressionTree(operator, re1, re2);
     }
     exiting("relopExpression");
-    return(createOpExpressionTree(hold, 
+    if(currentOp == NULL){
+        expressionTree output = createExpressionTree(Expr, re1);
+    }
+    else{
+        expressionTree output = createExpressionTree(Expr, re2);
+    }
+    return(output);
 }
 
-opExpressionTree simpleExpression(void){
+expressionTree simpleExpression(void){
     entering("simpleExpression");
-
-    opExpressionTree op = term();
+    expressionTree et1 = term();
+    exressionTree et2 = NULL;
+    opExpressionTree currentOp = NULL;
     while(!strcmp(currentToken->lexeme, "ADDOP")){
-        char * hold = malloc(sizeof(char) * (strlen(currentToken->value));
-        strcpy(hold, currentToken->value);
+        operatorTree operator = createOperatorTree(currentToken->value);
         getNextToken();
-        opExpressionTree op2 = term();
+        expressionTree et2 = term();
+        currentOp = createOpExpressionTree(operator, et1, et2);
     }
     exiting("simpleExpression");
-    expressionTree e1 = createExpressionTree(Expr, op);
-    expressionTree e2 = createExpressionTree(Expr, op2);
-    return(createOpExpressionTree(hold, op, op2);
+    if(currentOP == NULL){
+        exprerssion output = createExpressionTree(Expr, et1);
+    }
+    else{
+        expressionTree output = createExpressionTree(Expr, currentOp);
+    }
+    return(output);
 }
 
 //figure this out before moving on
-opExpressionTree term(void){
+expessionTree term(void){
     entering("term");
     expressionTree st1 = primary();
     expressionTree st2;
-    opExpressionTree currentOP;
+    opExpressionTree currentOP = NULL;
     //what I'm going to do here is keep expanding the right statement until the end 
     //expression can hold and op expression
-    int count = 0;
     while(!strcmp(currentToken->lexeme, "MULOP")){
-        if(!count){
-            operatorTree operator = createOperatorTree(currentToken->value);
-            getNextToken();
-            expressionTree st2 = primary();
-        }
-        else{
-            operatorTree operator = createOperatorTree(currentToken->value);
-            getNextToken();
-            expressionTree st2Tmp = primary();
-            currentOP = createOpExpressionTree(operator,st2,st2Tmp);  
-            st2 = st2Tmp;
-        }
+        operatorTree operator = createOperatorTree(currentToken->value);
+        getNextToken();
+        expressionTree st2 = primary();
+        currentOP = createOpExpressionTree(operator,st1,st2);  
     }
     exiting("term");
-    expressionTree out2 = createExpressionTree(Expr, currentOP);
-    return(createOpExpressionTree(operator,st1, out2)); 
+    if(currentOP == NULL){
+        expressionTree output = createExpressionTree(Expr, st1);
+    }
+    else{
+        expressionTree output = createExpressionTree(Expr, currentOP);
+    }
+    return(output); 
 }
 
 //expression
@@ -622,7 +646,7 @@ expressionTree primary(void){
     return(createExpressionTree(type, hold));
 }
 
-functionCallTree functionCall(char * id){
+expressionTree functionCall(char * id){
     entering("functionCall");
     accept('(');
     expressionTree * et = malloc(sizeof(struct expressionTreeType));
@@ -647,7 +671,7 @@ functionCallTree functionCall(char * id){
     }
     accept(')');
     exiting("functionCall");
-    return(createFunctionCallTree(id, et, amount)); 
+    return(createExpressionTree(funcCall, createFunctionCallTree(id, et, amount))); 
 }
 
 int actualParameters(expressionTree * input){
