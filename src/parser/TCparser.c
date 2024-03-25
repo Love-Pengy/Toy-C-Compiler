@@ -493,100 +493,161 @@ newLineStatementTree newLineStatement(void){
 }
 
 expressionTree expression(void){
+    //both relops and the operator are going to be part of the opExpressionTree and then the opExpressionTree goes into the expressionTree
     entering("expression");
-    relopExpression();
+    opExpressionTree et = malloc(sizeof(struct opExpressionTreeType));
+    opExpressionTree et1 = malloc(sizeof(struct opExpressionTreeType));
+    operatorTree op = malloc(sizeof(struct operatorTreeType));
+    et = relopExpression();
     while(!strcmp(currentToken->lexeme, "ASSIGNOP")){
+        //this needs to be recurssion of some sort because the expression can be another expression
         getNextToken();
         opExpressionTree et = relopExpression();
     }
     exiting("expression");
 }
 
-void relopExpression(void){
+opExpressionTree relopExpression(void){
     entering("relopExpression");
-    simpleExpression();
+    opExpressionTree op1 = simpleExpression();
     while(!strcmp(currentToken->lexeme, "RELOP")){
+        char * operator = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
+        strcpy(operator,currentToken->value); 
         getNextToken(); 
-        simpleExpression();
+        op2 = simpleExpression();
     }
     exiting("relopExpression");
+    return(createOpExpressionTree(hold, 
 }
 
-void simpleExpression(void){
+opExpressionTree simpleExpression(void){
     entering("simpleExpression");
-    term();
+
+    opExpressionTree op = term();
     while(!strcmp(currentToken->lexeme, "ADDOP")){
+        char * hold = malloc(sizeof(char) * (strlen(currentToken->value));
+        strcpy(hold, currentToken->value);
         getNextToken();
-        term();
+        opExpressionTree op2 = term();
     }
     exiting("simpleExpression");
+    expressionTree e1 = createExpressionTree(Expr, op);
+    expressionTree e2 = createExpressionTree(Expr, op2);
+    return(createOpExpressionTree(hold, op, op2);
 }
 
-void term(void){
+//figure this out before moving on
+opExpressionTree term(void){
     entering("term");
-    primary();
+    expressionTree st1 = primary();
+    expressionTree st2;
+    opExpressionTree currentOP;
+    //what I'm going to do here is keep expanding the right statement until the end 
+    //expression can hold and op expression
+    int count = 0;
     while(!strcmp(currentToken->lexeme, "MULOP")){
-        getNextToken();
-        primary();
+        if(!count){
+            operatorTree operator = createOperatorTree(currentToken->value);
+            getNextToken();
+            expressionTree st2 = primary();
+        }
+        else{
+            operatorTree operator = createOperatorTree(currentToken->value);
+            getNextToken();
+            expressionTree st2Tmp = primary();
+            currentOP = createOpExpressionTree(operator,st2,st2Tmp);  
+            st2 = st2Tmp;
+        }
     }
     exiting("term");
+    expressionTree out2 = createExpressionTree(Expr, currentOP);
+    return(createOpExpressionTree(operator,st1, out2)); 
 }
 
-void primary(void){
+//expression
+expressionTree primary(void){
     entering("primary");
+    enum expressionType type;
+    expressionTree output;
     if(!strcmp(currentToken->lexeme, "ID")){
+        char * idHold = malloc(sizeof(char) * (strlen(currentToken->value));
+        strcpy(idHold, currentToken->value);
         getNextToken();
         if(!strcmp(currentToken->lexeme, "LPAREN")){
-            functionCall(); 
+            functionCallTree hold = functionCall(idHold); 
+            type = funcCall;
+            output = createExpressionTree(type, hold);
         } 
     }
     else if(!strcmp(currentToken->lexeme, "NUMBER")){
+        type = Number;
+        char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1)):
+        strcpy(hold, currentToken->value);
+        output = createExpressionTree(type, hold);
         getNextToken();
     }
     else if(!strcmp(currentToken->lexeme, "STRING")){
+        type = StringLiteral;
+        char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1)):
+        strcpy(hold, currentToken->value);
+        output = createExpressionTree(type, hold);
         getNextToken();
     }
     else if(!strcmp(currentToken->lexeme, "CHARLITERAL")){
+        type = CharLiteral;
+        char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1)):
+        strcpy(hold, currentToken->value);
+        output = createExpressionTree(type, hold);
         getNextToken();
     }
     else if(!strcmp(currentToken->lexeme, "LPAREN")){
         accept('(');
-        expression();
+        expressionTree hold = expression();
+        char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1)):
+        strcpy(hold, currentToken->value);
+        output = createExpressionTree(type, hold);
         accept(')'); 
     }
     else if((!strcmp(currentToken->value, "-")) || (!strcmp(currentToken->lexeme, "NOT"))){
         getNextToken();
-        primary();
+        expressionTree hold = primary();
+        char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1)):
+        strcpy(hold, currentToken->value);
+        output = createExpressionTree(type, hold);
     }
     else{
         throwStateError("ID, NUMBER, STRING, CHARLITERAL, LPAREN, -, or NOT");
     }
     exiting("primary");
+    return(createExpressionTree(type, hold));
 }
 
-void functionCall(void){
+functionCallTree functionCall(char * id){
     entering("functionCall");
     accept('(');
+    expressionTree * et = malloc(sizeof(struct expressionTreeType));
+    int amount = 0;
     if(!strcmp(currentToken->lexeme, "ID")){
-        actualParameters();
+        amount = actualParameters(et);
     }
     else if(!strcmp(currentToken->lexeme, "NUMBER")){
-        actualParameters();
+        amount = actualParameters(et);
     }
     else if(!strcmp(currentToken->lexeme, "STRING")){
-        actualParameters();
+        amount = actualParameters(et);
     }
     else if(!strcmp(currentToken->lexeme, "CHARLITERAL")){
-        actualParameters();
+        amount = actualParameters(et);
     }
     else if(!strcmp(currentToken->lexeme, "LPAREN")){
-        actualParameters();
+        amount = actualParameters(et);
     }
     else if((!strcmp(currentToken->value, "-")) || (!strcmp(currentToken->lexeme, "NOT"))){
-        actualParameters();
+        amount = actualParameters(et);
     }
     accept(')');
     exiting("functionCall");
+    return(createFunctionCallTree(id, et, amount)); 
 }
 
 int actualParameters(expressionTree * input){
