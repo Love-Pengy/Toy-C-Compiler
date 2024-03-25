@@ -468,7 +468,7 @@ writeStatementTree writeStatement(void){
     if(!strcmp(currentToken->value, "write")){
         getNextToken();
         accept('(');
-        et = actualParameters();
+        int size = actualParameters(et);
         accept(')');
         accept(';');
     }
@@ -476,10 +476,10 @@ writeStatementTree writeStatement(void){
         throwStateError("write");
     }
     exiting("writeStatement");
-    //need to figure out how to get size fo the create write statement argument
+    return(createWriteStatementTree(et, size));
 }
 
-void newLineStatement(void){
+newLineStatementTree newLineStatement(void){
     entering("newLineStatement");
     if(!strcmp(currentToken->value, "newline")){
         getNextToken();
@@ -489,14 +489,15 @@ void newLineStatement(void){
         throwStateError("newline");
     }
     exiting("newLineStatement");
+    return(createNewLineStatementTree());
 }
 
-expressionStatementTree expression(void){
+expressionTree expression(void){
     entering("expression");
     relopExpression();
     while(!strcmp(currentToken->lexeme, "ASSIGNOP")){
         getNextToken();
-        relopExpression();
+        opExpressionTree et = relopExpression();
     }
     exiting("expression");
 }
@@ -588,14 +589,17 @@ void functionCall(void){
     exiting("functionCall");
 }
 
-void actualParameters(void){
+int actualParameters(expressionTree * input){
     entering("actualParameters");
-    expression();
+    int i = 0;
+    input[i] = expression();
+    i++;
     while(!strcmp(currentToken->lexeme, "COMMA")){
         getNextToken(); 
-        expression();
+        input[i] = expression();
     }
     exiting("actualParameters");
+    return(i);
 }
 
 

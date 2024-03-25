@@ -25,7 +25,7 @@
     #include <string.h>
 #endif
 
-struct expressionStatementTreeType{
+struct expressionTreeType{
     enum expressionType type;
     union{  
         char * number;
@@ -33,15 +33,15 @@ struct expressionStatementTreeType{
         char * charLit;
         char * string;
         functionCallTree funcC;
-        expressionStatementTree exp;
+        opExpressionTree exp;
         minusTree min;
         notTree not;
     };
 };
 
 
-expressionStatementTree createExpressionStatementTree(enum expressionType t, void* val){
-    expressionStatementTree est = malloc(sizeof(struct expressionStatementTreeType));
+expressionTree createExpressionStatementTree(enum expressionType t, void* val){
+    expressionTree est = malloc(sizeof(struct expressionStatementTreeType));
     switch(t){
         case Number:
             est->number = malloc(sizeof(char) * strlen((char*)val) + 1);
@@ -63,7 +63,7 @@ expressionStatementTree createExpressionStatementTree(enum expressionType t, voi
             est->funcC = (functionCallTree)val;
             break;
         case Expr:
-            est->exp = (expressionStatementTree)val;
+            est->exp = (opExpressionTree)val;
             break;
         case Minus:
             est->min = (minusTree)val;
@@ -98,7 +98,7 @@ list expressionTreeToString(expressionTree exprT){
             llistCat(string, functionCallTreeToString(exprT->funcC));
             break;
         case Expr:
-            llistCat(string, expressionStatementTreeToString(exprT->exp));
+            llistCat(string, opExpressionTree(exprT->exp));
             break;
         case Minus:
             llistCat(string, minusTreeToString(exprT->min));
