@@ -6,6 +6,7 @@
 #include "../include/lexer/TClexer.h"
 #include <string.h>
 #include "../include/parser/TCparser.h"
+#include "../include/parser/ASsynTree.h"
 
 int main(int argc, char **argv){
     
@@ -25,7 +26,7 @@ int main(int argc, char **argv){
         exit(EXIT_FAILURE);
     }
 
-    toyCProgram();
+    programTree program = toyCProgram();
 
     /* just scanner
     token currentLexeme;

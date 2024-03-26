@@ -2,12 +2,12 @@
 
 #ifndef DYNAMICARRAY
     #define DYNAMICARRAY
-    #include "../../lib/dynamicArray/dynamicArray.h"
+    #include "../../../lib/dynamicArray/dynamicArray.h"
 #endif
 
 #ifndef ASSYNTREE
     #define ASSYNTREE
-    #include "../../include/parser/ASsynTree.h"
+    #include "../../../include/parser/ASsynTree.h"
 #endif
 
 #ifndef STDLIB
@@ -18,11 +18,6 @@
 #ifndef STDIO
     #define STDIO
     #include <stdio.h>
-#endif
-
-#ifndef DYNAMICARRAY_H
-    #define DYNAMICARRAY
-    #include "../../lib/dynamicArray/dynamicArray.h"
 #endif
 
 
@@ -41,11 +36,11 @@ definitionTree createDefinitionTree(enum defTypeProd prodType, void* prod){
     switch(prodType){
         case functionDef: 
             dst->type = prodType;
-            dst->fDef = *prod;
+            dst->fDef = (functionDefinitionTree)prod;
             break;
         case variableDef:
             dst->type = prodType;
-            dst->vDef = *prod;
+            dst->vDef = (variableDefinitionTree)prod;
             break; 
         default:
             printf("internal error\n");
@@ -56,7 +51,7 @@ definitionTree createDefinitionTree(enum defTypeProd prodType, void* prod){
 }
 
 
-char *definitionTreeToString(definitionTree dst){
+list definitionTreeToString(definitionTree dst){
     list string = createList();
     listCat(string, "definition(\n");
     switch(dst->type){
@@ -71,6 +66,7 @@ char *definitionTreeToString(definitionTree dst){
             break; 
     }
     listCat(string, ")\n");
+    return(string);
 }
 
 

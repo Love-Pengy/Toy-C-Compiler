@@ -2,12 +2,12 @@
 
 #ifndef DYNAMICARRAY
     #define DYNAMICARRAY
-    #include "../../lib/dynamicArray/dynamicArray.h"
+    #include "../../../lib/dynamicArray/dynamicArray.h"
 #endif
 
 #ifndef ASSYNTREE
     #define ASSYNTREE
-    #include "../../include/parser/ASsynTree.h"
+    #include "../../../include/parser/ASsynTree.h"
 #endif
 
 #ifndef STRING

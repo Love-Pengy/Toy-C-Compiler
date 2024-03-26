@@ -2,12 +2,12 @@
 
 #ifndef DYNAMICARRAY
     #define DYNAMICARRAY
-    #include "../../lib/dynamicArray/dynamicArray.h"
+    #include "../../../lib/dynamicArray/dynamicArray.h"
 #endif
 
 #ifndef ASSYNTREE
     #define ASSYNTREE
-    #include "../../include/parser/ASsynTree.h"
+    #include "../../../include/parser/ASsynTree.h"
 #endif
 
 #ifndef STDLIB
@@ -31,14 +31,14 @@ struct operatorTreeType{
 operatorTree createOperatorTree(char* operator){
     operatorTree oper = malloc(sizeof(struct operatorTreeType));
     oper->op = malloc(sizeof(char) * (strlen(operator) + 1));
-    strcpy(oper->op, operator)
+    strcpy(oper->op, operator);
     return(oper);
 }
 
 list operatorTreeToString(operatorTree oper){
     list string = createList();
     listCat(string, "Operator(");
-    llistCat(string, (oper->op));
+    listCat(string, (oper->op));
     listCat(string, ")\n");
     return(string);
 }

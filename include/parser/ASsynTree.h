@@ -31,7 +31,7 @@ typedef struct operatorTreeType *operatorTree;
 //definition 
 enum defTypeProd {functionDef, variableDef};
 definitionTree createDefinitionTree(enum defTypeProd, void*);
-char *definitionTreeToString(definitionTree);
+list definitionTreeToString(definitionTree);
 
 //Program 
 programTree createProgramTree(definitionTree*, int);
@@ -59,7 +59,7 @@ list blockStatementTreeToString(blockStatementTree);
 
 //ifState 
 list ifStatementTreeToString(ifStatementTree);
-ifStatementTree createIfStatementTree(expressionTree, statementTree, statementTree){
+ifStatementTree createIfStatementTree(expressionTree, statementTree, statementTree);
 
 //nullState
 nullStatementTree createNullStatementTree(void);
@@ -94,7 +94,7 @@ statementTree createStatementTree(enum statementType,  void*);
 
 //expression
 expressionStatementTree createExpressionStatementTree(expressionTree);
-list expressionTreeToString(expressionStatementTree);
+list expressionStatementTreeToString(expressionStatementTree);
 
 //funcCall
 list functionCallTreeToString(functionCallTree);
@@ -118,6 +118,6 @@ operatorTree createOperatorTree(char*);
 
 //expression
 enum expressionType {Number, ID, CharLiteral, StringLiteral, funcCall, Expr, Minus, Not};
-expressionStatementTree createExpressionStatementTree(enum expressionType, void*);
+expressionTree createExpressionTree(enum expressionType, void*);
 list expressionTreeToString(expressionTree);
 

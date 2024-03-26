@@ -43,7 +43,7 @@ void llistCat(list dest, list source){
         expandList(dest);
     }
     strcat(dest->string, source->string);
-    dest->size = (dest->size + strlen(source->size));
+    dest->size = (dest->size + source->size);
 }
 
 void listCat(list dest, char *source){

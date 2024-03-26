@@ -1,27 +1,33 @@
 //B. Frazier 3/16/24
-void toyCProgram(void);
-void definition(void);
-void type(void);
-void functionDefinition(void);
-void functionHeader(void);
-void functionBody(void);
-void formalParamList(void);
-void statement(void);
-void expressionStatement(void);
-void breakStatement(void);
-void compoundStatement(void);
-void ifStatement(void);
-void nullStatement(void);
-void returnStatement(void);
-void whileStatement(void);
-void readStatement(void);
-void writeStatement(void);
-void newLineStatement(void);
-void expression(void);
-void relopExpression(void);
-void simpleExpression(void);
-void term(void);
-void primary(void);
-void functionCall(void);
-void actualParameters(void);
+
+#ifndef ASSYNTREE 
+    #define ASSYNTREE
+    #include "../../include/parser/ASsynTree.h"
+#endif
+
+programTree toyCProgram(void);
+definitionTree definition(void);
+char* type(void);
+definitionTree functionDefinition(char*, char*);
+functionDefinitionTree functionHeader(functionDefintionTree);
+blockStatementTree functionBody(functionDefinitionTree);
+functionDefinitionTree formalParamList(functionDefinitionTree);
+statementTree statement(void);
+expressionStatementTree expressionStatement(void);
+breakStatementTree breakStatement(void);
+statementTree compoundStatement(void);
+statementTree ifStatement(void);
+statementTree nullStatement(void);
+statementTree returnStatement(void);
+statementTree whileStatement(void);
+statementTree readStatement(void);
+statementTree writeStatement(void);
+statementTree newLineStatement(void);
+expressionTree expression(void);
+expressionTree relopExpression(void);
+expressionTree simpleExpression(void);
+expressionTree term(void);
+expressionTree primary(void);
+expressionTree functionCall(void);
+int actualParameters(expressionTree * input);
 
