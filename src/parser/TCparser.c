@@ -185,7 +185,7 @@ char* type(void){
     return(t);
 }
 
-functionDefinitionTree functionDefinition(char *type, char* id){
+definitionTree functionDefinition(char *type, char* id){
     entering("functionDefinition");  
     functionDefinitionTree fdt = malloc(sizeof(struct functionDefinitionTreeTYpe));
 
@@ -198,7 +198,7 @@ functionDefinitionTree functionDefinition(char *type, char* id){
     functionHeader(fdt);
     functionBody(fdt);
     exiting("functionDefinition");
-    return(fdt);
+    return(createDefinitionTree(functionDef, fdt));
 }
 
 functionDefinitionTree functionHeader(functionDefinitionTree f){
@@ -324,11 +324,11 @@ breakStatementTree breakStatement(void){
         throwStateError("break");
     }
     exiting("breakStatement");
-    return(createBreakStatementTree());
+    return(createStatementTree(breakState, createBreakStatementTree()));
 }
 
 //blockstatement
-blockStatementTree compoundStatement(void){
+statementTree compoundStatement(void){
     entering("compoundStatement");
     accept('{');
     char * typeHold = malloc(sizeof(char) * 5);
@@ -356,7 +356,7 @@ blockStatementTree compoundStatement(void){
     }
     accept('}');
     exiting("compoundStatement");
-    return(createBlockStatementTree(vHold, numDef, sHold, numStat);
+    return(createStatementTree(blockState, createBlockStatementTree(vHold, numDef, sHold, numStat)));
 }
 
 statementTree ifStatement(void){
