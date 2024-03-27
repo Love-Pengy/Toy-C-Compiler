@@ -44,5 +44,7 @@
 + ~~fix functions that got messed up due to understanding (all functions should return the category)~~
 + ~~implement creation of the AST into the parser~~
 + ~~update the make file with the dynamic array library and AST stuff~~
++ go through and make adders and initializers for everything that needs it in the main parser file
++ run through warnings and errors for the AST
 + to make message pointer make more sense you might have to make it only go to the beginning/end of tokens 
 + make a free tree option for the ast when done with it

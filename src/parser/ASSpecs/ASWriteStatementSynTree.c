@@ -25,7 +25,6 @@ struct writeStatementTreeType{
 
 writeStatementTree createWriteStatementTree(expressionTree* exp,int amt){
     writeStatementTree wst = malloc(sizeof(struct writeStatementTreeType));
-    wst->exprs = malloc(sizeof(struct expressionTreeType) * amt);
     wst->exprs = exp;
     wst->amtExprs = amt;
     return(wst);
@@ -35,7 +34,7 @@ list writeStatementTreeToString(writeStatementTree ws){
     list string = createList();
     listCat(string, "writeState(");
     for(int i = 0; i < ws->amtExprs; i++){
-        listCat(string, llistCat(expressionTreeToString(ws->exprs[i])));
+        llistCat(string, expressionTreeToString(ws->exprs[i]));
     }
     listCat(string, ")\n");
     return(string);

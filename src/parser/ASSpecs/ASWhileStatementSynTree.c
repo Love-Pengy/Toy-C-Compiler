@@ -34,8 +34,8 @@ whileStatementTree createWhileStatementTree(expressionTree expr, statementTree s
 list whileStatementTreeToString(whileStatementTree ws){
     list string = createList();
     listCat(string, "whileState(");
-    listCat(string, llistCat(expressionTreeToString(ws->exp)));
-    listCat(string, llistCat(statementTreeToString(ws->st)));
+    llistCat(string, expressionTreeToString(ws->exp));
+    llistCat(string, statementTreeToString(ws->st));
     listCat(string, ")\n");
     return(string);
 }

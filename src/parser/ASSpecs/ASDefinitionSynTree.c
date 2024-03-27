@@ -31,8 +31,13 @@ struct definitionTreeType{
 };
 
 
-definitionTree createDefinitionTree(enum defTypeProd prodType, void* prod){
+definitionTree initDefinitionTree(void){
     definitionTree dst = malloc(sizeof(struct definitionTreeType));
+    return(dst);
+}
+
+definitionTree createDefinitionTree(enum defTypeProd prodType, void* prod){
+    definitionTree dst = initDefinitionTree();
     switch(prodType){
         case functionDef: 
             dst->type = prodType;

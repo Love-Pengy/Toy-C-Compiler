@@ -36,9 +36,13 @@ struct statementTreeType{
     };
 };
 
-
-statementTree createStatementTree(enum statementType t; void* val){
+statementTree initStatementTree(void){
     statementTree st = malloc(sizeof(struct statementTreeType));
+    return(st);
+}
+
+statementTree createStatementTree(enum statementType t, void* val){
+    statementTree st = initStatementTree();
     switch(t){
         case exprState:
             st->exp = (expressionStatementTree)val;
@@ -48,7 +52,7 @@ statementTree createStatementTree(enum statementType t; void* val){
             break;
         case blockState:
             st->blt = (blockStatementTree)val;
-            break
+            break;
         case ifState:
             st->ist = (ifStatementTree)val;
             break;
@@ -74,7 +78,7 @@ statementTree createStatementTree(enum statementType t; void* val){
             printf("internal error\n");
             break;
     }
-    return(nst);
+    return(st);
 }
 
 list statementTreeToString(statementTree state){
@@ -91,7 +95,7 @@ list statementTreeToString(statementTree state){
             llistCat(string, blockStatementTreeToString(state->blt));
             break;
         case ifState:
-            llistCat(string, ifStatementTreeToString(state->ist)):
+            llistCat(string, ifStatementTreeToString(state->ist));
             break;
         case nullState:
             llistCat(string, nullStatementTreeToString(state->nst));

@@ -30,6 +30,7 @@ typedef struct operatorTreeType *operatorTree;
 
 //definition 
 enum defTypeProd {functionDef, variableDef};
+definitionTree initDefinitionTree(void);
 definitionTree createDefinitionTree(enum defTypeProd, void*);
 list definitionTreeToString(definitionTree);
 
@@ -38,6 +39,12 @@ programTree createProgramTree(definitionTree*, int);
 list programTreeToString(programTree);
 
 //funcdef 
+functionDefinitionTree initFunctionDefinitionTree(void);
+void addTypeFunctionDefinition(functionDefinitionTree,char *);
+void addIdFunctionDefinition(functionDefinitionTree, char *);
+void addVarDefFunctionDefinition(functionDefinitionTree, variableDefinitionTree);
+void addStatementFunctionDefinition(functionDefinitionTree, statementTree);
+
 functionDefinitionTree createFunctionDefinitionTree(char*, char*, variableDefinitionTree*, int, statementTree);
 list functionDefinitionTreeToString(functionDefinitionTree);
 
@@ -75,7 +82,7 @@ list whileStatementTreeToString(whileStatementTree);
 
 
 //readState
-list readStatementToString(readStatementTree);
+list readStatementTreeToString(readStatementTree);
 readStatementTree createReadStatementTree(char**, int);
 
 
@@ -89,6 +96,7 @@ newLineStatementTree createNewLineStatementTreeType(void);
 
 //statement
 enum statementType {exprState, breakState, blockState, ifState, nullState, returnState, whileState, readState, writeState, newLineState};
+statementTree initStatementTree(void);
 list statementTreeToString(statementTree);
 statementTree createStatementTree(enum statementType,  void*);
 
@@ -118,6 +126,7 @@ operatorTree createOperatorTree(char*);
 
 //expression
 enum expressionType {Number, ID, CharLiteral, StringLiteral, funcCall, Expr, Minus, Not};
+expressionTree initExpressionTree(void);
 expressionTree createExpressionTree(enum expressionType, void*);
 list expressionTreeToString(expressionTree);
 

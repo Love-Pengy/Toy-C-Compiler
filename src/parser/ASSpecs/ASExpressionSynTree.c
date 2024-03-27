@@ -40,8 +40,12 @@ struct expressionTreeType{
 };
 
 
-expressionTree createExpressionStatementTree(enum expressionType t, void* val){
-    expressionTree est = malloc(sizeof(struct expressionStatementTreeType));
+expressionTree initExpressionTree(void){
+    expressionTree est = malloc(sizeof(struct expressionTreeType));
+    return(est);
+}
+expressionTree createExpressionTree(enum expressionType t, void* val){
+    expressionTree est = initExpressionTree();
     switch(t){
         case Number:
             est->number = malloc(sizeof(char) * strlen((char*)val) + 1);
@@ -81,7 +85,7 @@ expressionTree createExpressionStatementTree(enum expressionType t, void* val){
 list expressionTreeToString(expressionTree exprT){
     list string = createList();
     listCat(string, "Expression(");
-    switch(exprT->Type){
+    switch(exprT->type){
         case Number:
             listCat(string, (exprT->number));
             break;
@@ -98,13 +102,13 @@ list expressionTreeToString(expressionTree exprT){
             llistCat(string, functionCallTreeToString(exprT->funcC));
             break;
         case Expr:
-            llistCat(string, opExpressionTree(exprT->exp));
+            llistCat(string, opExpressionTreeToString(exprT->exp));
             break;
         case Minus:
             llistCat(string, minusTreeToString(exprT->min));
             break;
         case Not:
-            llistCat(string, notTree(exprT->not));
+            llistCat(string, notTreeToString(exprT->not));
             break;
         default:
             printf("internal error\n");

@@ -30,15 +30,38 @@ struct functionDefinitionTreeType{
     statementTree sDef;
 };
 
+functionDefinitionTree initFunctionDefinitionTree(void){
+    functionDefinitionTree output = malloc(sizeof(struct functionDefinitionTreeType));
+    output->varAmount = 0;
+    return(output);
+}
+
+void addTypeFunctionDefinition(functionDefinitionTree f,char *add){
+    f->type = malloc(sizeof(char) * (strlen(add) + 1));
+    strcpy(f->type, add);
+}
+
+void addIdFunctionDefinition(functionDefinitionTree f, char *add){
+    f->id = malloc(sizeof(char) * (strlen(add) + 1));
+    strcpy(f->id, add);
+}
+
+void addVarDefFunctionDefinition(functionDefinitionTree f, variableDefinitionTree add){
+    f->vDef[f->varAmount] = add;
+    f->varAmount++;
+}
+
+void addStatementFunctionDefinition(functionDefinitionTree f, statementTree add){
+    f->sDef = add;
+}
 
 //if there aren't any variable definitions then the var definitions passed will be NULL
 functionDefinitionTree createFunctionDefinitionTree(char *identifier, char *type, variableDefinitionTree* v, int amount, statementTree s){
-    functionDefinitionTree output = malloc(sizeof(struct functionDefinitionTreeType));
+    functionDefinitionTree output = initFunctionDefinitionTree();
     output->id = malloc(sizeof(char) * (strlen(identifier) + 1));
     strcpy(output->id, identifier);
     output->type = malloc(sizeof(char) * (strlen(type) + 1));
     strcpy(output->type, type);
-    output->vDef = malloc(sizeof(struct variableDefinitionTreeType));
     output->vDef = v;
     if(output->vDef == NULL){
         output->varAmount = 0;
