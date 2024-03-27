@@ -1,19 +1,8 @@
 //B. Frazier 3/20/24
 
-#ifndef DYNAMICARRAY
-    #define DYNAMICARRAY
-    #include "../../../lib/dynamicArray/dynamicArray.h"
-#endif
-
-#ifndef ASSYNTREE
-    #define ASSYNTREE
-    #include "../../../include/parser/ASsynTree.h"
-#endif
-
-#ifndef STDLIB
-    #define STDLIB
-    #include <stdlib.h>
-#endif
+#include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/ASsynTree.h"
+#include <stdlib.h>
 
 //varDef(Id+, Type)∗, Statement∗
 struct blockStatementTreeType{
@@ -23,6 +12,20 @@ struct blockStatementTreeType{
     int sAmount;
 };
 
+void addVarDefBlockStatementTree(blockStatementTree* bst, variableDefinitionTree v){
+    (*bst)->vdt[(*bst)->vAmount] = v;
+    (*bst)->vAmount++;
+}
+
+void addStatementBlockStatementTree(blockStatementTree* bst, statementTree s){
+    (*bst)->statements[(*bst)->sAmount] = s;
+    (*bst)->sAmount++;
+}
+
+blockStatementTree initBlockStatementTree(void){
+    blockStatementTree output = malloc(sizeof(struct blockStatementTreeType));
+    return(output);
+}
 //if a parameter is 0 then it will be passed NULL and an amount of 0
 blockStatementTree createBlockStatementTree(variableDefinitionTree *variables, int amountVars, statementTree *stats, int amountStats){
     blockStatementTree output = malloc(sizeof(struct blockStatementTreeType));

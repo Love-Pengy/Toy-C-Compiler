@@ -1,24 +1,9 @@
 //B. Frazier 3/18/24
 
-#ifndef DYNAMICARRAY
-    #define DYNAMICARRAY
-    #include "../../../lib/dynamicArray/dynamicArray.h"
-#endif
-
-#ifndef ASSYNTREE
-    #define ASSYNTREE
-    #include "../../../include/parser/ASsynTree.h"
-#endif
-
-#ifndef STRING
-    #define STRING
-    #include <string.h>
-#endif
-
-#ifndef STDLIB
-    #define STDLIB
-    #include <stdlib.h>
-#endif
+#include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/ASsynTree.h"
+#include <string.h>
+#include <stdlib.h>
 
 //function definition consists of an id, a type, 0 or moer variable definitions, or a statement 
 struct functionDefinitionTreeType{

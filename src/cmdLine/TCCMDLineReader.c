@@ -1,40 +1,12 @@
 //B. Frazier 3/16/23 
 
-#ifndef STDLIB
-    #define STDLIB
-    #include <stdlib.h>
-#endif
-
-#ifndef STDIO
-    #define STDIO
-    #include <stdio.h>
-#endif
-
-#ifndef TCCMDLINEREADER
-    #define TCCMDLINEREADER
-    #include "../../include/cmdLine/TCCMDLineReader.h"
-#endif
-
-#ifndef STRING
-    #define STRING
-    #include <string.h>
-#endif
-
-#ifndef CTYPE
-    #define CTYPE
-    #include <ctype.h>
-#endif
-
-#ifndef TCGLOBALS 
-    #define TCGLOBALS
-    #include "../../include/cmdLine/TCglobals.h"
-#endif
-
-#ifndef STDBOOL
-    #define STDBOOL
-    #include <stdbool.h>
-#endif
-
+#include <stdlib.h>
+#include <stdio.h>
+#include "../../include/cmdLine/TCCMDLineReader.h"
+#include <string.h>
+#include <ctype.h>
+#include "../../include/cmdLine/TCglobals.h"
+#include <stdbool.h>
 
 int CLINEDEBUG = 0;
 

@@ -1,9 +1,9 @@
 //B. Frazier 3/16/24
 
-#ifndef DYNAMICARRAY
-    #define DYNAMICARRAY
-    #include "../../lib/dynamicArray/dynamicArray.h"
-#endif
+#include "../../lib/dynamicArray/dynamicArray.h"
+
+#ifndef ASSYNTREE
+#define ASSYNTREE
 
 typedef struct programTreeType *programTree; 
 typedef struct definitionTreeType *definitionTree;
@@ -35,6 +35,8 @@ definitionTree createDefinitionTree(enum defTypeProd, void*);
 list definitionTreeToString(definitionTree);
 
 //Program 
+programTree initProgramTree(void);
+void addDefinitionProgramTree(programTree *, definitionTree);
 programTree createProgramTree(definitionTree*, int);
 list programTreeToString(programTree);
 
@@ -61,6 +63,9 @@ breakStatementTree createBreakStatementTree(void);
 list breakStatementTreeToString(breakStatementTree);
 
 //blockState 
+void addStatementBlockStatementTree(blockStatementTree*, statementTree);
+void addVarDefBlockStatementTree(blockStatementTree*, variableDefinitionTree);
+blockStatementTree initBlockStatementTree(void);
 blockStatementTree createBlockStatementTree(variableDefinitionTree *, int, statementTree *, int);
 list blockStatementTreeToString(blockStatementTree);
 
@@ -73,6 +78,7 @@ nullStatementTree createNullStatementTree(void);
 list nullStatementTreeToString(nullStatementTree);
 
 //returnState
+returnStatementTree initReturnStatementTree(void);
 returnStatementTree createReturnStatementTree(expressionTree);
 list returnStatementTreeToString(returnStatementTree);
 
@@ -82,6 +88,8 @@ list whileStatementTreeToString(whileStatementTree);
 
 
 //readState
+readStatementTree initReadStatementTree(void);
+void addIdReadStatement(readStatementTree *, char *);
 list readStatementTreeToString(readStatementTree);
 readStatementTree createReadStatementTree(char**, int);
 
@@ -92,11 +100,21 @@ writeStatementTree createWriteStatementTree(expressionTree*,int);
 
 //newLineState
 list newLineStatementTreeToString(newLineStatementTree);
-newLineStatementTree createNewLineStatementTreeType(void);
+newLineStatementTree createNewLineStatementTree(void);
 
 //statement
 enum statementType {exprState, breakState, blockState, ifState, nullState, returnState, whileState, readState, writeState, newLineState};
 statementTree initStatementTree(void);
+void addExprStateStatementTree(statementTree*, expressionStatementTree);
+void addBreakStateStatementTree(statementTree*, breakStatementTree);
+void addBlockStateStatementTree(statementTree*, blockStatementTree);
+void addIfStateStatementTree(statementTree*, ifStatementTree);
+void addNullStateStatementTree(statementTree*, nullStatementTree);
+void addReturnStateStatementTree(statementTree*, returnStatementTree);
+void addWhileStateStatementTree(statementTree*, whileStatementTree);
+void addWriteStateStatementTree(statementTree*, writeStatementTree);
+void addNewlineStateStatementTree(statementTree*, newLineStatementTree);
+void addReadStateStatementTree(statementTree*, readStatementTree);
 list statementTreeToString(statementTree);
 statementTree createStatementTree(enum statementType,  void*);
 
@@ -105,10 +123,12 @@ expressionStatementTree createExpressionStatementTree(expressionTree);
 list expressionStatementTreeToString(expressionStatementTree);
 
 //funcCall
+functionCallTree initFunctionCallTree(void);
 list functionCallTreeToString(functionCallTree);
 functionCallTree createFunctionCallTree(char *, expressionTree*, int);
 
 //expr
+opExpressionTree initOpExpressionTree(void);
 list opExpressionTreeToString(opExpressionTree);
 opExpressionTree createOpExpressionTree(operatorTree, expressionTree, expressionTree);
 
@@ -121,6 +141,7 @@ list notTreeToString(notTree);
 notTree createNotTree(expressionTree);
 
 //Operator
+operatorTree initOperatorTree(void);
 list operatorTreeToString(operatorTree);
 operatorTree createOperatorTree(char*);
 
@@ -130,3 +151,4 @@ expressionTree initExpressionTree(void);
 expressionTree createExpressionTree(enum expressionType, void*);
 list expressionTreeToString(expressionTree);
 
+#endif

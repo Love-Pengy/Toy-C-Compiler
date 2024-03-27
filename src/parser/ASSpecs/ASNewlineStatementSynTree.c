@@ -1,19 +1,8 @@
 //B. Frazier 3/21/24
 
-#ifndef DYNAMICARRAY
-    #define DYNAMICARRAY
-    #include "../../../lib/dynamicArray/dynamicArray.h"
-#endif
-
-#ifndef ASSYNTREE
-    #define ASSYNTREE
-    #include "../../../include/parser/ASsynTree.h"
-#endif
-
-#ifndef STDLIB
-    #define STDLIB
-    #include <stdlib.h>
-#endif
+#include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/ASsynTree.h"
+#include <stdlib.h>
 
 
 
@@ -21,7 +10,7 @@ struct newLineStatementTreeType{
 };
 
 
-newLineStatementTree createNewLineStatementTreeType(void){
+newLineStatementTree createNewLineStatementTree(void){
     newLineStatementTree nst = malloc(sizeof(struct newLineStatementTreeType));
     return(nst);
 }

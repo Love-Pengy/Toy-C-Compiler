@@ -1,24 +1,9 @@
 //B. Frazier 3/23/24
 
-#ifndef DYNAMICARRAY
-    #define DYNAMICARRAY
-    #include "../../../lib/dynamicArray/dynamicArray.h"
-#endif
-
-#ifndef ASSYNTREE
-    #define ASSYNTREE
-    #include "../../../include/parser/ASsynTree.h"
-#endif
-
-#ifndef STDLIB
-    #define STDLIB
-    #include <stdlib.h>
-#endif
-
-#ifndef STRING
-    #define STRING
-    #include <string.h>
-#endif
+#include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/ASsynTree.h"
+#include <stdlib.h>
+#include <string.h>
 
 
 
@@ -27,6 +12,10 @@ struct operatorTreeType{
     char* op;
 };
 
+operatorTree initOperatorTree(void){
+    operatorTree oper = malloc(sizeof(struct operatorTreeType));
+    return(oper);
+}
 
 operatorTree createOperatorTree(char* operator){
     operatorTree oper = malloc(sizeof(struct operatorTreeType));

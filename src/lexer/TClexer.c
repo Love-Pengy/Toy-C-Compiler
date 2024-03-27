@@ -1,33 +1,12 @@
 //B. Frazier 3/16/24
-#ifndef TCLEXER
-    #define TCLEXER
-    #include "../../include/lexer/TClexer.h"
-#endif
 
-#ifndef STDLIB
-    #define STDLIB
-    #include <stdlib.h>
-#endif
+#include "../../include/lexer/TClexer.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include "../../include/cmdLine/TCglobals.h"
 
-#ifndef STDIO
-    #define STDIO
-    #include <stdio.h>
-#endif
-
-#ifndef STRING
-    #define STRING
-    #include <string.h>
-#endif
-
-#ifndef CTYPE
-    #define CTYPE
-    #include <ctype.h>
-#endif
-
-#ifndef TCGLOBALS
-    #define TCGLOBALS
-    #include "../../include/cmdLine/TCglobals.h"
-#endif
 
 int LEXERDEBUG = 0;
 static char* currentLine = ""; 

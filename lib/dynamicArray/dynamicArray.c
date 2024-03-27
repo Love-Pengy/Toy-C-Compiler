@@ -1,18 +1,8 @@
 //B. Frazier 3/17/24
-#ifndef DYNAMICARRAY
-    #define DYNAMICARRAY
-    #include "./dynamicArray.h"
-#endif
 
-#ifndef STDLIB
-    #define STDLIB
-    #include <stdlib.h>
-#endif 
-
-#ifndef STRING
-    #define STRING
-    #include <string.h>
-#endif
+#include "./dynamicArray.h"
+#include <stdlib.h>
+#include <string.h>
 
 #define CHUNK_SIZE 50
 

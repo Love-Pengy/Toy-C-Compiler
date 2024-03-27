@@ -1,14 +1,10 @@
 //B. Frazier 3/16/24
-#ifndef STDBOOL
-    #define STDBOOL
-    #include <stdbool.h>
-#endif
 
-#ifndef STDIO
-    #define STDIO
-    #include <stdio.h>
-#endif
+#include <stdbool.h>
+#include <stdio.h>
 
+#ifndef TCGLOBALS
+#define TCGLOBALS
 
 void turnVerboseOn(void);
 void turnVerboseOff(void);
@@ -23,3 +19,5 @@ extern char *inputFileName;
 extern char *author;
 extern char *outputFileName;
 extern FILE *filePointer;
+
+#endif

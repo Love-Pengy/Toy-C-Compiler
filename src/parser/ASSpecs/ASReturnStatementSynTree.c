@@ -1,19 +1,8 @@
 //B. Frazier 3/20/24
 
-#ifndef DYNAMICARRAY
-    #define DYNAMICARRAY
-    #include "../../../lib/dynamicArray/dynamicArray.h"
-#endif
-
-#ifndef ASSYNTREE
-    #define ASSYNTREE
-    #include "../../../include/parser/ASsynTree.h"
-#endif
-
-#ifndef STDLIB
-    #define STDLIB
-    #include <stdlib.h>
-#endif
+#include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/ASsynTree.h"
+#include <stdlib.h>
 
 
 
@@ -21,8 +10,13 @@ struct returnStatementTreeType{
     expressionTree exp;
 };
 
-returnStatementTree createReturnStatementTree(expressionTree ex){
+returnStatementTree initReturnStatementTree(void){
     returnStatementTree rst = malloc(sizeof(struct returnStatementTreeType));
+    return(rst);
+}
+
+returnStatementTree createReturnStatementTree(expressionTree ex){
+    returnStatementTree rst = initReturnStatementTree();
 
     if(ex != NULL){
         rst->exp = ex;

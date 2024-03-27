@@ -1,24 +1,9 @@
 //B. Frazier 3/21/24
 
-#ifndef DYNAMICARRAY
-    #define DYNAMICARRAY
-    #include "../../../lib/dynamicArray/dynamicArray.h"
-#endif
-
-#ifndef ASSYNTREE
-    #define ASSYNTREE
-    #include "../../../include/parser/ASsynTree.h"
-#endif
-
-#ifndef STDLIB
-    #define STDLIB
-    #include <stdlib.h>
-#endif
-
-#ifndef STDIO
-    #define STDIO
-    #include <stdio.h>
-#endif
+#include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/ASsynTree.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 struct statementTreeType{
     enum statementType type;
@@ -39,6 +24,56 @@ struct statementTreeType{
 statementTree initStatementTree(void){
     statementTree st = malloc(sizeof(struct statementTreeType));
     return(st);
+}
+
+void addExprStateStatementTree(statementTree* st, expressionStatementTree e){
+    (*st)->type = exprState;
+    (*st)->exp = e;
+}
+
+void addBreakStateStatementTree(statementTree* st, breakStatementTree b){
+    (*st)->type = breakState;
+    (*st)->bst = b;
+}
+
+void addBlockStateStatementTree(statementTree* st, blockStatementTree b){
+    (*st)->type = blockState;
+    (*st)->blt = b;
+}
+    
+void addIfStateStatementTree(statementTree* st, ifStatementTree i){
+    (*st)->type = ifState;
+    (*st)->ist = i;
+}
+
+void addNullStateStatementTree(statementTree* st, nullStatementTree n){
+    (*st)->type = nullState;
+    (*st)->nst = n;
+}
+
+void addReturnStateStatementTree(statementTree* st, returnStatementTree r){
+    (*st)->type = returnState;
+    (*st)->rst = r;
+}
+
+void addWhileStateStatementTree(statementTree* st, whileStatementTree w){
+    (*st)->type = whileState;
+    (*st)->wst = w;
+}
+
+void addWriteStateStatementTree(statementTree* st, writeStatementTree w){
+    (*st)->type = writeState;
+    (*st)->author = w;
+}
+
+void addNewlineStateStatementTree(statementTree* st, newLineStatementTree n){
+    (*st)->type = newLineState;
+    (*st)->nlst = n;
+}
+
+void addReadStateStatementTree(statementTree* st, readStatementTree r){
+    (*st)->type = readState;
+    (*st)->book = r;
 }
 
 statementTree createStatementTree(enum statementType t, void* val){

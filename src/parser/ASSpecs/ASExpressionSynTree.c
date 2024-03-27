@@ -1,29 +1,10 @@
 //B. Frazier 3/21/24
 
-#ifndef DYNAMICARRAY
-    #define DYNAMICARRAY
-    #include "../../../lib/dynamicArray/dynamicArray.h"
-#endif
-
-#ifndef ASSYNTREE
-    #define ASSYNTREE
-    #include "../../../include/parser/ASsynTree.h"
-#endif
-
-#ifndef STDLIB
-    #define STDLIB
-    #include <stdlib.h>
-#endif
-
-#ifndef STDIO
-    #define STDIO
-    #include <stdio.h>
-#endif
-
-#ifndef STRING
-    #define STRING
-    #include <string.h>
-#endif
+#include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/ASsynTree.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 struct expressionTreeType{
     enum expressionType type;
@@ -44,6 +25,7 @@ expressionTree initExpressionTree(void){
     expressionTree est = malloc(sizeof(struct expressionTreeType));
     return(est);
 }
+
 expressionTree createExpressionTree(enum expressionType t, void* val){
     expressionTree est = initExpressionTree();
     switch(t){

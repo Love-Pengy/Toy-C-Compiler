@@ -1,19 +1,8 @@
 //B. Frazier 3/17/24
 
-#ifndef DYNAMICARRAY
-    #define DYNAMICARRAY
-    #include "../../../lib/dynamicArray/dynamicArray.h"
-#endif
-
-#ifndef ASSYNTREE
-    #define ASSYNTREE
-    #include "../../../include/parser/ASsynTree.h"
-#endif
-
-#ifndef STDLIB
-    #define STDLIB
-    #include <stdlib.h>
-#endif
+#include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/ASsynTree.h"
+#include <stdlib.h>
 
 
 //this can hold 0 or more definitions
@@ -24,8 +13,20 @@ struct programTreeType{
 };
 
 
-programTree createProgramTree(definitionTree *definitions, int amount){
+programTree initProgramTree(void){
     programTree pst = malloc(sizeof(struct programTreeType));
+    pst->dTrees = malloc(sizeof(struct programTreeType));
+    return(pst);
+}
+
+void addDefinitionProgramTree(programTree * pt, definitionTree d){
+    (*pt)->dTrees[(*pt)->numDefs] = malloc(sizeof(definitionTree));
+    (*pt)->dTrees[(*pt)->numDefs] = d;
+    (*pt)->numDefs++;
+}
+
+programTree createProgramTree(definitionTree *definitions, int amount){
+    programTree pst = initProgramTree();
     pst->dTrees = malloc(sizeof(definitions));
     pst->dTrees = definitions;
     pst->numDefs = amount;

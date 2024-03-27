@@ -1,29 +1,10 @@
 //B. Frazier 3/16/24
 
-#ifndef STDLIB
-    #define STDLIB
-    #include <stdlib.h>
-#endif 
-
-#ifndef TCLEXER
-    #define TCLEXER
-    #include "../../include/lexer/TClexer.h"
-#endif
-
-#ifndef STRING
-    #define STRING
-    #include <string.h>
-#endif
-
-#ifndef TCGLOBALS
-    #define TCGLOBALS
-    #include "../../include/cmdLine/TCglobals.h"
-#endif
-
-#ifndef ASSYNTREE
-    #define ASSYNTREE
-    #include "../../include/parser/ASsynTree.h"
-#endif
+#include <stdlib.h>
+#include "../../include/lexer/TClexer.h"
+#include "../../include/cmdLine/TCglobals.h"
+#include "../../include/parser/ASsynTree.h"
+#include <string.h>
 
 
 token currentToken;
@@ -39,21 +20,21 @@ void formalParamList(functionDefinitionTree*);
 statementTree statement(void);
 expressionStatementTree expressionStatement(void);
 breakStatementTree breakStatement(void);
-statementTree compoundStatement(void);
-statementTree ifStatement(void);
-statementTree nullStatement(void);
-statementTree returnStatement(void);
-statementTree whileStatement(void);
-statementTree readStatement(void);
-statementTree writeStatement(void);
-statementTree newLineStatement(void);
+blockStatementTree compoundStatement(void);
+ifStatementTree ifStatement(void);
+nullStatementTree nullStatement(void);
+returnStatementTree returnStatement(void);
+whileStatementTree whileStatement(void);
+readStatementTree readStatement(void);
+writeStatementTree writeStatement(void);
+newLineStatementTree newLineStatement(void);
 expressionTree expression(void);
 expressionTree relopExpression(void);
 expressionTree simpleExpression(void);
 expressionTree term(void);
 expressionTree primary(void);
-expressionTree functionCall(void);
-int actualParameters(expressionTree*);
+functionCallTree functionCall(char*);
+int actualParameters(expressionTree**);
 
 void throwError(char expected){
     printf("%d :", getLineNum());
@@ -118,17 +99,16 @@ void exiting(char *exiteeLikeSomeTea){
 //think of this like A() its the state itself. The leaf is defined elsewhere
 programTree toyCProgram(void){
     entering("toyCProgram");
-    //this needs to be dynamic if I keep running in to the threshold but theoretically I should not 
-    definitionTree* dtt;
+    programTree output = initProgramTree(); 
     getNextToken();    
-    int counter = 0;
+
     while(strcmp(currentToken->lexeme, "EOF")){ 
-        dtt[counter] = definition();
-        counter++;
+        addDefinitionProgramTree(&output,definition());
     }
+
     exiting("toyCProgram");
-    return(createProgramTree(dtt, counter));
     printf("parse has been completed\n");
+    return(output);
 }
 
 
@@ -138,6 +118,8 @@ definitionTree definition(void){
 
     //char is four letters
     char *typeSpec = malloc(sizeof(char) * 5);
+    definitionTree fd = initDefinitionTree();
+    char *idHold;
     strcpy(typeSpec, type()); 
     if(!strcmp(currentToken->lexeme, "ID")){ 
         char *idHold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
@@ -149,7 +131,7 @@ definitionTree definition(void){
         }
         else{
             typeProd = functionDef;
-            definitionTree fd = initDefinitionTree(); 
+            fd = initDefinitionTree(); 
             fd = functionDefinition(typeSpec, idHold);
             
         }
@@ -162,7 +144,7 @@ definitionTree definition(void){
         return(fd);
     }
     else{
-        return(createDefinitionTree(typeProd, &idHold);
+        return(createDefinitionTree(typeProd, &idHold));
     }
 }
 
@@ -208,9 +190,10 @@ void functionHeader(functionDefinitionTree* d){
 
 void functionBody(functionDefinitionTree* d){
     entering("functionBody");
-    statementTree output = compoundStatement();
+    blockStatementTree output = compoundStatement();
+    statementTree toutput = createStatementTree(blockState, output);
     exiting("functionBody");   
-    addStatementFunctionDefinition(*d, output);    
+    addStatementFunctionDefinition(*d, toutput);    
 }
 
 void formalParamList(functionDefinitionTree*v){
@@ -252,47 +235,38 @@ statementTree statement(void){
     statementTree output = initStatementTree();
     if(!strcmp(currentToken->lexeme, "KEYWORD")){
         if(!strcmp(currentToken->value, "break")){
-            output->type = breakState;
-            output->bst = breakStatement();
+            addBreakStateStatementTree(&output, breakStatement());
         }
         else if(!strcmp(currentToken->value, "if")){
-            output->type = ifState;
-            output->ist = ifStatement();
+            addIfStateStatementTree(&output, ifStatement());
         }
         else if(!strcmp(currentToken->value, "return")){
-            output->type = returnState;
-            output->rst =  returnStatement();
+            addReturnStateStatementTree(&output, returnStatement());
         }
         else if(!strcmp(currentToken->value, "while")){
-            output->type = whileState;
-            output->wst = whileStatement();
+            addWhileStateStatementTree(&output, whileStatement());
         }
         else if(!strcmp(currentToken->value, "read")){
-            output->type = readState;
-            output->rst = readStatement();
+            addReadStateStatementTree(&output, readStatement());
         }
         else if(!strcmp(currentToken->value, "write")){
-            output->type = writeState;
-            output->author = writeStatement();
+            addWriteStateStatementTree(&output, writeStatement());
         }
         else if(!strcmp(currentToken->value, "newline")){
-            output->type = newLineState; 
-            output->nlst = newLineStatement();
+            addNewlineStateStatementTree(&output, newLineStatement());
         }
         else{
             throwStateError("Statement");
         }
     }
     else if(!strcmp(currentToken->lexeme, "LCURLY")){
-        output = compoundStatement();
+        addBlockStateStatementTree(&output,compoundStatement());
     }
     else if(!strcmp(currentToken->lexeme, "SEMICOLON")){
-        output->type = nullState;
-        output->nst = nullStatement();
+        addNullStateStatementTree(&output, nullStatement());
     }
     else{
-        output->type = exprState;
-        output->exp = expressionStatement();
+        addExprStateStatementTree(&output, expressionStatement());
     }
     exiting("statement");
     return(output);
@@ -300,7 +274,8 @@ statementTree statement(void){
 
 expressionStatementTree expressionStatement(void){
     entering("expressionStatement");
-    expressionStatementTree et = expression();
+    
+    expressionStatementTree et = createExpressionStatementTree(expression());
     accept(';');
     exiting("expressionStatement");
     return(et);
@@ -316,19 +291,16 @@ breakStatementTree breakStatement(void){
         throwStateError("break");
     }
     exiting("breakStatement");
-    return(createStatementTree(breakState, createBreakStatementTree()));
+    return(createBreakStatementTree());
 }
 
 //blockstatement
-statementTree compoundStatement(void){
+blockStatementTree compoundStatement(void){
     entering("compoundStatement");
     accept('{');
+    blockStatementTree bst = initBlockStatementTree();
     char * typeHold = malloc(sizeof(char) * 5);
     char * idHold;
-    variableDefinitionTree * vHold; 
-    int numDef = 0;
-    statementTree * sHold = initStatementTree();
-    int numStat = 0;
     while(strcmp(currentToken->lexeme, "RCURLY") != 0){
         if(!strcmp(currentToken->value, "int") || !strcmp(currentToken->value, "char")){
             strcpy(typeHold, type());
@@ -337,21 +309,19 @@ statementTree compoundStatement(void){
                 strcpy(idHold, currentToken->value);
                 getNextToken();
                 accept(';');
-                vHold[numDef] = createVariableDefinitionTree(typeHold, idHold, 1);
-                numDef++;
+                addVarDefBlockStatementTree(&bst, createVariableDefinitionTree(typeHold, &idHold, 1));
             }
         }
         else{
-            statementTree[numStat] = statement();
-            numStat++;
+            addStatementBlockStatementTree(&bst,statement());
         }
     }
     accept('}');
     exiting("compoundStatement");
-    return(createStatementTree(blockState, createBlockStatementTree(vHold, numDef, sHold, numStat)));
+    return(bst);
 }
 
-statementTree ifStatement(void){
+ifStatementTree ifStatement(void){
     entering("ifStatement");
     expressionTree e = initExpressionTree();
     statementTree st = initStatementTree();
@@ -372,29 +342,27 @@ statementTree ifStatement(void){
         throwStateError("if");
     }
     exiting("ifStatement");
-    return(createStatementTree(ifState, createIfStatementTree(e, st, st1)));
+    return(createIfStatementTree(e, st, st1));
 }
 
-statementTree nullStatement(void){
+nullStatementTree nullStatement(void){
     entering("nullStatement");
     accept(';');
     exiting("nullStatement");
-    return(createStatementTree(nullState, createNullStatementTree()));
+    return(createNullStatementTree());
 }
 
-statementTree returnStatement(void){
+returnStatementTree returnStatement(void){
     entering("returnStatement");  
-    enum statementType type;
+    returnStatementTree temp = initReturnStatementTree();
     if(!strcmp(currentToken->value, "return")){
         getNextToken();
         if(strcmp(currentToken->lexeme, "SEMICOLON")){
             expressionTree et = expression();  
-            type = returnState;
-            returnStatementTree temp = createReturnStatementTree(et);
+            temp = createReturnStatementTree(et);
         }
         else{
-            type = returnState;
-            returnStatementTree temp = createReturnStatementTree(NULL);
+            temp = createReturnStatementTree(NULL);
         }
         accept(';');
     }
@@ -402,10 +370,10 @@ statementTree returnStatement(void){
         throwStateError("return");
     }
     exiting("returnStatement");
-    return(createStatementTree(type, temp));
+    return(temp);
 }
 
-statementTree whileStatement(void){
+whileStatementTree whileStatement(void){
     entering("whileStatement");
     expressionTree eHold = initExpressionTree();
     statementTree sHold = initStatementTree();
@@ -420,20 +388,17 @@ statementTree whileStatement(void){
         throwStateError("while");
     }
     exiting("whileStatement");
-    return(createStatementTree(whileState, createWhileStatementTree(eHold, sHold))); 
+    return(createWhileStatementTree(eHold, sHold)); 
 }
 
-statementTree readStatement(void){
+readStatementTree readStatement(void){
     entering("readStatement");
-    char ** idHold;
-    int numHold = 0;
+    readStatementTree output = initReadStatementTree();
     if(!strcmp(currentToken->value, "read")){
         getNextToken();
         accept('(');
         if(!strcmp(currentToken->lexeme, "ID")){
-            idHold[numHold] = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
-            strcpy(idHold[numHold], currentToken->value);
-            numHold++;
+            addIdReadStatement(&output, currentToken->value);
             getNextToken();
         }
         else{
@@ -442,9 +407,7 @@ statementTree readStatement(void){
         while(!strcmp(currentToken->lexeme, "COMMA")){
             accept(',');
             if(!strcmp(currentToken->lexeme, "ID")){
-                idHold[numHold] = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
-                strcpy(idHold[numHold], currentToken->value);
-                numHold++;
+                addIdReadStatement(&output, currentToken->value);
                 getNextToken();
             }
             else{
@@ -458,16 +421,17 @@ statementTree readStatement(void){
         throwStateError("read");
     }
     exiting("readStatement");
-    return(createStatementTree(readState, createReadStatementTree(idHold, numHold)));
+    return(output);
 }
 
-statementTree writeStatement(void){
+writeStatementTree writeStatement(void){
     entering("writeStatement"); 
-    expressionTree *et;
+    expressionTree *et = NULL;
+    int size = 0;
     if(!strcmp(currentToken->value, "write")){
         getNextToken();
         accept('(');
-        int size = actualParameters(et);
+        size = actualParameters(&et);
         accept(')');
         accept(';');
     }
@@ -475,10 +439,10 @@ statementTree writeStatement(void){
         throwStateError("write");
     }
     exiting("writeStatement");
-    return(createStatementTree(writeState, (createWriteStatementTree(et, size))));
+    return(createWriteStatementTree(et, size));
 }
 
-statementTree newLineStatement(void){
+newLineStatementTree newLineStatement(void){
     entering("newLineStatement");
     if(!strcmp(currentToken->value, "newline")){
         getNextToken();
@@ -488,37 +452,39 @@ statementTree newLineStatement(void){
         throwStateError("newline");
     }
     exiting("newLineStatement");
-    return(createStatementTree(newLineState(createNewLineStatementTree())));
+    return(createNewLineStatementTree());
 }
 
 expressionTree expression(void){
     //both relops and the operator are going to be part of the opExpressionTree and then the opExpressionTree goes into the expressionTree
     entering("expression");
     expressionTree et1 = relopExpression();
-    expressionTree et2; 
-    opExpressionTree currentOp = NULL;
+    expressionTree et2 = initExpressionTree(); 
+    opExpressionTree currentOp = initOpExpressionTree();
+    expressionTree output = initExpressionTree();
     while(!strcmp(currentToken->lexeme, "ASSIGNOP")){
         operatorTree operator = createOperatorTree(currentToken->value);
         //this needs to be recurssion of some sort because the expression can be another expression
         getNextToken();
-        expressionTree et2 = relopExpression();
+        et2 = relopExpression();
         currentOp = createOpExpressionTree(operator, et1, et2);
     }
     exiting("expression");
     if(currentOp == NULL){
-        expressionTree output = createExpressionTree(Expr, et1);
+        output = createExpressionTree(Expr, et1);
     }
     else{
-        expressionTree output = createExpressionTree(Expr, currentOp);
+        output = createExpressionTree(Expr, currentOp);
     }
+    return(output);
 }
 
 expressionTree relopExpression(void){
     entering("relopExpression");
     expressionTree re1 = simpleExpression();
-    expressionTree re2;
-    opExpessionTree currentOp = NULL;
-
+    expressionTree re2 = initExpressionTree();
+    opExpressionTree currentOp = initOpExpressionTree();
+    expressionTree output = initExpressionTree();
     while(!strcmp(currentToken->lexeme, "RELOP")){
         operatorTree operator = createOperatorTree(currentToken->value);
         getNextToken(); 
@@ -527,10 +493,10 @@ expressionTree relopExpression(void){
     }
     exiting("relopExpression");
     if(currentOp == NULL){
-        expressionTree output = createExpressionTree(Expr, re1);
+        output = createExpressionTree(Expr, re1);
     }
     else{
-        expressionTree output = createExpressionTree(Expr, re2);
+        output = createExpressionTree(Expr, re2);
     }
     return(output);
 }
@@ -538,44 +504,46 @@ expressionTree relopExpression(void){
 expressionTree simpleExpression(void){
     entering("simpleExpression");
     expressionTree et1 = term();
-    exressionTree et2 = NULL;
-    opExpressionTree currentOp = NULL;
+    expressionTree et2 = initExpressionTree();
+    opExpressionTree currentOp = initOpExpressionTree();
+    expressionTree output = initExpressionTree();
+    operatorTree operator = initOperatorTree();
     while(!strcmp(currentToken->lexeme, "ADDOP")){
-        operatorTree operator = createOperatorTree(currentToken->value);
+        operator = createOperatorTree(currentToken->value);
         getNextToken();
-        expressionTree et2 = term();
+        et2 = term();
         currentOp = createOpExpressionTree(operator, et1, et2);
     }
     exiting("simpleExpression");
-    if(currentOP == NULL){
-        exprerssion output = createExpressionTree(Expr, et1);
+    if(currentOp == NULL){
+        output = createExpressionTree(Expr, et1);
     }
     else{
-        expressionTree output = createExpressionTree(Expr, currentOp);
+        output = createExpressionTree(Expr, currentOp);
     }
     return(output);
 }
 
 //figure this out before moving on
-expessionTree term(void){
+expressionTree term(void){
     entering("term");
     expressionTree st1 = primary();
-    expressionTree st2;
-    opExpressionTree currentOP = NULL;
-    //what I'm going to do here is keep expanding the right statement until the end 
-    //expression can hold and op expression
+    expressionTree st2 = initExpressionTree();
+    opExpressionTree currentOP = initOpExpressionTree();
+    operatorTree operator = initOperatorTree();
+    expressionTree output = initExpressionTree();
     while(!strcmp(currentToken->lexeme, "MULOP")){
-        operatorTree operator = createOperatorTree(currentToken->value);
+        operator = createOperatorTree(currentToken->value);
         getNextToken();
-        expressionTree st2 = primary();
+        st2 = primary();
         currentOP = createOpExpressionTree(operator,st1,st2);  
     }
     exiting("term");
     if(currentOP == NULL){
-        expressionTree output = createExpressionTree(Expr, st1);
+        output = createExpressionTree(Expr, st1);
     }
     else{
-        expressionTree output = createExpressionTree(Expr, currentOP);
+        output = createExpressionTree(Expr, currentOP);
     }
     return(output); 
 }
@@ -584,96 +552,101 @@ expessionTree term(void){
 expressionTree primary(void){
     entering("primary");
     enum expressionType type;
-    expressionTree output;
+    expressionTree output = initExpressionTree();
+    functionCallTree holdf = initFunctionCallTree();
+    expressionTree holde = initExpressionTree();
     if(!strcmp(currentToken->lexeme, "ID")){
-        char * idHold = malloc(sizeof(char) * (strlen(currentToken->value));
+        char * idHold = malloc(sizeof(char) * (strlen(currentToken->value)));
         strcpy(idHold, currentToken->value);
         getNextToken();
         if(!strcmp(currentToken->lexeme, "LPAREN")){
-            functionCallTree hold = functionCall(idHold); 
+            holdf = functionCall(idHold); 
             type = funcCall;
-            output = createExpressionTree(type, hold);
+            output = createExpressionTree(type, holdf);
         } 
     }
     else if(!strcmp(currentToken->lexeme, "NUMBER")){
         type = Number;
-        char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1)):
+        char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
         strcpy(hold, currentToken->value);
         output = createExpressionTree(type, hold);
         getNextToken();
     }
     else if(!strcmp(currentToken->lexeme, "STRING")){
         type = StringLiteral;
-        char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1)):
+        char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
         strcpy(hold, currentToken->value);
         output = createExpressionTree(type, hold);
         getNextToken();
     }
     else if(!strcmp(currentToken->lexeme, "CHARLITERAL")){
         type = CharLiteral;
-        char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1)):
+        char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
         strcpy(hold, currentToken->value);
         output = createExpressionTree(type, hold);
         getNextToken();
     }
     else if(!strcmp(currentToken->lexeme, "LPAREN")){
         accept('(');
-        expressionTree hold = expression();
-        char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1)):
-        strcpy(hold, currentToken->value);
-        output = createExpressionTree(type, hold);
+        output = expression();
         accept(')'); 
     }
-    else if((!strcmp(currentToken->value, "-")) || (!strcmp(currentToken->lexeme, "NOT"))){
+    else if((!strcmp(currentToken->value, "-"))){
+        type = Minus;
         getNextToken();
-        expressionTree hold = primary();
-        char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1)):
-        strcpy(hold, currentToken->value);
-        output = createExpressionTree(type, hold);
+        holde = primary();
+        output = createExpressionTree(type, createMinusTree(holde));
+    }
+    else if(!strcmp(currentToken->lexeme, "NOT")){
+        type = Not;
+        getNextToken();
+        holde = primary();
+        output = createExpressionTree(type, createNotTree(holde));
     }
     else{
         throwStateError("ID, NUMBER, STRING, CHARLITERAL, LPAREN, -, or NOT");
     }
     exiting("primary");
-    return(createExpressionTree(type, hold));
+    return(output);
 }
 
-expressionTree functionCall(char * id){
+functionCallTree functionCall(char * id){
     entering("functionCall");
     accept('(');
-    expressionTree * et;
+    expressionTree * et =  malloc(sizeof(expressionTree) * 100);
     int amount = 0;
     if(!strcmp(currentToken->lexeme, "ID")){
-        amount = actualParameters(et);
+        amount = actualParameters(&et);
     }
     else if(!strcmp(currentToken->lexeme, "NUMBER")){
-        amount = actualParameters(et);
+        amount = actualParameters(&et);
     }
     else if(!strcmp(currentToken->lexeme, "STRING")){
-        amount = actualParameters(et);
+        amount = actualParameters(&et);
     }
     else if(!strcmp(currentToken->lexeme, "CHARLITERAL")){
-        amount = actualParameters(et);
+        amount = actualParameters(&et);
     }
     else if(!strcmp(currentToken->lexeme, "LPAREN")){
-        amount = actualParameters(et);
+        amount = actualParameters(&et);
     }
     else if((!strcmp(currentToken->value, "-")) || (!strcmp(currentToken->lexeme, "NOT"))){
-        amount = actualParameters(et);
+        amount = actualParameters(&et);
     }
     accept(')');
     exiting("functionCall");
-    return(createExpressionTree(funcCall, createFunctionCallTree(id, et, amount))); 
+    return(createFunctionCallTree(id, et, amount)); 
 }
 
-int actualParameters(expressionTree * input){
+int actualParameters(expressionTree ** input){
     entering("actualParameters");
     int i = 0;
-    input[i] = expression();
+    (*input)[i] = malloc(sizeof(expressionTree));
+    (*input)[i] = expression();
     i++;
     while(!strcmp(currentToken->lexeme, "COMMA")){
         getNextToken(); 
-        input[i] = expression();
+        (*input)[i] = expression();
     }
     exiting("actualParameters");
     return(i);

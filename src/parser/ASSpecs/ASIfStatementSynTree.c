@@ -1,30 +1,10 @@
 //B. Frazier 3/20/24
 
-#ifndef DYNAMICARRAY
-    #define DYNAMICARRAY
-    #include "../../../lib/dynamicArray/dynamicArray.h"
-#endif
-
-#ifndef ASSYNTREE
-    #define ASSYNTREE
-    #include "../../../include/parser/ASsynTree.h"
-#endif
-
-#ifndef STDLIB
-    #define STDLIB
-    #include <stdlib.h>
-#endif
-
-#ifndef STDIO
-    #define STDIO
-    #include <stdio.h>
-#endif
-
-#ifndef STRING
-    #define STRING
-    #include <string.h>
-#endif
-
+#include "../../../include/parser/ASsynTree.h"
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include "../../../lib/dynamicArray/dynamicArray.h"
 //enum expressionType {specifier, funcCall, expr, minus, not} 
 
 //Expression, Statement, Statement?

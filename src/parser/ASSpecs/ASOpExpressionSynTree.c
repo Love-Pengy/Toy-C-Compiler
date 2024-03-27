@@ -1,24 +1,8 @@
 //B. Frazier 3/22/24
 
-#ifndef DYNAMICARRAY
-    #define DYNAMICARRAY
-    #include "../../../lib/dynamicArray/dynamicArray.h"
-#endif
-
-#ifndef ASSYNTREE
-    #define ASSYNTREE
-    #include "../../../include/parser/ASsynTree.h"
-#endif
-
-#ifndef STDLIB
-    #define STDLIB
-    #include <stdlib.h>
-#endif
-
-#ifndef STRING
-    #define STRING
-    #include <string.h>
-#endif
+#include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/ASsynTree.h"
+#include <stdlib.h>
 
 
 struct opExpressionTreeType{
@@ -27,8 +11,14 @@ struct opExpressionTreeType{
     expressionTree exp2;
 };
 
-opExpressionTree createOpExpressionTree(operatorTree oper, expressionTree ex1, expressionTree ex2){
+
+opExpressionTree initOpExpressionTree(void){
     opExpressionTree oet = malloc(sizeof(struct opExpressionTreeType));
+    return(oet);
+}
+
+opExpressionTree createOpExpressionTree(operatorTree oper, expressionTree ex1, expressionTree ex2){
+    opExpressionTree oet = initOpExpressionTree();
     oet->op = oper;
     oet->exp1 = ex1;
     oet->exp2 = ex2;

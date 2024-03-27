@@ -1,9 +1,6 @@
 //B. Frazier 3/16/24
 
-#ifndef ASSYNTREE 
-    #define ASSYNTREE
-    #include "../../include/parser/ASsynTree.h"
-#endif
+#include "../../include/parser/ASsynTree.h"
 
 programTree toyCProgram(void);
 definitionTree definition(void);
@@ -15,19 +12,19 @@ void formalParamList(functionDefinitionTree*);
 statementTree statement(void);
 expressionStatementTree expressionStatement(void);
 breakStatementTree breakStatement(void);
-statementTree compoundStatement(void);
-statementTree ifStatement(void);
-statementTree nullStatement(void);
-statementTree returnStatement(void);
-statementTree whileStatement(void);
-statementTree readStatement(void);
-statementTree writeStatement(void);
-statementTree newLineStatement(void);
+blockStatementTree compoundStatement(void);
+ifStatementTree ifStatement(void);
+nullStatementTree nullStatement(void);
+returnStatementTree returnStatement(void);
+whileStatementTree whileStatement(void);
+readStatementTree readStatement(void);
+writeStatementTree writeStatement(void);
+newLineStatementTree newLineStatement(void);
 expressionTree expression(void);
 expressionTree relopExpression(void);
 expressionTree simpleExpression(void);
 expressionTree term(void);
 expressionTree primary(void);
-expressionTree functionCall(void);
-int actualParameters(expressionTree*);
+expressionTree functionCall(char *);
+int actualParameters(expressionTree**);
 

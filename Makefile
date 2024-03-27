@@ -1,114 +1,65 @@
-.PHONY: all generate test test2 clean run 
-
+# Edited from the file from https://makefiletutorial.com/
+TARGET_EXEC := tc
+CC = gcc
+BUILD_DIR := ./build
+SRC_DIRS := ./src
+LIB_DIRS := ./lib
+BIN_DIR := ./bin
 .DEFAULT_GOAL := generate
+DEBUG = 
+CFLAGS := -g -Wall
+# Find all the C and C++ files we want to compile
+# Note the single quotes around the * expressions. The shell will incorrectly expand these otherwise, but we want to send the * directly to the find command.
+SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
 
-DEBUG = @
+SRCS += $(shell find $(LIB_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
 
-tc: ./build/TCCMDLineReader.o ./build/TCglobals.o ./build/TCtoken.o ./build/tc.o ./build/TClexer.o ./build/TCparser.o ./build/ASBlockStatementSynTree.o ./build/ASNullStatementSynTree.o ./build/ASBreakStatementSynTree.o ./build/ASOperatorSynTree.o ./build/ASDefinitionSynTree.o ./build/ASOpExpressionSynTree.o ./build/ASExpressionStatementSynTree.o ./build/ASProgramSynTree.o ./build/ASExpressionSynTree.o ./build/ASReadStatementSynTree.o ./build/ASFunctionCallSynTree.o ./build/ASReturnStatementSynTree.o ./build/ASFunctionDefinitionSynTree.o ./build/ASStatementSynTree.o ./build/ASVariableDefinitionSynTree.o ./build/ASMinusSynTree.o ./build/ASWhileStatementSynTree.o ./build/ASNewlineStatementSynTree.o ./build/ASWriteStatementSynTree.o ./build/ASNotSynTree.o 
-	$(DEBUG)gcc -o ./build/TCCMDLineReader.o ./build/TCglobals.o ./build/TCtoken.o ./build/tc.o ./build/TClexer.o ./build/TCparser.o ./build/ASBlockStatementSynTree.o ./build/ASNullStatementSynTree.o ./build/ASBreakStatementSynTree.o ./build/ASOperatorSynTree.o ./build/ASDefinitionSynTree.o ./build/ASOpExpressionSynTree.o ./build/ASExpressionStatementSynTree.o ./build/ASProgramSynTree.o ./build/ASExpressionSynTree.o ./build/ASReadStatementSynTree.o ./build/ASFunctionCallSynTree.o ./build/ASReturnStatementSynTree.o ./build/ASFunctionDefinitionSynTree.o ./build/ASStatementSynTree.o ./build/ASVariableDefinitionSynTree.o ./build/ASMinusSynTree.o ./build/ASWhileStatementSynTree.o ./build/ASNewlineStatementSynTree.o ./build/ASWriteStatementSynTree.o ./build/ASNotSynTree.o ./bin/tc -Wall	
 
-TCCMDLineReader.o: ./src/cmdLine/TCCMDLineReader.c ./include/cmdLine/TCCMDLineReader.h
-	$(DEBUG)gcc -c ./src/cmdLine/TCCMDLineReader.c -o ./build/TCCMDLineReader.o -Wall
+# Prepends BUILD_DIR and appends .o to every src file
+# As an example, ./your_dir/hello.cpp turns into ./build/./your_dir/hello.cpp.o
+OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
-TCglobals.o: ./src/cmdLine/TCglobals.c ./include/cmdLine/TCglobals.h
-	$(DEBUG)gcc -c ./src/cmdLine/TCglobals.c -o ./build/TCglobals.o -Wall
+# String substitution (suffix version without %).
+# As an example, ./build/hello.cpp.o turns into ./build/hello.cpp.d
+DEPS := $(OBJS:.o=.d)
 
-TCtoken.o: ./src/lexer/TCtoken.c ./include/lexer/TCtoken.h 	
-	$(DEBUG)gcc -c ./src/lexer/TCtoken.c -o ./build/TCtoken.o -Wall
+# Every folder in ./src will need to be passed to GCC so that it can find header files
+INC_DIRS := $(shell find $(SRC_DIRS) -type d)
 
-tc.o: ./src/tc.c
-	$(DEBUG)gcc -c ./src/tc.c -o ./build/tc.o -Wall
+# Add a prefix to INC_DIRS. So moduleA would become -ImoduleA. GCC understands this -I flag
+INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 
-TClexer.o: ./src/lexer/TClexer.c ./include/lexer/TClexer.h
-	$(DEBUG)gcc -c ./src/lexer/TClexer.c -o ./build/TClexer.o -Wall
+# The -MMD and -MP flags together generate Makefiles for us!
+# These files will have .d instead of .o as the output.
+CPPFLAGS := $(INC_FLAGS) -MMD -MP
 
-TCparser.o: ./src/parser/TCparser.c ./include/parser/TCparser.h
-	$(DEBUG)gcc -c ./src/parser/TCparser.c -o ./build/TCparser.o -Wall
+# The final build step.
+$(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
+	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
+	mv ./build/tc ./bin/tc
 
-dynamicArray.o: ./lib/dynamicArray/dynamicArray.c ./lib/dynamicArray/dynamicArray.h
-	$(DEBUG)gcc -c ./lib/dynamicArray/dynamicArray.c -o ./build/dynamicArray.o -Wall
-	
-ASBlockStatementSynTree.o: ./src/parser/ASSpecs/ASBlockStatementSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASBlockStatementSynTree.c -o ./build/ASBlockStatementSynTree.o -Wall
-	
-ASNullStatementSynTree.o: ./src/parser/ASSpecs/ASNullStatementSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASNullStatementSynTree.c -o ./build/ASNullStatementSynTree.o -Wall
+# Build step for C source
+$(BUILD_DIR)/%.c.o: %.c
+	mkdir -p $(dir $@)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-ASBreakStatementSynTree.o: ./src/parser/ASSpecs/ASBreakStatementSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASBreakStatementSynTree.c -o ./build/ASBreakStatementSynTree.o -Wall
 
-ASOperatorSynTree.o: ./src/parser/ASSpecs/ASOperatorSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASOperatorSynTree.c -o ./build/ASOperatorSynTree.o -Wall
+.PHONY: clean test test2 
 
-ASDefinitionSynTree.o: ./src/parser/ASSpecs/ASDefinitionSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASDefinitionSynTree.c -o ./build/ASDefinitionSynTree.o -Wall
+clean:
+	rm -rf $(BUILD_DIR)/*
+	rm -rf $(BIN_DIR)/*
 
-ASOpExpressionSynTree.o: ./src/parser/ASSpecs/ASOpExpressionSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASOpExpressionSynTree.c -o ./build/ASOpExpressionSynTree.o -Wall
-
-ASExpressionStatementSynTree.o: ./src/parser/ASSpecs/ASExpressionStatementSynTree.c  ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASExpressionStatementSynTree.c -o ./build/ASExpressionStatementSynTree.o -Wall
-
-ASProgramSynTree.o: ./src/parser/ASSpecs/ASProgramSynTree.c  ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASProgramSynTree.c -o ./build/ASProgramSynTree.o -Wall
-
-ASExpressionSynTree.o: ./src/parser/ASSpecs/ASExpressionSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASExpressionSynTree.c -o ./build/ASExpressionSynTree.o -Wall
-
-ASReadStatementSynTree.o: ./src/parser/ASSpecs/ASReadStatementSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASReadStatementSynTree.c -o ./build/ASReadStatementSynTree.o -Wall
-
-ASFunctionCallSynTree.o: ./src/parser/ASSpecs/ASFunctionCallSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASFunctionCallSynTree.c -o ./build/ASFunctionCallSynTree.o -Wall
-
-ASReturnStatementSynTree.o: ./src/parser/ASSpecs/ASReturnStatementSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASReturnStatementSynTree.c -o ./build/ASReturnStatementSynTree.o -Wall
-
-ASFunctionDefinitionSynTree.o: ./src/parser/ASSpecs/ASFunctionDefinitionSynTree.c  ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASFunctionDefinitionSynTree.c -o ./build/ASFunctionDefinitionSynTree.o -Wall
-
-ASStatementSynTree.o: ./src/parser/ASSpecs/ASStatementSynTree.c  ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASStatementSynTree.c -o ./build/ASStatementSynTree.o -Wall
-
-ASIfStatementSynTree.o: ./src/parser/ASSpecs/ASIfStatementSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASIfStatementSynTree.c -o ./build/ASIfStatementSynTree.o -Wall
-
-ASVariableDefinitionSynTree.o: ./src/parser/ASSpecs/ASVariableDefinitionSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASVariableDefinitionSynTree.c -o ./build/ASVariableDefinitionSynTree.o -Wall
-
-ASMinusSynTree.o: ./src/parser/ASSpecs/ASMinusSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASMinusSynTree.c -o ./build/ASMinusSynTree.o -Wall
-
-ASWhileStatementSynTree.o: ./src/parser/ASSpecs/ASWhileStatementSynTree.c  ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASWhileStatementSynTree.c -o ./build/ASWhileStatementSynTree.o -Wall
-
-ASNewlineStatementSynTree.o: ./src/parser/ASSpecs/ASNewlineStatementSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASNewlineStatementSynTree.c -o ./build/ASNewlineStatementSynTree.o -Wall
-
-ASWriteStatementSynTree.o: ./src/parser/ASSpecs/ASWriteStatementSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASWriteStatementSynTree.c -o ./build/ASWriteStatementSynTree.o -Wall
-
-ASNotSynTree.o: ./src/parser/ASSpecs/ASNotSynTree.c ./include/parser/ASsynTree.h
-	$(DEBUG)gcc -c ./src/parser/ASSpecs/ASNotSynTree.c -o ./build/ASNotSynTree.o -Wall
-
-generate: TCCMDLineReader.o TCglobals.o TCtoken.o TClexer.o dynamicArray.o ASBlockStatementSynTree.o ASNullStatementSynTree.o ASBreakStatementSynTree.o ASOperatorSynTree.o ASDefinitionSynTree.o ASOpExpressionSynTree.o ASExpressionStatementSynTree.o ASProgramSynTree.o ASExpressionSynTree.o ASReadStatementSynTree.o ASFunctionCallSynTree.o ASReturnStatementSynTree.o ASFunctionDefinitionSynTree.o ASStatementSynTree.o ASIfStatementSynTree.o ASVariableDefinitionSynTree.o ASMinusSynTree.o ASWhileStatementSynTree.o ASNewlineStatementSynTree.o ASWriteStatementSynTree.o ASNotSynTree.o TCparser.o tc.o tc 
-	@echo "Generation Has Completed"
+generate: $(BUILD_DIR)/$(TARGET_EXEC) 
+	$(DEBUG)echo "Generation Has Completed"
 
 test: 
-	$(DEBUG)gcc ./build/tc.o ./build/TCCMDLineReader.o ./build/TCglobals.o ./build/TClexer.o ./build/TCtoken.o ./build/TCparser.o -g -o ./bin/tc -Wall 
-	@gdb --args ./bin/tc $(ARGS)
-
-test2: 
-	$(DEBUG)gcc -fsanitize=address ./build/tc.o ./build/TCCMDLineReader.o ./build/TCglobals.o ./build/TClexer.o ./build/TCtoken.o ./build/TCparser.o -g -o ./bin/tc -Wall 
-	@gdb --args ./bin/tc $(ARGS)
-
-clean:	
-	$(DEBUG)rm ./bin/tc
-	$(DEBUG)rm ./build/*
-	@echo "Cleaning Has Completed"
+	$(DEBUG)gdb --args $(BIN_DIR)/tc $(ARGS)
 
 run: 
-	@./bin/tc $(ARGS) 
+	$(DEBUG)./$(BIN_DIR)/tc $(ARGS)
 
-
-
+# Include the .d makefiles. The - at the front suppresses the errors of missing
+# Makefiles. Initially, all the .d files will be missing, and we don't want those
+# errors to show up.
+-include $(DEPS)

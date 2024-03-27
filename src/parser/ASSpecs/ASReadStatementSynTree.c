@@ -1,20 +1,9 @@
 //B. Frazier 3/21/24
 
-#ifndef DYNAMICARRAY
-    #define DYNAMICARRAY
-    #include "../../../lib/dynamicArray/dynamicArray.h"
-#endif
-
-#ifndef ASSYNTREE
-    #define ASSYNTREE
-    #include "../../../include/parser/ASsynTree.h"
-#endif
-
-#ifndef STDLIB
-    #define STDLIB
-    #include <stdlib.h>
-#endif
-
+#include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/ASsynTree.h"
+#include <stdlib.h>
+#include <string.h>
 
 
 struct readStatementTreeType{
@@ -23,6 +12,17 @@ struct readStatementTreeType{
     int numIds;
 };
 
+readStatementTree initReadStatementTree(void){
+    readStatementTree rst = malloc(sizeof(struct readStatementTreeType));
+    rst->numIds = 0;
+    return(rst);
+}
+
+void addIdReadStatement(readStatementTree * rst, char *id){
+    (*rst)->ids[(*rst)->numIds] = malloc(sizeof(char) * (strlen(id) + 1));
+    strcpy((*rst)->ids[(*rst)->numIds], id);
+    (*rst)->numIds++;
+}
 
 readStatementTree createReadStatementTree(char** identifiers, int idAmt){
     readStatementTree rst = malloc(sizeof(struct readStatementTreeType));
@@ -32,7 +32,7 @@ readStatementTree createReadStatementTree(char** identifiers, int idAmt){
     return(rst);
 }
 
-list readStatementToString(readStatementTree rs){
+list readStatementTreeToString(readStatementTree rs){
     list string = createList();
     listCat(string, "readState(");
 
