@@ -119,11 +119,9 @@ programTree toyCProgram(void){
 definitionTree definition(void){
     entering("definition");
     enum defTypeProd typeProd;
-
     //char is four letters
     char *typeSpec = malloc(sizeof(char) * 5);
-    definitionTree fd = initDefinitionTree();
-    variableDefinitionTree vd = initVariableDefinitionTree();
+    void * ptr;
     char *idHold;
     strcpy(typeSpec, type()); 
     if(!strcmp(currentToken->lexeme, "ID")){ 
@@ -132,13 +130,12 @@ definitionTree definition(void){
         getNextToken();
         if(!strcmp(currentToken->lexeme, "SEMICOLON")){
             typeProd = variableDef;
-            vd = createVariableDefinitionTree(typeSpec, &idHold, 1);
+            ptr = createVariableDefinitionTree(typeSpec, &idHold, 1);
             accept(';');
         }
         else{
             typeProd = functionDef;
-            fd = initDefinitionTree(); 
-            fd = functionDefinition(typeSpec, idHold);
+            ptr = functionDefinition(typeSpec, idHold);
             
         }
     }
@@ -147,10 +144,10 @@ definitionTree definition(void){
     }
     exiting("definition");
     if(typeProd == variableDef){
-        return(createDefinitionTree(typeProd, &vd));
+        return(createDefinitionTree(typeProd, ptr));
     }
     else{
-        return(createDefinitionTree(typeProd, &fd));
+        return(createDefinitionTree(typeProd, ptr));
     }
 }
 
@@ -176,7 +173,8 @@ char* type(void){
 definitionTree functionDefinition(char *type, char* id){
     entering("functionDefinition");  
     functionDefinitionTree fd = initFunctionDefinitionTree();
-
+    addIdFunctionDefinition(&fd, id); 
+    addTypeFunctionDefinition(&fd, type);
     functionHeader(&fd);
     functionBody(&fd);
 
@@ -199,19 +197,21 @@ void functionBody(functionDefinitionTree* d){
     blockStatementTree output = compoundStatement();
     statementTree toutput = createStatementTree(blockState, output);
     exiting("functionBody");   
-    addStatementFunctionDefinition(*d, toutput);    
+    addStatementFunctionDefinition(d, &toutput);    
 }
 
 void formalParamList(functionDefinitionTree*v){
     entering("formalParamList");
     char * typeHold = malloc(sizeof(char) * 5);
     char * idHold;
+    variableDefinitionTree varDefHold = malloc(sizeof(variableDefinitionTree));
     int i = 0;
     strcpy(typeHold, type());
     if(!strcmp(currentToken->lexeme, "ID")){
         idHold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
         strcpy(idHold, currentToken->value);
-        addVarDefFunctionDefinition(*v, createVariableDefinitionTree(typeHold, &idHold, 1));
+        varDefHold = createVariableDefinitionTree(typeHold, &idHold, 1);
+        addVarDefFunctionDefinition(v, &varDefHold);
         i++;
         getNextToken();
     }
@@ -225,7 +225,8 @@ void formalParamList(functionDefinitionTree*v){
         if(!strcmp(currentToken->lexeme, "ID")){
             idHold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
             strcpy(idHold, currentToken->value);
-            addVarDefFunctionDefinition(*v,createVariableDefinitionTree(typeHold, &idHold, 1));
+            varDefHold = createVariableDefinitionTree(typeHold, &idHold, 1);
+            addVarDefFunctionDefinition(v, &varDefHold);
             i++;
             getNextToken();
         }

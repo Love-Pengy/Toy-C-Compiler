@@ -43,19 +43,19 @@ definitionTree createDefinitionTree(enum defTypeProd prodType, void* prod){
 
 list definitionTreeToString(definitionTree dst){
     list string = createList();
-    listCat(string, "definition(\n");
+    listCat(&string, "definition(\n");
     switch(dst->type){
         case functionDef: 
-            llistCat(string, functionDefinitionTreeToString(dst->fDef));
+            llistCat(&string, functionDefinitionTreeToString(&(dst->fDef)));
             break;
         case variableDef:
-            llistCat(string, variableDefinitionTreeToString(dst->vDef));
+            llistCat(&string, variableDefinitionTreeToString(&(dst->vDef)));
             break;
         default:
-            listCat(string, "[error]\n");
+            listCat(&string, "[error]\n");
             break; 
     }
-    listCat(string, ")\n");
+    listCat(&string, ")\n");
     return(string);
 }
 

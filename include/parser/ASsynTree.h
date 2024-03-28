@@ -43,18 +43,18 @@ list programTreeToString(programTree);
 
 //funcdef 
 functionDefinitionTree initFunctionDefinitionTree(void);
-void addTypeFunctionDefinition(functionDefinitionTree,char *);
-void addIdFunctionDefinition(functionDefinitionTree, char *);
-void addVarDefFunctionDefinition(functionDefinitionTree, variableDefinitionTree);
-void addStatementFunctionDefinition(functionDefinitionTree, statementTree);
+void addTypeFunctionDefinition(functionDefinitionTree*,char *);
+void addIdFunctionDefinition(functionDefinitionTree*, char *);
+void addVarDefFunctionDefinition(functionDefinitionTree*, variableDefinitionTree*);
+void addStatementFunctionDefinition(functionDefinitionTree*, statementTree*);
 
 functionDefinitionTree createFunctionDefinitionTree(char*, char*, variableDefinitionTree*, int, statementTree);
-list functionDefinitionTreeToString(functionDefinitionTree);
+list functionDefinitionTreeToString(functionDefinitionTree*);
 
 //varDef 
 variableDefinitionTree initVariableDefinitionTree(void);
 variableDefinitionTree createVariableDefinitionTree(char *, char**, int);
-list variableDefinitionTreeToString(variableDefinitionTree);
+list variableDefinitionTreeToString(variableDefinitionTree*);
 
 //exprState 
 expressionStatementTree createExpressionStatementTree(expressionTree);

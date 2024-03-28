@@ -18,9 +18,9 @@ notTree createNotTree(expressionTree ex){
 
 list notTreeToString(notTree not){
     list string = createList();
-    listCat(string, "not(");
-    llistCat(string, expressionTreeToString(not->exp));
-    listCat(string, ")\n");
+    listCat(&string, "not(");
+    llistCat(&string, expressionTreeToString(not->exp));
+    listCat(&string, ")\n");
     return(string);
 }
 

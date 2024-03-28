@@ -34,15 +34,16 @@ variableDefinitionTree createVariableDefinitionTree(char *typeSpec, char**idSpec
 }
 
 
-list variableDefinitionTreeToString(variableDefinitionTree vdt){
+list variableDefinitionTreeToString(variableDefinitionTree* vdt){
     list string = createList();
-    listCat(string, "varDef(");
-    listCat(string, vdt->type);    
-    for(int i = 0; i < (vdt->idAmount-1); i++){
-        listCat(string, vdt->id[i]);
+    listCat(&string, "varDef(\n");
+    listCat(&string, (*vdt)->type);    
+    listCat(&string, " ");
+    for(int i = 0; i < (*vdt)->idAmount; i++){
+        listCat(&string, (*vdt)->id[i]);
+        listCat(&string, "\n");
     }
-
-    listCat(string, ")\n");
+    listCat(&string, ")\n");
     return(string);
 }
 

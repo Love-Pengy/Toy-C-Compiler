@@ -66,37 +66,37 @@ expressionTree createExpressionTree(enum expressionType t, void* val){
 
 list expressionTreeToString(expressionTree exprT){
     list string = createList();
-    listCat(string, "Expression(");
+    listCat(&string, "Expression(");
     switch(exprT->type){
         case Number:
-            listCat(string, (exprT->number));
+            listCat(&string, (exprT->number));
             break;
         case ID:
-            listCat(string, (exprT->id));
+            listCat(&string, (exprT->id));
             break;
         case CharLiteral:
-            listCat(string, (exprT->charLit));
+            listCat(&string, (exprT->charLit));
             break;
         case StringLiteral:
-            listCat(string, (exprT->string));
+            listCat(&string, (exprT->string));
             break;
         case funcCall:
-            llistCat(string, functionCallTreeToString(exprT->funcC));
+            llistCat(&string, functionCallTreeToString(exprT->funcC));
             break;
         case Expr:
-            llistCat(string, opExpressionTreeToString(exprT->exp));
+            llistCat(&string, opExpressionTreeToString(exprT->exp));
             break;
         case Minus:
-            llistCat(string, minusTreeToString(exprT->min));
+            llistCat(&string, minusTreeToString(exprT->min));
             break;
         case Not:
-            llistCat(string, notTreeToString(exprT->not));
+            llistCat(&string, notTreeToString(exprT->not));
             break;
         default:
             printf("internal error\n");
             break;
     }
-    listCat(string, ")\n");
+    listCat(&string, ")\n");
     return(string);
 }
 

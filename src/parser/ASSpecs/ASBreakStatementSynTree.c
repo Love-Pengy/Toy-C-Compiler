@@ -17,8 +17,8 @@ breakStatementTree createBreakStatementTree(void){
 
 list breakStatementTreeToString(breakStatementTree bst){
     list string = createList();
-    listCat(string, "breakState(");
-    listCat(string, ")\n");
+    listCat(&string, "breakState(");
+    listCat(&string, ")\n");
     return(string);
 }
 

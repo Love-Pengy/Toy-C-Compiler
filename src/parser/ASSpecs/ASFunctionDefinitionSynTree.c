@@ -4,6 +4,7 @@
 #include "../../../include/parser/ASsynTree.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 //function definition consists of an id, a type, 0 or moer variable definitions, or a statement 
 struct functionDefinitionTreeType{
@@ -21,23 +22,24 @@ functionDefinitionTree initFunctionDefinitionTree(void){
     return(output);
 }
 
-void addTypeFunctionDefinition(functionDefinitionTree f,char *add){
-    f->type = malloc(sizeof(char) * (strlen(add) + 1));
-    strcpy(f->type, add);
+void addTypeFunctionDefinition(functionDefinitionTree *f,char *add){
+    (*f)->type = malloc(sizeof(char) * (strlen(add) + 1));
+    strcpy((*f)->type, add);
 }
 
-void addIdFunctionDefinition(functionDefinitionTree f, char *add){
-    f->id = malloc(sizeof(char) * (strlen(add) + 1));
-    strcpy(f->id, add);
+void addIdFunctionDefinition(functionDefinitionTree *f, char *add){
+    (*f)->id = malloc(sizeof(char) * (strlen(add) + 1));
+    strcpy((*f)->id, add);
 }
 
-void addVarDefFunctionDefinition(functionDefinitionTree f, variableDefinitionTree add){
-    f->vDef[f->varAmount] = add;
-    f->varAmount++;
+void addVarDefFunctionDefinition(functionDefinitionTree *f, variableDefinitionTree *add){
+    (*f)->vDef[(*f)->varAmount] = malloc(sizeof(variableDefinitionTree));
+    (*f)->vDef[(*f)->varAmount] = (*add);
+    (*f)->varAmount++;
 }
 
-void addStatementFunctionDefinition(functionDefinitionTree f, statementTree add){
-    f->sDef = add;
+void addStatementFunctionDefinition(functionDefinitionTree *f, statementTree *add){
+    (*f)->sDef = (*add);
 }
 
 //if there aren't any variable definitions then the var definitions passed will be NULL
@@ -57,18 +59,18 @@ functionDefinitionTree createFunctionDefinitionTree(char *identifier, char *type
 }
 
 
-list functionDefinitionTreeToString(functionDefinitionTree fst){
+list functionDefinitionTreeToString(functionDefinitionTree* fst){
     list string = createList();
-    listCat(string, "funcDef(");
-    listCat(string, fst->type);    
-    listCat(string, fst->id);
-    if(fst->varAmount){
-        for(int i = 0; i < fst->varAmount; i++){
-            llistCat(string, variableDefinitionTreeToString(fst->vDef[i]));
+    listCat(&string, "funcDef(");
+    listCat(&string, (*fst)->type);    
+    listCat(&string, (*fst)->id);
+    if((*fst)->varAmount){
+        for(int i = 0; i < (*fst)->varAmount; i++){
+            llistCat(&string, variableDefinitionTreeToString(&((*fst)->vDef[i])));
         }
     }
-    llistCat(string, statementTreeToString(fst->sDef));
-    listCat(string, ")\n");
+    llistCat(&string, statementTreeToString((*fst)->sDef));
+    listCat(&string, ")\n");
     return(string);
 }
 

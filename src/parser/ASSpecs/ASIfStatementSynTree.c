@@ -25,13 +25,13 @@ ifStatementTree createIfStatementTree(expressionTree expr, statementTree ifS, st
 
 list ifStatementTreeToString(ifStatementTree ist){
     list string = createList();
-    listCat(string, "ifState(");
-    llistCat(string, expressionTreeToString(ist->exp));
-    llistCat(string, statementTreeToString(ist->ifExpression));
+    listCat(&string, "ifState(");
+    llistCat(&string, expressionTreeToString(ist->exp));
+    llistCat(&string, statementTreeToString(ist->ifExpression));
     if(ist->elseExpression != NULL){
-        llistCat(string, statementTreeToString(ist->elseExpression));
+        llistCat(&string, statementTreeToString(ist->elseExpression));
     }
-    listCat(string, ")\n");
+    listCat(&string, ")\n");
     return(string);
 }
 

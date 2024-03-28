@@ -3,7 +3,7 @@
 #include "./dynamicArray.h"
 #include <stdlib.h>
 #include <string.h>
-
+#include <stdio.h>
 #define CHUNK_SIZE 50
 
 struct listType{
@@ -21,33 +21,33 @@ list createList(void){
     return(output);
 }
 
-void expandList(list expandee){
-    char *newList = malloc(sizeof(char) * (expandee->buffSize + CHUNK_SIZE));
-    strcpy(newList, expandee->string);
-    free(expandee->string);
-    expandee->string = newList;
-    expandee->buffSize = expandee->buffSize + CHUNK_SIZE;
+void expandList(list *expandee){
+    char *newList = malloc(sizeof(char) * ((*expandee)->buffSize + CHUNK_SIZE));
+    strcpy(newList, (*expandee)->string);
+    free((*expandee)->string);
+    (*expandee)->string = newList;
+    (*expandee)->buffSize = (*expandee)->buffSize + CHUNK_SIZE;
 }
 
-void llistCat(list dest, list source){
-    while(dest->buffSize < (dest->size + source->size + 1)){
+void llistCat(list *dest, list source){
+    while((*dest)->buffSize < ((*dest)->size + source->size + 1)){
         expandList(dest);
     }
-    strcat(dest->string, source->string);
-    dest->size = (dest->size + source->size);
+    strcat((*dest)->string, source->string);
+    (*dest)->size = ((*dest)->size + source->size);
 }
 
-void listCat(list dest, char *source){
-    if((strlen(source) + dest->size) > dest->buffSize){
-        while((strlen(source) + dest->size) > dest->buffSize){
+void listCat(list *dest, char *source){
+    if((strlen(source) + (*dest)->size) > (*dest)->buffSize){
+        while((strlen(source) + (*dest)->size) > (*dest)->buffSize){
             expandList(dest);
         }
-        strcat(dest->string, source);
-        dest->size = (dest->size + strlen(source));
+        strcat((*dest)->string, source);
+        (*dest)->size = ((*dest)->size + strlen(source));
     }
     else{
-        dest->size = (dest->size + strlen(source));
-        strcat(dest->string, source);
+        (*dest)->size = ((*dest)->size + strlen(source));
+        strcat((*dest)->string, source);
     }
 }
 
@@ -57,7 +57,7 @@ char *listToString(list printee){
 
 list stringToList(char *string){
     list output = createList();
-    listCat(output, string);
+    listCat(&output, string);
     return(output);
 }
 

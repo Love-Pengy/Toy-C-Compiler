@@ -118,43 +118,43 @@ statementTree createStatementTree(enum statementType t, void* val){
 
 list statementTreeToString(statementTree state){
     list string = createList();
-    listCat(string, "Statement(");
+    listCat(&string, "Statement(");
     switch(state->type){
         case exprState:
-            llistCat(string, expressionStatementTreeToString(state->exp));
+            llistCat(&string, expressionStatementTreeToString(state->exp));
             break;
         case breakState:
-            llistCat(string, breakStatementTreeToString(state->bst));
+            llistCat(&string, breakStatementTreeToString(state->bst));
             break;
         case blockState:
-            llistCat(string, blockStatementTreeToString(state->blt));
+            llistCat(&string, blockStatementTreeToString(state->blt));
             break;
         case ifState:
-            llistCat(string, ifStatementTreeToString(state->ist));
+            llistCat(&string, ifStatementTreeToString(state->ist));
             break;
         case nullState:
-            llistCat(string, nullStatementTreeToString(state->nst));
+            llistCat(&string, nullStatementTreeToString(state->nst));
             break;
         case returnState:
-            llistCat(string, returnStatementTreeToString(state->rst));
+            llistCat(&string, returnStatementTreeToString(state->rst));
             break;
         case whileState:
-            llistCat(string, whileStatementTreeToString(state->wst));
+            llistCat(&string, whileStatementTreeToString(state->wst));
             break;
         case readState:
-            llistCat(string, readStatementTreeToString(state->book));
+            llistCat(&string, readStatementTreeToString(state->book));
             break;
         case writeState:
-            llistCat(string, writeStatementTreeToString(state->author));
+            llistCat(&string, writeStatementTreeToString(state->author));
             break;
         case newLineState:
-            llistCat(string, newLineStatementTreeToString(state->nlst));
+            llistCat(&string, newLineStatementTreeToString(state->nlst));
             break;
         default:
             printf("internal error\n");
             break;
     }
-    listCat(string, ")\n");
+    listCat(&string, ")\n");
     return(string);
 }
 

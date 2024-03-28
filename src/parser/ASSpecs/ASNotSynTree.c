@@ -17,9 +17,9 @@ minusTree createMinusTree(expressionTree ex){
 
 list minusTreeToString(minusTree min){
     list string = createList();
-    listCat(string, "minus(");
-    llistCat(string, expressionTreeToString(min->exp));
-    listCat(string, ")\n");
+    listCat(&string, "minus(");
+    llistCat(&string, expressionTreeToString(min->exp));
+    listCat(&string, ")\n");
     return(string);
 }
 

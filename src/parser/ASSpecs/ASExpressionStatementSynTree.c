@@ -19,9 +19,9 @@ expressionStatementTree createExpressionStatementTree(expressionTree expr){
 
 list expressionStatementTreeToString(expressionStatementTree est){
     list string = createList();
-    listCat(string, "exprState(");
-    llistCat(string, expressionTreeToString(est->expression));    
-    listCat(string, ")\n");
+    listCat(&string, "exprState(");
+    llistCat(&string, expressionTreeToString(est->expression));    
+    listCat(&string, ")\n");
     return(string);
 }
 

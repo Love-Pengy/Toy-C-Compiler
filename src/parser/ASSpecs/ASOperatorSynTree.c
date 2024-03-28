@@ -26,9 +26,9 @@ operatorTree createOperatorTree(char* operator){
 
 list operatorTreeToString(operatorTree oper){
     list string = createList();
-    listCat(string, "Operator(");
-    listCat(string, (oper->op));
-    listCat(string, ")\n");
+    listCat(&string, "Operator(");
+    listCat(&string, (oper->op));
+    listCat(&string, ")\n");
     return(string);
 }
 

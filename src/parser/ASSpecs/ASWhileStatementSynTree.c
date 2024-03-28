@@ -22,10 +22,10 @@ whileStatementTree createWhileStatementTree(expressionTree expr, statementTree s
 
 list whileStatementTreeToString(whileStatementTree ws){
     list string = createList();
-    listCat(string, "whileState(");
-    llistCat(string, expressionTreeToString(ws->exp));
-    llistCat(string, statementTreeToString(ws->st));
-    listCat(string, ")\n");
+    listCat(&string, "whileState(");
+    llistCat(&string, expressionTreeToString(ws->exp));
+    llistCat(&string, statementTreeToString(ws->st));
+    listCat(&string, ")\n");
     return(string);
 }
 

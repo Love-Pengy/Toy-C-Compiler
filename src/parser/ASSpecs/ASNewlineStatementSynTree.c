@@ -17,8 +17,8 @@ newLineStatementTree createNewLineStatementTree(void){
 
 list newLineStatementTreeToString(newLineStatementTree n){
     list string = createList();
-    listCat(string, "newLineState(");
-    listCat(string, ")\n");
+    listCat(&string, "newLineState(");
+    listCat(&string, ")\n");
     return(string);
 }
 

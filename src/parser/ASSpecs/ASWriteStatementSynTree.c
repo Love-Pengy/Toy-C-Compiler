@@ -31,11 +31,11 @@ writeStatementTree createWriteStatementTree(expressionTree* exp,int amt){
 
 list writeStatementTreeToString(writeStatementTree ws){
     list string = createList();
-    listCat(string, "writeState(");
+    listCat(&string, "writeState(");
     for(int i = 0; i < ws->amtExprs; i++){
-        llistCat(string, expressionTreeToString(ws->exprs[i]));
+        llistCat(&string, expressionTreeToString(ws->exprs[i]));
     }
-    listCat(string, ")\n");
+    listCat(&string, ")\n");
     return(string);
 }
 

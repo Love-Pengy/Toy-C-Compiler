@@ -40,13 +40,13 @@ readStatementTree createReadStatementTree(char** identifiers, int idAmt){
 
 list readStatementTreeToString(readStatementTree rs){
     list string = createList();
-    listCat(string, "readState(");
+    listCat(&string, "readState(");
 
     for(int i = 0; i < rs->numIds; i++){
-        listCat(string, rs->ids[i]);
+        listCat(&string, rs->ids[i]);
     }
 
-    listCat(string, ")\n");
+    listCat(&string, ")\n");
     return(string);
 }
 

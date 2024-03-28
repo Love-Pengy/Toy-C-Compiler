@@ -35,14 +35,14 @@ functionCallTree createFunctionCallTree(char *ident, expressionTree* exp, int am
 
 list functionCallTreeToString(functionCallTree fct){
     list string = createList();
-    listCat(string, "funcCall(");
-    listCat(string, fct->id);
+    listCat(&string, "funcCall(");
+    listCat(&string, fct->id);
 
     for(int i = 0; i < fct->numExprs; i++){
-        llistCat(string, expressionTreeToString(fct->exprs[i]));
+        llistCat(&string, expressionTreeToString(fct->exprs[i]));
     } 
 
-    listCat(string, ")\n");
+    listCat(&string, ")\n");
     return(string);
 }
 
