@@ -26,6 +26,7 @@ void expandList(list expandee){
     strcpy(newList, expandee->string);
     free(expandee->string);
     expandee->string = newList;
+    expandee->buffSize = expandee->buffSize + CHUNK_SIZE;
 }
 
 void llistCat(list dest, list source){

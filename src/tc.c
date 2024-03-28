@@ -28,6 +28,9 @@ int main(int argc, char **argv){
     }
 
     programTree program = toyCProgram();
+    if(dump_abstractCode){
+        printf("%s\n", listToString(programTreeToString(program)));
+    }
 
     /* just scanner
     token currentLexeme;

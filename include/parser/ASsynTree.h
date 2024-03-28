@@ -37,7 +37,7 @@ list definitionTreeToString(definitionTree);
 
 //Program 
 programTree initProgramTree(void);
-void addDefinitionProgramTree(programTree *, definitionTree);
+void addDefinitionProgramTree(programTree *, definitionTree*);
 programTree createProgramTree(definitionTree*, int);
 list programTreeToString(programTree);
 
@@ -52,6 +52,7 @@ functionDefinitionTree createFunctionDefinitionTree(char*, char*, variableDefini
 list functionDefinitionTreeToString(functionDefinitionTree);
 
 //varDef 
+variableDefinitionTree initVariableDefinitionTree(void);
 variableDefinitionTree createVariableDefinitionTree(char *, char**, int);
 list variableDefinitionTreeToString(variableDefinitionTree);
 

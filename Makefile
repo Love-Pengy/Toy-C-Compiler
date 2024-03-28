@@ -6,8 +6,10 @@ SRC_DIRS := ./src
 LIB_DIRS := ./lib
 BIN_DIR := ./bin
 .DEFAULT_GOAL := generate
-DEBUG = 
+#if you wanna feel like a genius just get rid of debug symbol ;)
+DEBUG =   
 CFLAGS := -g -Wall
+
 # Find all the C and C++ files we want to compile
 # Note the single quotes around the * expressions. The shell will incorrectly expand these otherwise, but we want to send the * directly to the find command.
 SRCS := $(shell find $(SRC_DIRS) -name '*.cpp' -or -name '*.c' -or -name '*.s')
@@ -35,20 +37,21 @@ CPPFLAGS := $(INC_FLAGS) -MMD -MP
 
 # The final build step.
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
-	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
-	mv ./build/tc ./bin/tc
+	$(DEBUG)$(CXX) $(OBJS) -o $@ $(LDFLAGS)
+	$(DEBUG)mv ./build/tc ./bin/tc
 
 # Build step for C source
 $(BUILD_DIR)/%.c.o: %.c
-	mkdir -p $(dir $@)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	$(DEBUG)mkdir -p $(dir $@)
+	$(DEBUG)$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 
 .PHONY: clean test test2 
 
 clean:
-	rm -rf $(BUILD_DIR)/*
-	rm -rf $(BIN_DIR)/*
+	$(DEBUG)rm -rf $(BUILD_DIR)/*
+	$(DEBUG)rm -rf $(BIN_DIR)/*
+	$(DEBUG)echo "Cleaning Has Completed"
 
 generate: $(BUILD_DIR)/$(TARGET_EXEC) 
 	$(DEBUG)echo "Generation Has Completed"

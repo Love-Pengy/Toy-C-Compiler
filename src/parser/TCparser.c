@@ -91,6 +91,10 @@ void entering(char *entereeLikeABee){
 
 void exiting(char *exiteeLikeSomeTea){
     if(debug_parser){
+        if(!strcmp(exiteeLikeSomeTea, "toyCProgram")){
+            printf("[PARSER] Parse Has Completed\n");
+            printf("[PARSER] exiting %s\n", exiteeLikeSomeTea);    
+        }
         printf("[PARSER] exiting %s\n", exiteeLikeSomeTea);
         fflush(stdout);
     }
@@ -101,13 +105,13 @@ programTree toyCProgram(void){
     entering("toyCProgram");
     programTree output = initProgramTree(); 
     getNextToken();    
-
+    definitionTree defHold = initDefinitionTree();    
     while(strcmp(currentToken->lexeme, "EOF")){ 
-        addDefinitionProgramTree(&output,definition());
+        defHold = definition();
+        addDefinitionProgramTree(&output,&defHold);
     }
 
     exiting("toyCProgram");
-    printf("parse has been completed\n");
     return(output);
 }
 
@@ -119,6 +123,7 @@ definitionTree definition(void){
     //char is four letters
     char *typeSpec = malloc(sizeof(char) * 5);
     definitionTree fd = initDefinitionTree();
+    variableDefinitionTree vd = initVariableDefinitionTree();
     char *idHold;
     strcpy(typeSpec, type()); 
     if(!strcmp(currentToken->lexeme, "ID")){ 
@@ -127,6 +132,7 @@ definitionTree definition(void){
         getNextToken();
         if(!strcmp(currentToken->lexeme, "SEMICOLON")){
             typeProd = variableDef;
+            vd = createVariableDefinitionTree(typeSpec, &idHold, 1);
             accept(';');
         }
         else{
@@ -140,11 +146,11 @@ definitionTree definition(void){
         throwStateError("ID");   
     }
     exiting("definition");
-    if(typeProd == functionDef){
-        return(fd);
+    if(typeProd == variableDef){
+        return(createDefinitionTree(typeProd, &vd));
     }
     else{
-        return(createDefinitionTree(typeProd, &idHold));
+        return(createDefinitionTree(typeProd, &fd));
     }
 }
 
@@ -427,7 +433,6 @@ readStatementTree readStatement(void){
 writeStatementTree writeStatement(void){
     entering("writeStatement"); 
     writeStatementTree et = initWriteStatementTree();
-    int size = 0;
     if(!strcmp(currentToken->value, "write")){
         getNextToken();
         accept('(');
