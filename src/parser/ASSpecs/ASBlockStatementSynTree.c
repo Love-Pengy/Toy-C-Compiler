@@ -24,6 +24,10 @@ void addStatementBlockStatementTree(blockStatementTree* bst, statementTree s){
 
 blockStatementTree initBlockStatementTree(void){
     blockStatementTree output = malloc(sizeof(struct blockStatementTreeType));
+    output->vdt = malloc(sizeof(variableDefinitionTree) * 100);
+    output->statements = malloc(sizeof(statementTree) * 100);
+    output->vAmount = 0;
+    output->sAmount = 0;
     return(output);
 }
 //if a parameter is 0 then it will be passed NULL and an amount of 0

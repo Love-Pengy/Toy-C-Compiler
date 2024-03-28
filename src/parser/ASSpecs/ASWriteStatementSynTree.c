@@ -10,9 +10,20 @@ struct writeStatementTreeType{
     int amtExprs;
 };
 
+writeStatementTree initWriteStatementTree(void){
+    writeStatementTree wst = malloc(sizeof(struct writeStatementTreeType));
+    wst->exprs = malloc(sizeof(expressionTree) *100);
+    wst->amtExprs = 0;
+    return(wst);
+}
+
+void addExpressionTreeWriteStatementTree(writeStatementTree *w, expressionTree e){ 
+    (*w)->exprs[(*w)->amtExprs] = e;
+    (*w)->amtExprs++;
+}
 
 writeStatementTree createWriteStatementTree(expressionTree* exp,int amt){
-    writeStatementTree wst = malloc(sizeof(struct writeStatementTreeType));
+    writeStatementTree wst = initWriteStatementTree();
     wst->exprs = exp;
     wst->amtExprs = amt;
     return(wst);

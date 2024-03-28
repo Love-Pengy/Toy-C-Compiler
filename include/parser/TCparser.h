@@ -1,7 +1,6 @@
 //B. Frazier 3/16/24
 
 #include "../../include/parser/ASsynTree.h"
-
 programTree toyCProgram(void);
 definitionTree definition(void);
 char* type(void);

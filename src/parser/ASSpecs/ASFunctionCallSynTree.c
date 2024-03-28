@@ -17,6 +17,11 @@ functionCallTree initFunctionCallTree(void){
     return(fct);
 }
 
+void addExpressionTreeFunctionCallTree(functionCallTree * f, expressionTree input){
+    (*f)->exprs[(*f)->numExprs] = malloc(sizeof(expressionTree));
+    (*f)->exprs[(*f)->numExprs] = input;
+}
+
 functionCallTree createFunctionCallTree(char *ident, expressionTree* exp, int amt){
 
     functionCallTree fct = initFunctionCallTree();

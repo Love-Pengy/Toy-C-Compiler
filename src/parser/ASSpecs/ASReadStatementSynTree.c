@@ -15,6 +15,12 @@ struct readStatementTreeType{
 readStatementTree initReadStatementTree(void){
     readStatementTree rst = malloc(sizeof(struct readStatementTreeType));
     rst->numIds = 0;
+    rst->ids = malloc(sizeof(char*) * 100);
+
+    for(int i = 0; i < 100; i++){
+        rst->ids[i] = malloc(sizeof(char) * 200); 
+    }
+
     return(rst);
 }
 

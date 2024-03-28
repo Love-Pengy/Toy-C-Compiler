@@ -5,6 +5,7 @@
 #ifndef ASSYNTREE
 #define ASSYNTREE
 
+enum actualParamType {writeStatementType, functionCallType};
 typedef struct programTreeType *programTree; 
 typedef struct definitionTreeType *definitionTree;
 typedef struct functionDefinitionTreeType *functionDefinitionTree;  
@@ -95,6 +96,8 @@ readStatementTree createReadStatementTree(char**, int);
 
 
 //writeState
+writeStatementTree initWriteStatementTree(void);
+void addExpressionTreeWriteStatementTree(writeStatementTree*, expressionTree);
 list writeStatementTreeToString(writeStatementTree);
 writeStatementTree createWriteStatementTree(expressionTree*,int);
 

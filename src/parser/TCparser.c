@@ -34,7 +34,7 @@ expressionTree simpleExpression(void);
 expressionTree term(void);
 expressionTree primary(void);
 functionCallTree functionCall(char*);
-int actualParameters(expressionTree**);
+void actualParameters(enum actualParamType,void*);
 
 void throwError(char expected){
     printf("%d :", getLineNum());
@@ -426,12 +426,12 @@ readStatementTree readStatement(void){
 
 writeStatementTree writeStatement(void){
     entering("writeStatement"); 
-    expressionTree *et = NULL;
+    writeStatementTree et = initWriteStatementTree();
     int size = 0;
     if(!strcmp(currentToken->value, "write")){
         getNextToken();
         accept('(');
-        size = actualParameters(&et);
+        actualParameters(writeStatementType, &et);
         accept(')');
         accept(';');
     }
@@ -439,7 +439,7 @@ writeStatementTree writeStatement(void){
         throwStateError("write");
     }
     exiting("writeStatement");
-    return(createWriteStatementTree(et, size));
+    return(et);
 }
 
 newLineStatementTree newLineStatement(void){
@@ -616,40 +616,46 @@ functionCallTree functionCall(char * id){
     expressionTree * et =  malloc(sizeof(expressionTree) * 100);
     int amount = 0;
     if(!strcmp(currentToken->lexeme, "ID")){
-        amount = actualParameters(&et);
+         actualParameters(functionCallType, &et);
     }
     else if(!strcmp(currentToken->lexeme, "NUMBER")){
-        amount = actualParameters(&et);
+        actualParameters(functionCallType, &et);
     }
     else if(!strcmp(currentToken->lexeme, "STRING")){
-        amount = actualParameters(&et);
+        actualParameters(functionCallType, &et);
     }
     else if(!strcmp(currentToken->lexeme, "CHARLITERAL")){
-        amount = actualParameters(&et);
+        actualParameters(functionCallType, &et);
     }
     else if(!strcmp(currentToken->lexeme, "LPAREN")){
-        amount = actualParameters(&et);
+        actualParameters(functionCallType, &et);
     }
     else if((!strcmp(currentToken->value, "-")) || (!strcmp(currentToken->lexeme, "NOT"))){
-        amount = actualParameters(&et);
+        actualParameters(functionCallType, &et);
     }
     accept(')');
     exiting("functionCall");
     return(createFunctionCallTree(id, et, amount)); 
 }
 
-int actualParameters(expressionTree ** input){
+void actualParameters(enum actualParamType type, void* input){
     entering("actualParameters");
-    int i = 0;
-    (*input)[i] = malloc(sizeof(expressionTree));
-    (*input)[i] = expression();
-    i++;
+    if(type == writeStatementType){
+        addExpressionTreeWriteStatementTree((writeStatementTree*)input, expression());   
+    }
+    else{
+        addExpressionTreeWriteStatementTree((writeStatementTree*)input, expression());
+    }
     while(!strcmp(currentToken->lexeme, "COMMA")){
-        getNextToken(); 
-        (*input)[i] = expression();
+        getNextToken();     
+        if(type == writeStatementType){
+            addExpressionTreeWriteStatementTree((writeStatementTree*)input, expression());   
+        }
+        else{
+            addExpressionTreeWriteStatementTree((writeStatementTree*)input, expression());
+        }
     }
     exiting("actualParameters");
-    return(i);
 }
 
 
