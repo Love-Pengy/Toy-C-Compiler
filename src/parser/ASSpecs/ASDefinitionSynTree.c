@@ -26,11 +26,11 @@ definitionTree createDefinitionTree(enum defTypeProd prodType, void* prod){
     switch(prodType){
         case functionDef: 
             dst->type = prodType;
-            dst->fDef = (functionDefinitionTree)prod;
+            dst->fDef = *(functionDefinitionTree*)prod;
             break;
         case variableDef:
             dst->type = prodType;
-            dst->vDef = (variableDefinitionTree)prod;
+            dst->vDef = *(variableDefinitionTree*)prod;
             break; 
         default:
             printf("internal error\n");
@@ -46,10 +46,10 @@ list definitionTreeToString(definitionTree dst){
     listCat(&string, "definition(\n");
     switch(dst->type){
         case functionDef: 
-            llistCat(&string, functionDefinitionTreeToString(&(dst->fDef)));
+            llistCat(&string, functionDefinitionTreeToString(dst->fDef));
             break;
         case variableDef:
-            llistCat(&string, variableDefinitionTreeToString(&(dst->vDef)));
+            llistCat(&string, variableDefinitionTreeToString(dst->vDef));
             break;
         default:
             listCat(&string, "[error]\n");

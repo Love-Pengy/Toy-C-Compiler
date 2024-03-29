@@ -30,11 +30,16 @@ void expandList(list *expandee){
 }
 
 void llistCat(list *dest, list source){
-    while((*dest)->buffSize < ((*dest)->size + source->size + 1)){
-        expandList(dest);
+    if(source == NULL){
+        
     }
-    strcat((*dest)->string, source->string);
-    (*dest)->size = ((*dest)->size + source->size);
+    else{
+        while((*dest)->buffSize < ((*dest)->size + source->size + 1)){
+            expandList(dest);
+        }
+        strcat((*dest)->string, source->string);
+        (*dest)->size = ((*dest)->size + source->size);
+    }
 }
 
 void listCat(list *dest, char *source){

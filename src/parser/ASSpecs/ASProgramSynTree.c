@@ -35,7 +35,7 @@ programTree createProgramTree(definitionTree *definitions, int amount){
 
 list programTreeToString(programTree pst){  
     list string = createList(); 
-    listCat(&string, "prog("); 
+    listCat(&string, "prog(\n"); 
     for(int i = 0; i < pst->numDefs; i++){
         llistCat(&string, definitionTreeToString(pst->dTrees[i]));
     }

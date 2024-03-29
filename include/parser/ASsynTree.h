@@ -49,12 +49,12 @@ void addVarDefFunctionDefinition(functionDefinitionTree*, variableDefinitionTree
 void addStatementFunctionDefinition(functionDefinitionTree*, statementTree*);
 
 functionDefinitionTree createFunctionDefinitionTree(char*, char*, variableDefinitionTree*, int, statementTree);
-list functionDefinitionTreeToString(functionDefinitionTree*);
+list functionDefinitionTreeToString(functionDefinitionTree);
 
 //varDef 
 variableDefinitionTree initVariableDefinitionTree(void);
 variableDefinitionTree createVariableDefinitionTree(char *, char**, int);
-list variableDefinitionTreeToString(variableDefinitionTree*);
+list variableDefinitionTreeToString(variableDefinitionTree);
 
 //exprState 
 expressionStatementTree createExpressionStatementTree(expressionTree);
@@ -107,7 +107,7 @@ list newLineStatementTreeToString(newLineStatementTree);
 newLineStatementTree createNewLineStatementTree(void);
 
 //statement
-enum statementType {exprState, breakState, blockState, ifState, nullState, returnState, whileState, readState, writeState, newLineState};
+enum statementType {exprState, breakState, blockState, ifState, nullState, returnState, whileState, readState, writeState, newLineState, undefined};
 statementTree initStatementTree(void);
 void addExprStateStatementTree(statementTree*, expressionStatementTree);
 void addBreakStateStatementTree(statementTree*, breakStatementTree);

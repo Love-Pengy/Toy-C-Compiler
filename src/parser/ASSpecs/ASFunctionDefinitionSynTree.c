@@ -18,6 +18,7 @@ struct functionDefinitionTreeType{
 
 functionDefinitionTree initFunctionDefinitionTree(void){
     functionDefinitionTree output = malloc(sizeof(struct functionDefinitionTreeType));
+    output->vDef = malloc(sizeof(variableDefinitionTree) * 100);
     output->varAmount = 0;
     return(output);
 }
@@ -59,17 +60,19 @@ functionDefinitionTree createFunctionDefinitionTree(char *identifier, char *type
 }
 
 
-list functionDefinitionTreeToString(functionDefinitionTree* fst){
+list functionDefinitionTreeToString(functionDefinitionTree fst){
     list string = createList();
-    listCat(&string, "funcDef(");
-    listCat(&string, (*fst)->type);    
-    listCat(&string, (*fst)->id);
-    if((*fst)->varAmount){
-        for(int i = 0; i < (*fst)->varAmount; i++){
-            llistCat(&string, variableDefinitionTreeToString(&((*fst)->vDef[i])));
+    listCat(&string, "funcDef(\n");
+    listCat(&string, (fst)->type);    
+    listCat(&string, " ");
+    listCat(&string, (fst)->id);
+    listCat(&string, " ");
+    if((fst)->varAmount){
+        for(int i = 0; i < (fst)->varAmount; i++){
+            llistCat(&string, variableDefinitionTreeToString(((fst)->vDef[i])));
         }
     }
-    llistCat(&string, statementTreeToString((*fst)->sDef));
+    llistCat(&string, statementTreeToString((fst)->sDef));
     listCat(&string, ")\n");
     return(string);
 }

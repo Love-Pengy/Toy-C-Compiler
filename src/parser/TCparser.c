@@ -13,7 +13,7 @@ token currentToken;
 programTree toyCProgram(void);
 definitionTree definition(void);
 char* type(void);
-definitionTree functionDefinition(char *, char*);
+functionDefinitionTree functionDefinition(char *, char*);
 void functionHeader(functionDefinitionTree*);
 void functionBody(functionDefinitionTree*);
 void formalParamList(functionDefinitionTree*);
@@ -121,8 +121,10 @@ definitionTree definition(void){
     enum defTypeProd typeProd;
     //char is four letters
     char *typeSpec = malloc(sizeof(char) * 5);
-    void * ptr;
+    void * ptr = malloc(sizeof(void*));
     char *idHold;
+    variableDefinitionTree vdHold = initVariableDefinitionTree();
+    functionDefinitionTree fsHold = initFunctionDefinitionTree();
     strcpy(typeSpec, type()); 
     if(!strcmp(currentToken->lexeme, "ID")){ 
         char *idHold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
@@ -130,13 +132,14 @@ definitionTree definition(void){
         getNextToken();
         if(!strcmp(currentToken->lexeme, "SEMICOLON")){
             typeProd = variableDef;
-            ptr = createVariableDefinitionTree(typeSpec, &idHold, 1);
+            vdHold = createVariableDefinitionTree(typeSpec, &idHold, 1);
+            ptr = &vdHold;
             accept(';');
         }
         else{
             typeProd = functionDef;
-            ptr = functionDefinition(typeSpec, idHold);
-            
+            fsHold = functionDefinition(typeSpec, idHold);
+            ptr = &fsHold;
         }
     }
     else{
@@ -170,16 +173,15 @@ char* type(void){
     return(t);
 }
 
-definitionTree functionDefinition(char *type, char* id){
+functionDefinitionTree functionDefinition(char *type, char* id){
     entering("functionDefinition");  
     functionDefinitionTree fd = initFunctionDefinitionTree();
     addIdFunctionDefinition(&fd, id); 
     addTypeFunctionDefinition(&fd, type);
     functionHeader(&fd);
     functionBody(&fd);
-
     exiting("functionDefinition");
-    return(createDefinitionTree(functionDef, fd));
+    return(fd);
 }
 
 void functionHeader(functionDefinitionTree* d){

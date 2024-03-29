@@ -46,7 +46,7 @@ list blockStatementTreeToString(blockStatementTree bst){
     list string = createList();
     listCat(&string, "blockState(");
     for(int i = 0; i < bst->vAmount; i++){
-        llistCat(&string, variableDefinitionTreeToString(&(bst->vdt[i])));
+        llistCat(&string, variableDefinitionTreeToString((bst->vdt[i])));
     }    
     for(int i = 0; i < bst->sAmount; i++){
         llistCat(&string, statementTreeToString(bst->statements[i]));
