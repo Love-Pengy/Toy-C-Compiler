@@ -1,8 +1,8 @@
 //B. Frazier 3/16/24
 int main(char a, int b){
+    write("Enter an upper bound for loop: ");
 }
 /*
-    write("Enter an upper bound for loop: ");
     read(a);
     b = 1;
     while(b <= a){

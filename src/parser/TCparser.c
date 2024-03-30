@@ -259,7 +259,9 @@ statementTree statement(void){
             addReadStateStatementTree(&output, readStatement());
         }
         else if(!strcmp(currentToken->value, "write")){
-            addWriteStateStatementTree(&output, writeStatement());
+            writeStatementTree hold = malloc(sizeof(writeStatementTree));
+            hold = writeStatement();
+            addWriteStateStatementTree(&output, &hold);
         }
         else if(!strcmp(currentToken->value, "newline")){
             addNewlineStateStatementTree(&output, newLineStatement());

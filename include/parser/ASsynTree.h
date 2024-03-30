@@ -116,7 +116,7 @@ void addIfStateStatementTree(statementTree*, ifStatementTree);
 void addNullStateStatementTree(statementTree*, nullStatementTree);
 void addReturnStateStatementTree(statementTree*, returnStatementTree);
 void addWhileStateStatementTree(statementTree*, whileStatementTree);
-void addWriteStateStatementTree(statementTree*, writeStatementTree);
+void addWriteStateStatementTree(statementTree*, writeStatementTree*);
 void addNewlineStateStatementTree(statementTree*, newLineStatementTree);
 void addReadStateStatementTree(statementTree*, readStatementTree);
 list statementTreeToString(statementTree);

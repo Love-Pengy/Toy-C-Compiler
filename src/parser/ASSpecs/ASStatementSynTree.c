@@ -63,9 +63,9 @@ void addWhileStateStatementTree(statementTree* st, whileStatementTree w){
     (*st)->wst = w;
 }
 
-void addWriteStateStatementTree(statementTree* st, writeStatementTree w){
+void addWriteStateStatementTree(statementTree* st, writeStatementTree *w){
     (*st)->type = writeState;
-    (*st)->author = w;
+    (*st)->author = (*w);
 }
 
 void addNewlineStateStatementTree(statementTree* st, newLineStatementTree n){
