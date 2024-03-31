@@ -9,6 +9,10 @@
 struct newLineStatementTreeType{
 };
 
+newLineStatementTree initNewLineStatementTree(void){
+    newLineStatementTree nst = malloc(sizeof(struct newLineStatementTreeType));
+    return(nst);
+}
 
 newLineStatementTree createNewLineStatementTree(void){
     newLineStatementTree nst = malloc(sizeof(struct newLineStatementTreeType));

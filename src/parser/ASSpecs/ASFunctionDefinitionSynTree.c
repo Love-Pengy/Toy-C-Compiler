@@ -44,7 +44,7 @@ void addStatementFunctionDefinition(functionDefinitionTree *f, statementTree *ad
 }
 
 //if there aren't any variable definitions then the var definitions passed will be NULL
-functionDefinitionTree createFunctionDefinitionTree(char *identifier, char *type, variableDefinitionTree* v, int amount, statementTree s){
+functionDefinitionTree createFunctionDefinitionTree(char *identifier, char *type, variableDefinitionTree* v, int amount, statementTree* s){
     functionDefinitionTree output = initFunctionDefinitionTree();
     output->id = malloc(sizeof(char) * (strlen(identifier) + 1));
     strcpy(output->id, identifier);
@@ -54,7 +54,7 @@ functionDefinitionTree createFunctionDefinitionTree(char *identifier, char *type
     if(output->vDef == NULL){
         output->varAmount = 0;
     }
-    output->sDef = s;
+    output->sDef = (*s);
     output->varAmount = amount;
     return(output);
 }

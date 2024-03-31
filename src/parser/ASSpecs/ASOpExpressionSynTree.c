@@ -17,11 +17,11 @@ opExpressionTree initOpExpressionTree(void){
     return(oet);
 }
 
-opExpressionTree createOpExpressionTree(operatorTree oper, expressionTree ex1, expressionTree ex2){
+opExpressionTree createOpExpressionTree(operatorTree* oper, expressionTree* ex1, expressionTree* ex2){
     opExpressionTree oet = initOpExpressionTree();
-    oet->op = oper;
-    oet->exp1 = ex1;
-    oet->exp2 = ex2;
+    oet->op = (*oper);
+    oet->exp1 = (*ex1);
+    oet->exp2 = (*ex2);
     return(oet);
 }
 

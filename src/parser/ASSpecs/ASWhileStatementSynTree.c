@@ -12,10 +12,15 @@ struct whileStatementTreeType{
 };
 
 
-whileStatementTree createWhileStatementTree(expressionTree expr, statementTree stt){
+whileStatementTree initWhileStatementTree(void){
     whileStatementTree wst = malloc(sizeof(struct whileStatementTreeType));
-    wst->exp = expr;
-    wst->st = stt;
+    return(wst);
+}
+
+whileStatementTree createWhileStatementTree(expressionTree* expr, statementTree* stt){
+    whileStatementTree wst = malloc(sizeof(struct whileStatementTreeType));
+    wst->exp = (*expr);
+    wst->st = (*stt);
     return(wst);
 
 }

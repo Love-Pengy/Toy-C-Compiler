@@ -15,11 +15,11 @@ returnStatementTree initReturnStatementTree(void){
     return(rst);
 }
 
-returnStatementTree createReturnStatementTree(expressionTree ex){
+returnStatementTree createReturnStatementTree(expressionTree* ex){
     returnStatementTree rst = initReturnStatementTree();
 
     if(ex != NULL){
-        rst->exp = ex;
+        rst->exp = (*ex);
     }
     else{
         rst->exp = NULL;

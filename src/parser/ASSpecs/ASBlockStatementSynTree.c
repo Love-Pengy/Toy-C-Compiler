@@ -12,13 +12,13 @@ struct blockStatementTreeType{
     int sAmount;
 };
 
-void addVarDefBlockStatementTree(blockStatementTree* bst, variableDefinitionTree v){
-    (*bst)->vdt[(*bst)->vAmount] = v;
+void addVarDefBlockStatementTree(blockStatementTree* bst, variableDefinitionTree* v){
+    (*bst)->vdt[(*bst)->vAmount] = (*v);
     (*bst)->vAmount++;
 }
 
-void addStatementBlockStatementTree(blockStatementTree* bst, statementTree s){
-    (*bst)->statements[(*bst)->sAmount] = s;
+void addStatementBlockStatementTree(blockStatementTree* bst, statementTree* s){
+    (*bst)->statements[(*bst)->sAmount] = (*s);
     (*bst)->sAmount++;
 }
 

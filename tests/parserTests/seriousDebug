@@ -1,5 +1,5 @@
 //B. Frazier 3/16/24
-int main(char a, int b){
+int main(){
     write("Enter an upper bound for loop: ");
 }
 /*

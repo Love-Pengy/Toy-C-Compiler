@@ -14,12 +14,17 @@ struct ifStatementTreeType{
     statementTree elseExpression;
 };
 
-//ifs is required elseS is not (can be passed NULL if it does not exist
-ifStatementTree createIfStatementTree(expressionTree expr, statementTree ifS, statementTree elseS){
+ifStatementTree initIfStatementTree(void){
     ifStatementTree ist = malloc(sizeof(struct ifStatementTreeType));
-    ist->exp = expr;
-    ist->ifExpression = ifS;
-    ist->elseExpression = elseS;
+    return(ist);
+}
+
+//ifs is required elseS is not (can be passed NULL if it does not exist
+ifStatementTree createIfStatementTree(expressionTree* expr, statementTree* ifS, statementTree* elseS){
+    ifStatementTree ist = initIfStatementTree();
+    ist->exp = (*expr);
+    ist->ifExpression = (*ifS);
+    ist->elseExpression = (*elseS);
     return(ist);
 }
 

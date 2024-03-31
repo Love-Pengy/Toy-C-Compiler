@@ -4,23 +4,27 @@
 #include "../../../include/parser/ASsynTree.h"
 #include <stdlib.h>
 
-struct minusTreeType{
+
+struct notTreeType{
     expressionTree exp;
 };
 
-
-minusTree createMinusTree(expressionTree ex){
-    minusTree min = malloc(sizeof(struct minusTreeType));
-    min->exp = ex;
-    return(min);
+notTree initNotTree(void){
+    notTree not = malloc(sizeof(struct notTreeType));
+    return(not);
 }
 
-list minusTreeToString(minusTree min){
+notTree createNotTree(expressionTree* ex){
+    notTree not = malloc(sizeof(struct notTreeType));
+    not->exp = (*ex);
+    return(not);
+}
+
+list notTreeToString(notTree not){
     list string = createList();
-    listCat(&string, "minus(");
-    llistCat(&string, expressionTreeToString(min->exp));
+    listCat(&string, "not(");
+    llistCat(&string, expressionTreeToString(not->exp));
     listCat(&string, ")\n");
     return(string);
 }
-
 

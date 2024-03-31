@@ -48,7 +48,7 @@ void addIdFunctionDefinition(functionDefinitionTree*, char *);
 void addVarDefFunctionDefinition(functionDefinitionTree*, variableDefinitionTree*);
 void addStatementFunctionDefinition(functionDefinitionTree*, statementTree*);
 
-functionDefinitionTree createFunctionDefinitionTree(char*, char*, variableDefinitionTree*, int, statementTree);
+functionDefinitionTree createFunctionDefinitionTree(char*, char*, variableDefinitionTree*, int, statementTree*);
 list functionDefinitionTreeToString(functionDefinitionTree);
 
 //varDef 
@@ -57,35 +57,40 @@ variableDefinitionTree createVariableDefinitionTree(char *, char**, int);
 list variableDefinitionTreeToString(variableDefinitionTree);
 
 //exprState 
-expressionStatementTree createExpressionStatementTree(expressionTree);
+expressionStatementTree initExpressionStatementTree(void);
+expressionStatementTree createExpressionStatementTree(expressionTree*);
 list expressionStatementTreeToString(expressionStatementTree);
 
 //breakState 
+breakStatementTree initBreakStatementTree(void);
 breakStatementTree createBreakStatementTree(void);
 list breakStatementTreeToString(breakStatementTree);
 
 //blockState 
-void addStatementBlockStatementTree(blockStatementTree*, statementTree);
-void addVarDefBlockStatementTree(blockStatementTree*, variableDefinitionTree);
+void addStatementBlockStatementTree(blockStatementTree*, statementTree*);
+void addVarDefBlockStatementTree(blockStatementTree*, variableDefinitionTree*);
 blockStatementTree initBlockStatementTree(void);
 blockStatementTree createBlockStatementTree(variableDefinitionTree *, int, statementTree *, int);
 list blockStatementTreeToString(blockStatementTree);
 
 //ifState 
+ifStatementTree initIfStatementTree(void);
 list ifStatementTreeToString(ifStatementTree);
-ifStatementTree createIfStatementTree(expressionTree, statementTree, statementTree);
+ifStatementTree createIfStatementTree(expressionTree*, statementTree*, statementTree*);
 
 //nullState
+nullStatementTree initNullStatementTree(void);
 nullStatementTree createNullStatementTree(void);
 list nullStatementTreeToString(nullStatementTree);
 
 //returnState
 returnStatementTree initReturnStatementTree(void);
-returnStatementTree createReturnStatementTree(expressionTree);
+returnStatementTree createReturnStatementTree(expressionTree*);
 list returnStatementTreeToString(returnStatementTree);
 
 //whileState
-whileStatementTree createWhileStatementTree(expressionTree, statementTree);
+whileStatementTree initWhileStatementTree(void);
+whileStatementTree createWhileStatementTree(expressionTree*, statementTree*);
 list whileStatementTreeToString(whileStatementTree);
 
 
@@ -98,32 +103,33 @@ readStatementTree createReadStatementTree(char**, int);
 
 //writeState
 writeStatementTree initWriteStatementTree(void);
-void addExpressionTreeWriteStatementTree(writeStatementTree*, expressionTree);
+void addExpressionTreeWriteStatementTree(writeStatementTree*, expressionTree*);
 list writeStatementTreeToString(writeStatementTree);
 writeStatementTree createWriteStatementTree(expressionTree*,int);
 
 //newLineState
+newLineStatementTree initNewLineStatementTree(void);
 list newLineStatementTreeToString(newLineStatementTree);
 newLineStatementTree createNewLineStatementTree(void);
 
 //statement
 enum statementType {exprState, breakState, blockState, ifState, nullState, returnState, whileState, readState, writeState, newLineState, undefined};
 statementTree initStatementTree(void);
-void addExprStateStatementTree(statementTree*, expressionStatementTree);
-void addBreakStateStatementTree(statementTree*, breakStatementTree);
-void addBlockStateStatementTree(statementTree*, blockStatementTree);
-void addIfStateStatementTree(statementTree*, ifStatementTree);
-void addNullStateStatementTree(statementTree*, nullStatementTree);
-void addReturnStateStatementTree(statementTree*, returnStatementTree);
-void addWhileStateStatementTree(statementTree*, whileStatementTree);
+void addExprStateStatementTree(statementTree*, expressionStatementTree*);
+void addBreakStateStatementTree(statementTree*, breakStatementTree*);
+void addBlockStateStatementTree(statementTree*, blockStatementTree*);
+void addIfStateStatementTree(statementTree*, ifStatementTree*);
+void addNullStateStatementTree(statementTree*, nullStatementTree*);
+void addReturnStateStatementTree(statementTree*, returnStatementTree*);
+void addWhileStateStatementTree(statementTree*, whileStatementTree*);
 void addWriteStateStatementTree(statementTree*, writeStatementTree*);
-void addNewlineStateStatementTree(statementTree*, newLineStatementTree);
-void addReadStateStatementTree(statementTree*, readStatementTree);
+void addNewlineStateStatementTree(statementTree*, newLineStatementTree*);
+void addReadStateStatementTree(statementTree*, readStatementTree*);
 list statementTreeToString(statementTree);
 statementTree createStatementTree(enum statementType,  void*);
 
 //expression
-expressionStatementTree createExpressionStatementTree(expressionTree);
+expressionStatementTree createExpressionStatementTree(expressionTree*);
 list expressionStatementTreeToString(expressionStatementTree);
 
 //funcCall
@@ -134,15 +140,17 @@ functionCallTree createFunctionCallTree(char *, expressionTree*, int);
 //expr
 opExpressionTree initOpExpressionTree(void);
 list opExpressionTreeToString(opExpressionTree);
-opExpressionTree createOpExpressionTree(operatorTree, expressionTree, expressionTree);
+opExpressionTree createOpExpressionTree(operatorTree*, expressionTree*, expressionTree*);
 
 //minus
+minusTree initMinusTree(void);
 list minusTreeToString(minusTree);
-minusTree createMinusTree(expressionTree);
+minusTree createMinusTree(expressionTree*);
 
 //not
+notTree initNotTree(void);
 list notTreeToString(notTree);
-notTree createNotTree(expressionTree);
+notTree createNotTree(expressionTree*);
 
 //Operator
 operatorTree initOperatorTree(void);
@@ -151,6 +159,7 @@ operatorTree createOperatorTree(char*);
 
 //expression
 enum expressionType {Number, ID, CharLiteral, StringLiteral, funcCall, Expr, Minus, Not};
+enum expressionType getExpressionType(expressionTree);
 expressionTree initExpressionTree(void);
 expressionTree createExpressionTree(enum expressionType, void*);
 list expressionTreeToString(expressionTree);

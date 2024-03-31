@@ -59,6 +59,9 @@ generate: $(BUILD_DIR)/$(TARGET_EXEC)
 test: 
 	$(DEBUG)gdb --args $(BIN_DIR)/tc $(ARGS)
 
+test2: 
+	$(DEBUG)gdb --args $(BIN_DIR)/tc $(ARGS)
+
 run: 
 	$(DEBUG)./$(BIN_DIR)/tc $(ARGS)
 

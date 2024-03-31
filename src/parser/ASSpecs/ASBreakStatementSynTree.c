@@ -9,8 +9,13 @@ struct breakStatementTreeType{
 };
 
 
-breakStatementTree createBreakStatementTree(void){
+breakStatementTree initBreakStatementTree(void){
     breakStatementTree bst = malloc(sizeof(struct breakStatementTreeType));
+    return(bst);
+}
+
+breakStatementTree createBreakStatementTree(void){
+    breakStatementTree bst = initBreakStatementTree();
     return(bst);
 }
 

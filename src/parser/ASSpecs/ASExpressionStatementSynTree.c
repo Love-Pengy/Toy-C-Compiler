@@ -10,9 +10,14 @@ struct expressionStatementTreeType{
 };
 
 
-expressionStatementTree createExpressionStatementTree(expressionTree expr){
+expressionStatementTree initExpressionStatementTree(void){
     expressionStatementTree est = malloc(sizeof(struct expressionStatementTreeType));
-    est->expression = expr;
+    return(est);
+}
+
+expressionStatementTree createExpressionStatementTree(expressionTree* expr){
+    expressionStatementTree est = initExpressionStatementTree();
+    est->expression = (*expr);
     return(est);
 }
 

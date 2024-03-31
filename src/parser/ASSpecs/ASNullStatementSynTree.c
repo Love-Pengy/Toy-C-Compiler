@@ -9,8 +9,15 @@
 struct nullStatementTreeType{
 };
 
-nullStatementTree createNullStatementTree(void){
+
+
+nullStatementTree initNullStatementTree(void){
     nullStatementTree nst = malloc(sizeof(struct nullStatementTreeType));
+    return(nst);
+}
+
+nullStatementTree createNullStatementTree(void){
+    nullStatementTree nst = initNullStatementTree();
     return(nst);
 
 }

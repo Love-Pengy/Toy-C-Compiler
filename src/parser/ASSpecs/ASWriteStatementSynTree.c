@@ -17,8 +17,8 @@ writeStatementTree initWriteStatementTree(void){
     return(wst);
 }
 
-void addExpressionTreeWriteStatementTree(writeStatementTree *w, expressionTree e){ 
-    (*w)->exprs[(*w)->amtExprs] = e;
+void addExpressionTreeWriteStatementTree(writeStatementTree *w, expressionTree* e){ 
+    (*w)->exprs[(*w)->amtExprs] = (*e);
     (*w)->amtExprs++;
 }
 

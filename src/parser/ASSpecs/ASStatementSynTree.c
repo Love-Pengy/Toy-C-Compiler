@@ -28,93 +28,94 @@ statementTree initStatementTree(void){
     return(st);
 }
 
-void addExprStateStatementTree(statementTree* st, expressionStatementTree e){
+void addExprStateStatementTree(statementTree* st, expressionStatementTree* e){
     (*st)->type = exprState;
-    (*st)->exp = e;
+    (*st)->exp = (*e);
 }
 
-void addBreakStateStatementTree(statementTree* st, breakStatementTree b){
+void addBreakStateStatementTree(statementTree* st, breakStatementTree* b){
     (*st)->type = breakState;
-    (*st)->bst = b;
+    (*st)->bst = (*b);
 }
 
-void addBlockStateStatementTree(statementTree* st, blockStatementTree b){
+void addBlockStateStatementTree(statementTree* st, blockStatementTree* b){
     (*st)->type = blockState;
-    (*st)->blt = b;
+    (*st)->blt = (*b);
 }
     
-void addIfStateStatementTree(statementTree* st, ifStatementTree i){
+void addIfStateStatementTree(statementTree* st, ifStatementTree* i){
     (*st)->type = ifState;
-    (*st)->ist = i;
+    (*st)->ist = (*i);
 }
 
-void addNullStateStatementTree(statementTree* st, nullStatementTree n){
+void addNullStateStatementTree(statementTree* st, nullStatementTree* n){
     (*st)->type = nullState;
-    (*st)->nst = n;
+    (*st)->nst = (*n);
 }
 
-void addReturnStateStatementTree(statementTree* st, returnStatementTree r){
+void addReturnStateStatementTree(statementTree* st, returnStatementTree* r){
     (*st)->type = returnState;
-    (*st)->rst = r;
+    (*st)->rst = (*r);
 }
 
-void addWhileStateStatementTree(statementTree* st, whileStatementTree w){
+void addWhileStateStatementTree(statementTree* st, whileStatementTree* w){
     (*st)->type = whileState;
-    (*st)->wst = w;
+    (*st)->wst = (*w);
 }
 
-void addWriteStateStatementTree(statementTree* st, writeStatementTree *w){
+void addWriteStateStatementTree(statementTree* st, writeStatementTree* w){
     (*st)->type = writeState;
     (*st)->author = (*w);
 }
 
-void addNewlineStateStatementTree(statementTree* st, newLineStatementTree n){
+void addNewlineStateStatementTree(statementTree* st, newLineStatementTree* n){
     (*st)->type = newLineState;
-    (*st)->nlst = n;
+    (*st)->nlst = (*n);
 }
 
-void addReadStateStatementTree(statementTree* st, readStatementTree r){
+void addReadStateStatementTree(statementTree* st, readStatementTree* r){
     (*st)->type = readState;
-    (*st)->book = r;
+    (*st)->book = (*r);
 }
 
 statementTree createStatementTree(enum statementType t, void* val){
     statementTree st = initStatementTree();
     switch(t){
         case exprState:
-            st->exp = (expressionStatementTree)val;
+            st->exp = *(expressionStatementTree*)val;
             break;
         case breakState:
-            st->bst = (breakStatementTree)val;
+            st->bst = *(breakStatementTree*)val;
             break;
         case blockState:
-            st->blt = (blockStatementTree)val;
+            st->blt = *(blockStatementTree*)val;
             break;
         case ifState:
-            st->ist = (ifStatementTree)val;
+            st->ist = *(ifStatementTree*)val;
             break;
         case nullState:
-            st->nst = (nullStatementTree)val;
+            st->nst = *(nullStatementTree*)val;
             break;
         case returnState:
-            st->rst = (returnStatementTree)val;
+            st->rst = *(returnStatementTree*)val;
             break;
         case whileState:
-            st->wst = (whileStatementTree)val;
+            st->wst = *(whileStatementTree*)val;
             break;
         case readState:
-            st->book = (readStatementTree)val;
+            st->book = *(readStatementTree*)val;
             break;
         case writeState:
-            st->author = (writeStatementTree)val;
+            st->author = *(writeStatementTree*)val;
             break;
         case newLineState:
-            st->nlst = (newLineStatementTree)val;
+            st->nlst = *(newLineStatementTree*)val;
             break;
         default:
             printf("internal error\n");
             break;
     }
+    st->type = t;
     return(st);
 }
 

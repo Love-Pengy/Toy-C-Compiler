@@ -21,6 +21,11 @@ struct expressionTreeType{
 };
 
 
+
+enum expressionType getExpressionType(expressionTree e){
+    return(e->type);
+}
+
 expressionTree initExpressionTree(void){
     expressionTree est = malloc(sizeof(struct expressionTreeType));
     return(est);
@@ -30,37 +35,38 @@ expressionTree createExpressionTree(enum expressionType t, void* val){
     expressionTree est = initExpressionTree();
     switch(t){
         case Number:
-            est->number = malloc(sizeof(char) * strlen((char*)val) + 1);
-            strcpy(est->number, (char*)val);
+            est->number = malloc(sizeof(char) * strlen((*(char**)val)) + 1);
+            strcpy(est->number, (*(char**)val));
             break;
         case ID:
-            est->id = malloc(sizeof(char) * strlen((char*)val) + 1);
-            strcpy(est->id, (char*)val);
+            est->id = malloc(sizeof(char) * strlen(*(char**)val) + 1);
+            strcpy(est->id, (*(char**)val));
             break;
         case CharLiteral:
-            est->charLit = malloc(sizeof(char) * strlen((char*)val) + 1);
-            strcpy(est->charLit, (char*)val);
+            est->charLit = malloc(sizeof(char) * strlen((*(char**)val) + 1));
+            strcpy(est->charLit, (*(char**)val));
             break;
         case StringLiteral:
-            est->string = malloc(sizeof(char) * strlen((char*)val) + 1);
-            strcpy(est->string, (char*)val);
+            est->string = malloc(sizeof(char) * strlen((*(char**)val)) + 1);
+            strcpy(est->string, (*(char**)val));
             break;
         case funcCall:
-            est->funcC = (functionCallTree)val;
+            est->funcC = *(functionCallTree*)val;
             break;
         case Expr:
-            est->exp = (opExpressionTree)val;
+            est->exp = *(opExpressionTree*)val;
             break;
         case Minus:
-            est->min = (minusTree)val;
+            est->min = *(minusTree*)val;
             break;
         case Not:
-            est->not = (notTree)val;
+            est->not = *(notTree*)val;
             break;
         default:
             printf("internal error\n");
             break;
     }
+    est->type = t;
     return(est);
 }
 
