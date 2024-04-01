@@ -16,10 +16,11 @@ struct programTreeType{
 programTree initProgramTree(void){
     programTree pst = malloc(sizeof(struct programTreeType));
     pst->dTrees = malloc(sizeof(definitionTree) * 100);
+    pst->numDefs = 0;
     return(pst);
 }
 
-void addDefinitionProgramTree(programTree * pt, definitionTree* d){
+void addDefinitionProgramTree(programTree* pt, definitionTree* d){
     (*pt)->dTrees[(*pt)->numDefs] = malloc(sizeof(definitionTree));
     (*pt)->dTrees[(*pt)->numDefs] = (*d);
     (*pt)->numDefs++;

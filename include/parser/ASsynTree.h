@@ -30,7 +30,7 @@ typedef struct operatorTreeType *operatorTree;
 
 
 //definition 
-enum defTypeProd {functionDef, variableDef};
+enum defTypeProd {functionDef, variableDef, undefinedType};
 definitionTree initDefinitionTree(void);
 definitionTree createDefinitionTree(enum defTypeProd, void*);
 list definitionTreeToString(definitionTree);

@@ -15,7 +15,7 @@ struct listType{
 list createList(void){
     list output = malloc(sizeof(struct listType));
     output->string = malloc(sizeof(char) * (CHUNK_SIZE + 1));
-    output->string[51] = '\0';
+    output->string[0] = '\0';
     output->size = 0;
     output->buffSize = 50;
     return(output);

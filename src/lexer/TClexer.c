@@ -24,6 +24,7 @@ void throwLexerError(char *problem){
 void dumpScannedFile(void){
     rewind(filePointer);
     char *hold = malloc(sizeof(char) * 501);
+    hold[0] = '\0';
     while(fgets(hold, 500, filePointer)){   
         printf("%s", hold); 
     }
@@ -57,6 +58,7 @@ int checkLUT(char* inString){
 char *getLine(void){
     currentLineIndex++;
     char *output = malloc(sizeof(char) * 500);
+    output[0] = '\0';
     if(!fgets(output, 500, filePointer)){
         return(NULL);
     }
@@ -103,7 +105,7 @@ unsigned char getChar(void){
 
 //get the sequence of characters that we're lookiung for (or error ig)
 token getLexeme(void){
-    token lexeme; 
+    token lexeme = initToken(); 
     char currentChar = ' ';
     while(((currentChar = getChar())) != ((char)0xFF)){
         if(currentChar == ':'){
@@ -294,6 +296,7 @@ token getLexeme(void){
             int fraction = 0; 
             int exponent = 0;
             char*output = malloc(sizeof(char) * 100);
+            output[0] = '\0';
             charConcat(output, currentChar);
             while(1){
                 if(strlen(currentLine) > (currentIndex + 1)){
@@ -361,6 +364,7 @@ token getLexeme(void){
         //CHARLITERAL
         else if(currentChar == '\''){
             char * output = malloc(sizeof(char) * 10);
+            output[0] = '\0';
             charConcat(output, currentChar);
             currentChar = getChar();
             if(currentChar == '\''){
@@ -387,7 +391,8 @@ token getLexeme(void){
 
         //STRING
         else if(currentChar == '\"'){
-            char *hold = malloc(sizeof(char) * 501);
+            char* hold = malloc(sizeof(char) * 501);
+            hold[0] = '\0';
             charConcat(hold, currentChar);
             while(1){
                 currentChar = getChar();
@@ -518,6 +523,7 @@ token getLexeme(void){
 
         else if((currentChar == '+') || (currentChar == '-') || (currentChar == '|')){        
             char * holdString = malloc(sizeof(char) * 20);
+            holdString[0] = '\0';
             charConcat(holdString, currentChar);
             if(currentChar == '+'){
                 lexeme = createToken("ADDOP", holdString);

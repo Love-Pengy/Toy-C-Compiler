@@ -106,7 +106,8 @@ programTree toyCProgram(void){
     programTree output = initProgramTree(); 
     getNextToken();    
     definitionTree defHold = initDefinitionTree();    
-    while(strcmp(currentToken->lexeme, "EOF")){ 
+    while(strcmp(currentToken->lexeme, "EOF")){          
+        defHold = initDefinitionTree();    
         defHold = definition();
         addDefinitionProgramTree(&output,&defHold);
     }

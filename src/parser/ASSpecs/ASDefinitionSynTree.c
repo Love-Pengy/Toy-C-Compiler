@@ -18,6 +18,7 @@ struct definitionTreeType{
 
 definitionTree initDefinitionTree(void){
     definitionTree dst = malloc(sizeof(struct definitionTreeType));
+    dst->type = undefinedType; 
     return(dst);
 }
 

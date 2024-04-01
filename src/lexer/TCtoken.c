@@ -24,6 +24,10 @@ struct tokenStruct;
 
 typedef struct tokenStruct *token;
 
+token initToken(void){
+    token output = malloc(sizeof(struct tokenStruct));
+    return(output);
+}
 token createToken(char * tokenName, char *string){
     token new = malloc(sizeof(struct tokenStruct));
     new->lexeme = malloc(sizeof(char) * (strlen(tokenName) + 1));
