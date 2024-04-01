@@ -30,7 +30,7 @@ void dumpScannedFile(void){
 }
 
 void charConcat(char *string, char character){
-    char charToStr[2] = "";
+    char charToStr[5] = "";
     charToStr[1] = '\0';
     charToStr[0] = character;    
     strcat(string, charToStr);

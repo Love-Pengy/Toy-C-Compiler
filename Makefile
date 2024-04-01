@@ -6,9 +6,15 @@ SRC_DIRS := ./src
 LIB_DIRS := ./lib
 BIN_DIR := ./bin
 .DEFAULT_GOAL := generate
+
 #if you wanna feel like a genius just get rid of debug symbol ;)
-DEBUG = @    
+DEBUG = @     
+
 CFLAGS := -g -Wall
+
+
+# random additional args (mainly going to be used for fsanitize
+ADDARGS := -fsanitize=address
 
 # Find all the C and C++ files we want to compile
 # Note the single quotes around the * expressions. The shell will incorrectly expand these otherwise, but we want to send the * directly to the find command.
@@ -37,7 +43,7 @@ CPPFLAGS := $(INC_FLAGS) -MMD -MP
 
 # The final build step.
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
-	$(DEBUG)$(CXX) $(OBJS) -o $@ $(LDFLAGS)
+	$(DEBUG)$(CXX) $(OBJS) $(ADDARGS) -o $@ $(LDFLAGS)
 	$(DEBUG)mv ./build/tc ./bin/tc
 
 # Build step for C source
@@ -59,7 +65,7 @@ generate: $(BUILD_DIR)/$(TARGET_EXEC)
 test: 
 	$(DEBUG)gdb --args $(BIN_DIR)/tc $(ARGS)
 
-test2: 
+test2:
 	$(DEBUG)gdb --args $(BIN_DIR)/tc $(ARGS)
 
 run: 

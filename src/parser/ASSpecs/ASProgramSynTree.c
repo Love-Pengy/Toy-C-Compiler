@@ -15,7 +15,7 @@ struct programTreeType{
 
 programTree initProgramTree(void){
     programTree pst = malloc(sizeof(struct programTreeType));
-    pst->dTrees = malloc(sizeof(struct programTreeType));
+    pst->dTrees = malloc(sizeof(definitionTree) * 100);
     return(pst);
 }
 
@@ -36,9 +36,13 @@ programTree createProgramTree(definitionTree *definitions, int amount){
 list programTreeToString(programTree pst){  
     list string = createList(); 
     listCat(&string, "prog(\n"); 
+
+    llistCat(&string, definitionTreeToString((pst->dTrees[0])));
+    /*
     for(int i = 0; i < pst->numDefs; i++){
         llistCat(&string, definitionTreeToString(pst->dTrees[i]));
     }
+    */
 
     listCat(&string, ")\n");
     return(string);
