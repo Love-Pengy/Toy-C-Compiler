@@ -136,6 +136,7 @@ list expressionStatementTreeToString(expressionStatementTree);
 functionCallTree initFunctionCallTree(void);
 list functionCallTreeToString(functionCallTree);
 functionCallTree createFunctionCallTree(char *, expressionTree*, int);
+void addExpressionTreeFunctionCallTree(functionCallTree*, expressionTree*);
 
 //expr
 opExpressionTree initOpExpressionTree(void);

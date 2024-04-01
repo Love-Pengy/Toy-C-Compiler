@@ -7,19 +7,21 @@
 
 
 struct functionCallTreeType{
-    char * id;
-    expressionTree * exprs;
+    char* id;
+    expressionTree* exprs;
     int numExprs;
 };
 
+
 functionCallTree initFunctionCallTree(void){
     functionCallTree fct = malloc(sizeof(struct functionCallTreeType));
+    fct->exprs = malloc(sizeof(expressionTree) * 50);
     return(fct);
 }
 
-void addExpressionTreeFunctionCallTree(functionCallTree * f, expressionTree input){
+void addExpressionTreeFunctionCallTree(functionCallTree* f, expressionTree* input){
     (*f)->exprs[(*f)->numExprs] = malloc(sizeof(expressionTree));
-    (*f)->exprs[(*f)->numExprs] = input;
+    (*f)->exprs[(*f)->numExprs] = (*input);
 }
 
 functionCallTree createFunctionCallTree(char *ident, expressionTree* exp, int amt){

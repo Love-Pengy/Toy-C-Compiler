@@ -524,9 +524,10 @@ expressionTree relopExpression(void){
     expressionTree re2 = initExpressionTree();
     opExpressionTree currentOp = initOpExpressionTree();
     expressionTree output = initExpressionTree();
+    operatorTree operator = initOperatorTree();
     currentOp = NULL;
     while(!strcmp(currentToken->lexeme, "RELOP")){
-        operatorTree operator = createOperatorTree(currentToken->value);
+        operator = createOperatorTree(currentToken->value);
         getNextToken(); 
         re2 = simpleExpression();
         currentOp = createOpExpressionTree(&operator, &re1, &re2);
@@ -536,7 +537,7 @@ expressionTree relopExpression(void){
         output = re1;
     }
     else{
-        output = createExpressionTree(Expr, &re2);
+        output = createExpressionTree(Expr, &currentOp);
     }
     return(output);
 }
@@ -600,9 +601,12 @@ expressionTree primary(void){
     functionCallTree holdf = initFunctionCallTree();
     expressionTree holde = initExpressionTree();
     if(!strcmp(currentToken->lexeme, "ID")){
-        char * idHold = malloc(sizeof(char) * (strlen(currentToken->value)));
+        char * idHold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
         strcpy(idHold, currentToken->value);
         getNextToken();
+        type = ID;
+        output = createExpressionTree(type, &idHold);
+
         if(!strcmp(currentToken->lexeme, "LPAREN")){
             holdf = functionCall(idHold); 
             type = funcCall;
@@ -697,17 +701,18 @@ void actualParameters(enum actualParamType type, void* input){
     }
     else{
         hold = expression();
-        addExpressionTreeWriteStatementTree((writeStatementTree*)input, &hold);
+        addExpressionTreeFunctionCallTree((functionCallTree*)input, &hold);
     }
     while(!strcmp(currentToken->lexeme, "COMMA")){
         getNextToken();     
+        hold = initExpressionTree();
         if(type == writeStatementType){
             hold = expression();
             addExpressionTreeWriteStatementTree((writeStatementTree*)input, &hold);   
         }
         else{
             hold = expression();
-            addExpressionTreeWriteStatementTree((writeStatementTree*)input, &hold);
+            addExpressionTreeFunctionCallTree((functionCallTree*)input, &hold);
         }
     }
     exiting("actualParameters");
