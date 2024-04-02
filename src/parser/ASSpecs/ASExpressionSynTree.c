@@ -10,10 +10,10 @@
 struct expressionTreeType{
     enum expressionType type;
     union{  
-        char * number;
-        char * id;
-        char * charLit;
-        char * string;
+        char* number;
+        char* id;
+        char* charLit;
+        char* string;
         functionCallTree funcC;
         opExpressionTree exp;
         minusTree min;
@@ -29,6 +29,15 @@ enum expressionType getExpressionType(expressionTree e){
 
 expressionTree initExpressionTree(void){
     expressionTree est = malloc(sizeof(struct expressionTreeType));
+    est->type = undefinedExpression;
+    est->charLit = malloc(sizeof(char) * 100);
+    est->charLit[0] = '\0';
+    est->number = malloc(sizeof(char) * 100);
+    est->number[0]  = '\0';
+    est->string = malloc(sizeof(char) * 100);
+    est->string[0] = '\0';
+    est->id = malloc(sizeof(char) * 500);
+    est->id[0] = '\0';
     return(est);
 }
 
@@ -36,19 +45,15 @@ expressionTree createExpressionTree(enum expressionType t, void* val){
     expressionTree est = initExpressionTree();
     switch(t){
         case Number:
-            est->number = malloc(sizeof(char) * strlen((*(char**)val)) + 1);
             strcpy(est->number, (*(char**)val));
             break;
         case ID:
-            est->id = malloc(sizeof(char) * strlen(*(char**)val) + 1);
             strcpy(est->id, (*(char**)val));
             break;
         case CharLiteral:
-            est->charLit = malloc(sizeof(char) * strlen((*(char**)val) + 1));
             strcpy(est->charLit, (*(char**)val));
             break;
         case StringLiteral:
-            est->string = malloc(sizeof(char) * strlen((*(char**)val)) + 1);
             strcpy(est->string, (*(char**)val));
             break;
         case funcCall:

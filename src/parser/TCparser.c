@@ -520,7 +520,8 @@ expressionTree expression(void){
 
 expressionTree relopExpression(void){
     entering("relopExpression");
-    expressionTree re1 = simpleExpression();
+    expressionTree re1 = initExpressionTree();
+    re1 = simpleExpression();
     expressionTree re2 = initExpressionTree();
     opExpressionTree currentOp = initOpExpressionTree();
     expressionTree output = initExpressionTree();
@@ -628,7 +629,8 @@ expressionTree primary(void){
     }
     else if(!strcmp(currentToken->lexeme, "CHARLITERAL")){
         type = CharLiteral;
-        char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
+        char* hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
+        hold[0] = '\0';
         strcpy(hold, currentToken->value);
         output = createExpressionTree(type, &hold);
         getNextToken();
@@ -664,8 +666,10 @@ expressionTree primary(void){
 functionCallTree functionCall(char * id){
     entering("functionCall");
     accept('(');
-    expressionTree * et =  malloc(sizeof(expressionTree) * 100);
-    int amount = 0;
+    //expressionTree * et =  malloc(sizeof(expressionTree) * 100);
+    functionCallTree et = initFunctionCallTree();
+    addIdFunctionCallTree(&et, id);
+
     if(!strcmp(currentToken->lexeme, "ID")){
          actualParameters(functionCallType, &et);
     }
@@ -686,9 +690,10 @@ functionCallTree functionCall(char * id){
     }
     accept(')');
     exiting("functionCall");
-    return(createFunctionCallTree(id, et, amount)); 
+    return(et); 
 }
 
+//this void input is the address of an array of these types
 void actualParameters(enum actualParamType type, void* input){
     entering("actualParameters");
     expressionTree hold = initExpressionTree();
@@ -701,6 +706,7 @@ void actualParameters(enum actualParamType type, void* input){
         hold = expression();
         addExpressionTreeFunctionCallTree((functionCallTree*)input, &hold);
     }
+
     while(!strcmp(currentToken->lexeme, "COMMA")){
         getNextToken();     
         hold = initExpressionTree();

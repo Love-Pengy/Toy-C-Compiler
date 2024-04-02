@@ -46,6 +46,7 @@
 + ~~update the make file with the dynamic array library and AST stuff~~
 + ~~go through and make adders and initializers for everything that needs it in the main parser file~~
 + ~~run through warnings and errors for the AST~~
-+ test the entirety of the language 
++ ~~test the entirety of the language~~ 
++ Debug WColumn memory issue
 + to make message pointer make more sense you might have to make it only go to the beginning/end of tokens 
 + make a free tree option for the ast when done with it

@@ -42,18 +42,12 @@ void llistCat(list *dest, list source){
     }
 }
 
-void listCat(list *dest, char *source){
-    if((strlen(source) + (*dest)->size) > (*dest)->buffSize){
-        while((strlen(source) + (*dest)->size) > (*dest)->buffSize){
-            expandList(dest);
-        }
-        strcat((*dest)->string, source);
-        (*dest)->size = ((*dest)->size + strlen(source));
+void listCat(list* dest, char* source){
+    while(((strlen(source) + (*dest)->size) + 1) > (*dest)->buffSize){
+        expandList(dest);
     }
-    else{
-        (*dest)->size = ((*dest)->size + strlen(source));
-        strcat((*dest)->string, source);
-    }
+    strcat((*dest)->string, source);
+    (*dest)->size = ((*dest)->size + strlen(source));
 }
 
 char *listToString(list printee){

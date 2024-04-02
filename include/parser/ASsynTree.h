@@ -136,6 +136,7 @@ list expressionStatementTreeToString(expressionStatementTree);
 functionCallTree initFunctionCallTree(void);
 list functionCallTreeToString(functionCallTree);
 functionCallTree createFunctionCallTree(char *, expressionTree*, int);
+void addIdFunctionCallTree(functionCallTree*, char*);
 void addExpressionTreeFunctionCallTree(functionCallTree*, expressionTree*);
 
 //expr
@@ -159,7 +160,7 @@ list operatorTreeToString(operatorTree);
 operatorTree createOperatorTree(char*);
 
 //expression
-enum expressionType {Number, ID, CharLiteral, StringLiteral, funcCall, Expr, Minus, Not};
+enum expressionType {Number, ID, CharLiteral, StringLiteral, funcCall, Expr, Minus, Not, undefinedExpression};
 enum expressionType getExpressionType(expressionTree);
 expressionTree initExpressionTree(void);
 expressionTree createExpressionTree(enum expressionType, void*);

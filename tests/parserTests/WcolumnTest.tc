@@ -1,5 +1,4 @@
 //B. Frazier 3/16/24
-/*
 int originalWs; 
 char currentFilePath;
 
@@ -25,7 +24,6 @@ char DuplicateDestroyer(char random){
     randColor = true;
     }
 }
-*/
 
 int setRandomCLIColor(){
     //randColorDuplicateDestroyer(); 
@@ -613,8 +611,8 @@ int dumpWs(char dl,int fp){
 
 
 
-    
 int main(){
+    /*
     originalWs = 0;
     //ensures that escape codes work properly regardless of what program runs before it 
     consoleEscapeCodeSetup();
@@ -633,6 +631,7 @@ int main(){
     printf("\e[?25h");
     dumpWs(wList, fptr);
     clearList(wList);
+    */
     fclose(fptr);
     return 0; 
 }
