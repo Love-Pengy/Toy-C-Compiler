@@ -1,6 +1,21 @@
 //B. Frazier 3/16/24
 
 int main(){
+    i = i<2;
+    ;
+    if(b){
+        write("something");
+    }
+    else{
+        write("something else");
+    }
+    int c;
+    a = -1;
+    while(!a){
+    }
+    return;
+    return(a);
+    break;
     newline;
     b = b + 1;
     write(b); write(" ");
@@ -11,8 +26,7 @@ int main(){
     }
 }
 
-/*   
-    Completed!~ 4/01/24
+/*       
 */
 
 

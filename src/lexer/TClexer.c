@@ -456,6 +456,14 @@ token getLexeme(void){
                         }
                         return(lexeme);       
                     }
+                    else{
+                        charConcat(holdString, currentChar);
+                        lexeme = createToken("NOT", holdString);
+                        if(debug_scanner){
+                            printToken(lexeme);
+                        }
+                        return(lexeme);       
+                    }
                 }
                 else{
                     charConcat(holdString, currentChar);

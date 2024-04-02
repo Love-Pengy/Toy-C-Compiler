@@ -1,6 +1,7 @@
 //B. Frazier 3/22/24
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/prettyPrinting.h"
 #include "../../../include/parser/ASsynTree.h"
 #include <stdlib.h>
 #include <string.h>
@@ -37,13 +38,17 @@ functionCallTree createFunctionCallTree(char *ident, expressionTree* exp, int am
 
 list functionCallTreeToString(functionCallTree fct){
     list string = createList();
-    listCat(&string, "funcCall(");
+    listCat(&string, spaces());
+    listCat(&string, "funcCall(\n");
+    indent();
+
     listCat(&string, fct->id);
 
     for(int i = 0; i < fct->numExprs; i++){
         llistCat(&string, expressionTreeToString(fct->exprs[i]));
     } 
-
+    outdent();
+    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }

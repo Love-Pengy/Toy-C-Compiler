@@ -3,6 +3,7 @@
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
 #include <stdlib.h>
+#include "../../../include/parser/prettyPrinting.h"
 
 
 struct breakStatementTreeType{
@@ -22,7 +23,10 @@ breakStatementTree createBreakStatementTree(void){
 
 list breakStatementTreeToString(breakStatementTree bst){
     list string = createList();
+    listCat(&string, spaces());    
     listCat(&string, "breakState(");
+    indent();
+    outdent();
     listCat(&string, ")\n");
     return(string);
 }

@@ -1,4 +1,5 @@
 //B. Frazier 3/16/24
+/*
 int originalWs; 
 char currentFilePath;
 
@@ -24,24 +25,13 @@ char DuplicateDestroyer(char random){
     randColor = true;
     }
 }
+*/
 
 int setRandomCLIColor(){
-    randColorDuplicateDestroyer();
+    //randColorDuplicateDestroyer(); 
     if(color == 0){
         //Blue
         printf("\e[38;5;123m");
-    }
-    else if(color == 1){
-        //Pink
-        printf("\e[38;5;219m");
-    }
-    else if(color == 2){
-        //Green
-        printf("\e[38;5;48m");
-    }
-    else if(color == 3){
-        //Yellow
-        printf("\e[38;5;227m");
     }
     else{
         //Porple

@@ -1,10 +1,12 @@
 //B. Frazier 3/20/24
 
+#include "../../../include/parser/prettyPrinting.h"
+#include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "../../../lib/dynamicArray/dynamicArray.h"
+
 //enum expressionType {specifier, funcCall, expr, minus, not} 
 
 //Expression, Statement, Statement?
@@ -30,12 +32,16 @@ ifStatementTree createIfStatementTree(expressionTree* expr, statementTree* ifS, 
 
 list ifStatementTreeToString(ifStatementTree ist){
     list string = createList();
-    listCat(&string, "ifState(");
+    listCat(&string, spaces());
+    listCat(&string, "ifState(\n");
+    indent();
     llistCat(&string, expressionTreeToString(ist->exp));
     llistCat(&string, statementTreeToString(ist->ifExpression));
     if(ist->elseExpression != NULL){
         llistCat(&string, statementTreeToString(ist->elseExpression));
     }
+    outdent();
+    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }

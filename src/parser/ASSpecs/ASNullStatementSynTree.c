@@ -2,6 +2,7 @@
 
 #include "../../../include/parser/ASsynTree.h"
 #include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/prettyPrinting.h"
 #include <stdlib.h>
 
 
@@ -24,7 +25,11 @@ nullStatementTree createNullStatementTree(void){
 
 list nullStatementTreeToString(nullStatementTree nst){
     list string = createList();
-    listCat(&string, "nullState(");
+    listCat(&string, spaces());
+    listCat(&string, "nullState(\n");
+    indent();
+    outdent();
+    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }

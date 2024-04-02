@@ -1,6 +1,7 @@
 //B. Frazier 3/23/24
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/prettyPrinting.h"
 #include "../../../include/parser/ASsynTree.h"
 #include <stdlib.h>
 
@@ -22,8 +23,12 @@ notTree createNotTree(expressionTree* ex){
 
 list notTreeToString(notTree not){
     list string = createList();
-    listCat(&string, "not(");
+    listCat(&string, spaces());
+    listCat(&string, "not(\n");
+    indent();
     llistCat(&string, expressionTreeToString(not->exp));
+    outdent();
+    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }

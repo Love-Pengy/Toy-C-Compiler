@@ -2,6 +2,7 @@
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
+#include "../../../include/parser/prettyPrinting.h"
 #include <stdlib.h>
 
 
@@ -27,9 +28,13 @@ whileStatementTree createWhileStatementTree(expressionTree* expr, statementTree*
 
 list whileStatementTreeToString(whileStatementTree ws){
     list string = createList();
-    listCat(&string, "whileState(");
+    listCat(&string, spaces());
+    listCat(&string, "whileState(\n");
+    indent();
     llistCat(&string, expressionTreeToString(ws->exp));
     llistCat(&string, statementTreeToString(ws->st));
+    outdent();
+    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }

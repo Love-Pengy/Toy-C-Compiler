@@ -3,6 +3,7 @@
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
 #include <stdlib.h>
+#include "../../../include/parser/prettyPrinting.h"
 
 
 struct expressionStatementTreeType{
@@ -24,8 +25,12 @@ expressionStatementTree createExpressionStatementTree(expressionTree* expr){
 
 list expressionStatementTreeToString(expressionStatementTree est){
     list string = createList();
-    listCat(&string, "exprState(");
+    listCat(&string, spaces());
+    listCat(&string, "exprState(\n");
+    indent();
     llistCat(&string, expressionTreeToString(est->expression));    
+    outdent();
+    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }

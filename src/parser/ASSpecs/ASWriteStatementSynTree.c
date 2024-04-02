@@ -3,6 +3,7 @@
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
 #include <stdlib.h>
+#include "../../../include/parser/prettyPrinting.h"
 
 
 struct writeStatementTreeType{
@@ -31,10 +32,14 @@ writeStatementTree createWriteStatementTree(expressionTree* exp,int amt){
 
 list writeStatementTreeToString(writeStatementTree ws){
     list string = createList();
-    listCat(&string, "writeState(");
+    listCat(&string, spaces());
+    listCat(&string, "writeState(\n");
+    indent();
     for(int i = 0; i < ws->amtExprs; i++){
         llistCat(&string, expressionTreeToString(ws->exprs[i]));
     }
+    outdent();
+    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }

@@ -1,9 +1,8 @@
 //B. Frazier 3/23/24
 
-//B. Frazier 3/23/24
-
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
+#include "../../../include/parser/prettyPrinting.h"
 #include <stdlib.h>
 
 struct minusTreeType{
@@ -24,8 +23,12 @@ minusTree createMinusTree(expressionTree* ex){
 
 list minusTreeToString(minusTree min){
     list string = createList();
-    listCat(&string, "minus(");
+    listCat(&string, spaces());
+    listCat(&string, "minus(\n");
+    indent();
     llistCat(&string, expressionTreeToString(min->exp));
+    outdent();
+    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }

@@ -1,6 +1,7 @@
 //B. Frazier 3/21/24
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/prettyPrinting.h"
 #include "../../../include/parser/ASsynTree.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -72,7 +73,14 @@ expressionTree createExpressionTree(enum expressionType t, void* val){
 
 list expressionTreeToString(expressionTree exprT){
     list string = createList();
+    listCat(&string, spaces());
     listCat(&string, "Expression(");
+    indent();
+    if(exprT == NULL){
+        outdent();
+        listCat(&string, ")");
+        return(string);
+    }
     switch(exprT->type){
         case Number:
             listCat(&string, (exprT->number));
@@ -87,21 +95,26 @@ list expressionTreeToString(expressionTree exprT){
             listCat(&string, (exprT->string));
             break;
         case funcCall:
+            listCat(&string, "\n");
             llistCat(&string, functionCallTreeToString(exprT->funcC));
             break;
         case Expr:
+            listCat(&string, "\n");
             llistCat(&string, opExpressionTreeToString(exprT->exp));
             break;
         case Minus:
+            listCat(&string, "\n");
             llistCat(&string, minusTreeToString(exprT->min));
             break;
         case Not:
+            listCat(&string, "\n");
             llistCat(&string, notTreeToString(exprT->not));
             break;
         default:
             printf("internal error\n");
             break;
     }
+    outdent();
     listCat(&string, ")\n");
     return(string);
 }

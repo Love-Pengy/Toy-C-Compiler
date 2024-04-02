@@ -1,6 +1,7 @@
 //B. Frazier 3/23/24
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/prettyPrinting.h"
 #include "../../../include/parser/ASsynTree.h"
 #include <stdlib.h>
 #include <string.h>
@@ -26,8 +27,11 @@ operatorTree createOperatorTree(char* operator){
 
 list operatorTreeToString(operatorTree oper){
     list string = createList();
+    listCat(&string, spaces());
     listCat(&string, "Operator(");
+    indent();
     listCat(&string, (oper->op));
+    outdent();
     listCat(&string, ")\n");
     return(string);
 }

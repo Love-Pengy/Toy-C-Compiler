@@ -1,6 +1,7 @@
 //B. Frazier 3/18/24
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/prettyPrinting.h"
 #include "../../../include/parser/ASsynTree.h"
 #include <string.h>
 #include <stdlib.h>
@@ -62,7 +63,9 @@ functionDefinitionTree createFunctionDefinitionTree(char *identifier, char *type
 
 list functionDefinitionTreeToString(functionDefinitionTree fst){
     list string = createList();
+    listCat(&string, spaces());
     listCat(&string, "funcDef(\n");
+    indent();
     listCat(&string, (fst)->type);    
     listCat(&string, " ");
     listCat(&string, (fst)->id);
@@ -73,6 +76,8 @@ list functionDefinitionTreeToString(functionDefinitionTree fst){
         }
     }
     llistCat(&string, statementTreeToString((fst)->sDef));
+    outdent();
+    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }

@@ -14,7 +14,7 @@ CFLAGS := -g -Wall
 
 
 # random additional args (mainly going to be used for fsanitize
-ADDARGS := -fsanitize=address
+#ADDARGS := -fsanitize=address
 
 # Find all the C and C++ files we want to compile
 # Note the single quotes around the * expressions. The shell will incorrectly expand these otherwise, but we want to send the * directly to the find command.

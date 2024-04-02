@@ -2,9 +2,9 @@
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
+#include "../../../include/parser/prettyPrinting.h"
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 
 struct variableDefinitionTreeType{
@@ -36,13 +36,15 @@ variableDefinitionTree createVariableDefinitionTree(char *typeSpec, char**idSpec
 
 list variableDefinitionTreeToString(variableDefinitionTree vdt){
     list string = createList();
-    listCat(&string, "varDef(\n");
+    listCat(&string, spaces());
+    listCat(&string, "varDef(");
+    indent();
     listCat(&string, (vdt)->type);    
     listCat(&string, " ");
     for(int i = 0; i < (vdt)->idAmount; i++){
         listCat(&string, (vdt)->id[i]);
-        listCat(&string, "\n");
     }
+    outdent();
     listCat(&string, ")\n");
     return(string);
 }

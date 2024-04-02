@@ -1,6 +1,7 @@
 //B. Frazier 3/22/24
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/prettyPrinting.h"
 #include "../../../include/parser/ASsynTree.h"
 #include <stdlib.h>
 
@@ -27,10 +28,14 @@ opExpressionTree createOpExpressionTree(operatorTree* oper, expressionTree* ex1,
 
 list opExpressionTreeToString(opExpressionTree oe){
     list string = createList();
-    listCat(&string, "expr(");
+    listCat(&string, spaces());
+    listCat(&string, "expr(\n");
+    indent();
     llistCat(&string, operatorTreeToString(oe->op));
     llistCat(&string, expressionTreeToString(oe->exp1)); 
     llistCat(&string, expressionTreeToString(oe->exp2)); 
+    outdent();
+    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }

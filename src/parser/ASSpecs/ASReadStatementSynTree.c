@@ -2,6 +2,7 @@
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
+#include "../../../include/parser/prettyPrinting.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -40,12 +41,13 @@ readStatementTree createReadStatementTree(char** identifiers, int idAmt){
 
 list readStatementTreeToString(readStatementTree rs){
     list string = createList();
+    listCat(&string, spaces());
     listCat(&string, "readState(");
-
+    indent();
     for(int i = 0; i < rs->numIds; i++){
         listCat(&string, rs->ids[i]);
     }
-
+    outdent();
     listCat(&string, ")\n");
     return(string);
 }

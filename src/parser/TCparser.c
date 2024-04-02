@@ -606,7 +606,6 @@ expressionTree primary(void){
         getNextToken();
         type = ID;
         output = createExpressionTree(type, &idHold);
-
         if(!strcmp(currentToken->lexeme, "LPAREN")){
             holdf = functionCall(idHold); 
             type = funcCall;
@@ -693,7 +692,6 @@ functionCallTree functionCall(char * id){
 void actualParameters(enum actualParamType type, void* input){
     entering("actualParameters");
     expressionTree hold = initExpressionTree();
-
     //this should be a bunch of hte other expression types cause its just a general expression
     if(type == writeStatementType){
         hold = expression();

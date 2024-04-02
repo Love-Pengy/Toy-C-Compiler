@@ -1,6 +1,7 @@
 //B. Frazier 3/21/24
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
+#include "../../../include/parser/prettyPrinting.h"
 #include "../../../include/parser/ASsynTree.h"
 #include <stdlib.h>
 
@@ -21,7 +22,11 @@ newLineStatementTree createNewLineStatementTree(void){
 
 list newLineStatementTreeToString(newLineStatementTree n){
     list string = createList();
-    listCat(&string, "newLineState(");
+    listCat(&string, spaces());
+    listCat(&string, "newLineState(\n");
+    indent();
+    outdent();
+    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }

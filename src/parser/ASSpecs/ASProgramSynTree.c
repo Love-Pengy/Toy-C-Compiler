@@ -3,8 +3,7 @@
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
 #include <stdlib.h>
-#include <stdio.h>
-
+#include "../../../include/parser/prettyPrinting.h"
 //this can hold 0 or more definitions
 struct programTreeType{
     //array that holds all of the definitions
@@ -36,15 +35,14 @@ programTree createProgramTree(definitionTree *definitions, int amount){
 
 list programTreeToString(programTree pst){  
     list string = createList(); 
+    listCat(&string, spaces());
     listCat(&string, "prog(\n"); 
-
-    llistCat(&string, definitionTreeToString((pst->dTrees[0])));
-    /*
+    indent();
     for(int i = 0; i < pst->numDefs; i++){
         llistCat(&string, definitionTreeToString(pst->dTrees[i]));
     }
-    */
-
+    outdent();
+    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }

@@ -2,6 +2,7 @@
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
+#include "../../../include/parser/prettyPrinting.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -121,8 +122,10 @@ statementTree createStatementTree(enum statementType t, void* val){
 
 list statementTreeToString(statementTree state){
     list string = createList();
+    listCat(&string, spaces());
     if(!(state->type == undefined)){
-        listCat(&string, "Statement(");
+        listCat(&string, "Statement(\n");
+        indent();
         switch(state->type){
             case exprState:
                 llistCat(&string, expressionStatementTreeToString(state->exp));
@@ -158,6 +161,8 @@ list statementTreeToString(statementTree state){
                 printf("internal error\n");
                 break;
         }
+        outdent();
+        listCat(&string, spaces());
         listCat(&string, ")\n");
     }
     else{

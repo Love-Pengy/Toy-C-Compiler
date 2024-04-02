@@ -4,6 +4,7 @@
 #include "../../../include/parser/ASsynTree.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "../../../include/parser/prettyPrinting.h"
 
 
 //defTypeProd = {functionDef, variableDef}
@@ -23,7 +24,7 @@ definitionTree initDefinitionTree(void){
 }
 
 definitionTree createDefinitionTree(enum defTypeProd prodType, void* prod){
-    definitionTree dst = initDefinitionTree();
+    definitionTree dst = initDefinitionTree();  
     switch(prodType){
         case functionDef: 
             dst->type = prodType;
@@ -44,7 +45,9 @@ definitionTree createDefinitionTree(enum defTypeProd prodType, void* prod){
 
 list definitionTreeToString(definitionTree dst){
     list string = createList();
+    listCat(&string, spaces());
     listCat(&string, "definition(\n");
+    indent();
     switch(dst->type){
         case functionDef: 
             llistCat(&string, functionDefinitionTreeToString(dst->fDef));
@@ -56,6 +59,8 @@ list definitionTreeToString(definitionTree dst){
             listCat(&string, "[error]\n");
             break; 
     }
+    outdent();
+    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }

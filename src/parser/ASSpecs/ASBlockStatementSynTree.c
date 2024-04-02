@@ -3,6 +3,7 @@
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
 #include <stdlib.h>
+#include "../../../include/parser/prettyPrinting.h"
 
 //varDef(Id+, Type)∗, Statement∗
 struct blockStatementTreeType{
@@ -44,13 +45,17 @@ blockStatementTree createBlockStatementTree(variableDefinitionTree *variables, i
 
 list blockStatementTreeToString(blockStatementTree bst){
     list string = createList();
-    listCat(&string, "blockState(");
+    listCat(&string, spaces());    
+    listCat(&string, "blockState(\n");
+    indent();
     for(int i = 0; i < bst->vAmount; i++){
         llistCat(&string, variableDefinitionTreeToString((bst->vdt[i])));
     }    
     for(int i = 0; i < bst->sAmount; i++){
         llistCat(&string, statementTreeToString(bst->statements[i]));
     }
+    outdent();
+    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }
