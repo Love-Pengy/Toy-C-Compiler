@@ -18,6 +18,7 @@ For cleaning:
     Use command "make clean"
 
 For testing:    
-    to test use the same method as running except replace the word "run" with either test or test2
+    to test use the same method as running except replace the word "run" with test 
         test will run gdb as normal with the arguments supplied
-        test2 will run gdb with the -fsanitize=address tag
+        if you uncomment the line starting with ADDARGS in the Makefile it will run it with the -fsanitize=address flag
+        
