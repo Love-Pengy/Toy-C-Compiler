@@ -83,21 +83,33 @@ list expressionTreeToString(expressionTree exprT){
     indent();
     if(exprT == NULL){
         outdent();
-        listCat(&string, ")");
+        listCat(&string, ")\n");
         return(string);
     }
     switch(exprT->type){
         case Number:
             listCat(&string, (exprT->number));
+            listCat(&string, ")\n");
+            outdent();
+            return(string);
             break;
         case ID:
             listCat(&string, (exprT->id));
+            listCat(&string, ")\n");
+            outdent();
+            return(string);
             break;
         case CharLiteral:
             listCat(&string, (exprT->charLit));
+            listCat(&string, ")\n");
+            outdent();
+            return(string);
             break;
         case StringLiteral:
             listCat(&string, (exprT->string));
+            listCat(&string, ")\n");
+            outdent();
+            return(string);
             break;
         case funcCall:
             listCat(&string, "\n");
@@ -120,6 +132,7 @@ list expressionTreeToString(expressionTree exprT){
             break;
     }
     outdent();
+    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }

@@ -1,0 +1,182 @@
+//B. Frazier 4/3/24
+/*
+need to test: 
+    + expr
+*/
+/*
+int a;
+char b;
+
+int main(int something, char somethingElse){
+    break;
+    ;
+
+    write("Enter an upper bound for loop: ");
+    write(1, 1, 1);
+    write(c, c, c);
+    write('a', 'b', 'c');
+    write(printf("meow"));
+    write(2 % 3);
+    write(-2);
+    write(!d);
+
+    read(a);
+    read(a, b, c, d, e, f, g);
+    b = 1;
+    /*
+    this cannot be done it does not match up with the grammer. The grammer for definition allows 
+    for one assignment and then if you have more it doesnt work cause you need an id 
+    => a, b = 100;
+    */
+
+    while(b <= a){
+        write(b); write(" ");
+        b = b + 1;
+    }
+    newline;
+}
+
+char main2(){
+    if(a){
+
+    }
+    if(a<b){
+        ;
+    }
+    return(1);
+    return(a);
+    //this must be without parenthesis because if you have parenthesis its expecting an expression and there is no null expression
+    return;
+    return('w');
+    return(-10);
+    return(!10);
+
+}
+
+int notMain(){
+    while(a){
+       ; 
+    }
+    while((a - b) == 1){
+        return(1);
+    }
+    while(1){
+        return;
+    }
+    while(a){
+    }
+}
+
+int tester(){
+    return('a');
+}
+
+char testFuncCall(char function){
+    printf();
+    printf("expr1", "expr2", 3, four, '5', printf("seven"), 8<9, -10, !11);
+}
+*/
+int opExpressionTest(){
+    /*
+    a = 1 + 2;
+    b = a + b;
+    c = '1' + '2';
+    d = "wow" + "wow";
+    e = printf("1") + printf("2");
+    f = a + a < b;
+    g = a + -a;
+    h = a + !a;
+    a = 1 - 2;
+    b = a - b;
+    c = '1' - '2';
+    d = "wow" - "wow";
+    e = printf("1") - printf("2");
+    f = a - a < b;
+    g = a - -a;
+    h = a - !a;
+    a = 1 * 2;
+    b = a * b;
+    c = '1' * '2';
+    d = "wow" * "wow";
+    e = printf("1") * printf("2");
+    f = a * a < b;
+    g = a * -a;
+    h = a * !a;
+    a = 1 / 2;
+    b = a / b;
+    c = '1' / '2';
+    d = "wow" / "wow";
+    e = printf("1") / printf("2");
+    f = a / a < b;
+    g = a / -a;
+    h = a / !a;
+    a = 1 % 2;
+    b = a % b;
+    c = '1' % '2';
+    d = "wow" % "wow";
+    e = printf("1") % printf("2");
+    f = a % a < b;
+    g = a % -a;
+    h = a % !a;
+    a = 1 || 2;
+    b = a || b;
+    c = '1' || '2';
+    d = "wow" || "wow";
+    e = printf("1") || printf("2");
+    f = a || a < b;
+    g = a || -a;
+    h = a || !a;
+    a = 1 && 2;
+    b = a && b;
+    c = '1' && '2';
+    d = "wow" && "wow";
+    e = printf("1") && printf("2");
+    f = a && a < b;
+    g = a && -a;
+    h = a && !a;
+    a = 1 <= 2;
+    b = a <= b;
+    c = '1' <= '2';
+    d = "wow" <= "wow";
+    e = printf("1") <= printf("2");
+    //THIS IS WRONG
+    f = a <= a < b;
+    g = a <= -a;
+    h = a <= !a;
+     */
+    a = 1 < 2;
+    b = a < b;
+    c = '1' < '2';
+    d = "wow" < "wow";
+    e = printf("1") < printf("2");
+    f = a < a < b;
+    g = a < -a;
+    h = a < !a;
+    /*
+    a = 1 > 2;
+    b = a > b;
+    c = '1' > '2';
+    d = "wow" > "wow";
+    e = printf("1") > printf("2");
+    f = a > a < b;
+    g = a > -a;
+    h = a > !a;
+    a = 1 >= 2;
+    b = a >= b;
+    c = '1' >= '2';
+    d = "wow" >= "wow";
+    e = printf("1") >= printf("2");
+    f = a >= a < b;
+    g = a >= -a;
+    h = a >= !a;
+    a = 1 != 2;
+    b = a != b;
+    c = '1' != '2';
+    d = "wow" != "wow";
+    e = printf("1") != printf("2");
+    f = a != a < b;
+    g = a != -a;
+    h = a != !a;
+    */
+    return(1);
+}

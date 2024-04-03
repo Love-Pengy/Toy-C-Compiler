@@ -30,6 +30,7 @@ void addIdFunctionCallTree(functionCallTree* f, char* id){
 void addExpressionTreeFunctionCallTree(functionCallTree* f, expressionTree* input){
     (*f)->exprs[(*f)->numExprs] = malloc(sizeof(expressionTree));
     (*f)->exprs[(*f)->numExprs] = (*input);
+    (*f)->numExprs += 1;
 }
 
 functionCallTree createFunctionCallTree(char *ident, expressionTree* exp, int amt){
@@ -46,12 +47,19 @@ list functionCallTreeToString(functionCallTree fct){
     listCat(&string, spaces());
     listCat(&string, "funcCall(\n");
     indent();
-
+    listCat(&string, spaces());
     listCat(&string, fct->id);
-
+    indent();
+    listCat(&string, "\n");
+    listCat(&string, spaces());
+    listCat(&string, "[\n");
     for(int i = 0; i < fct->numExprs; i++){
         llistCat(&string, expressionTreeToString(fct->exprs[i]));
     } 
+
+    listCat(&string, spaces());
+    listCat(&string, "]\n");
+    outdent();
     outdent();
     listCat(&string, spaces());
     listCat(&string, ")\n");

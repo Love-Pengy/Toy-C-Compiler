@@ -47,6 +47,17 @@
 + ~~go through and make adders and initializers for everything that needs it in the main parser file~~
 + ~~run through warnings and errors for the AST~~
 + ~~test the entirety of the language~~ 
-+ Debug WColumn memory issue
-+ to make message pointer make more sense you might have to make it only go to the beginning/end of tokens 
++ ~~Debug WColumn memory issue~~
++ ~~change pretty printing indents to four spaces~~
++ ~~fix pretty printing that shit is NOT pretty~~ 
+
++ for op expression trees I need to fix two op expression trees being within one another they are not showing up 
 + make a free tree option for the ast when done with it
++ Thoroughly test the parser before moving onto code generation 
++ to make message pointer make more sense you might have to make it only go to the beginning/end of tokens 
+
+
+THIS CAN BE DONE LATER WORK ON FUNCTIONALITY 
+vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
++ program, definition, statement, expression, and operator should all have the block look
+    + others should be one liners with the expception of the following: 

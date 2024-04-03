@@ -5,7 +5,7 @@
 #include "../../include/parser/prettyPrinting.h"
 
 static int pos = 0;
-static int INDENTSIZE = 2;
+static int INDENTSIZE = 4;
 
 char *spaces() {
   char *s = malloc(pos+1);

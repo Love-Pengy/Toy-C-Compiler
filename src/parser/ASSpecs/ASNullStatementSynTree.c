@@ -26,10 +26,9 @@ nullStatementTree createNullStatementTree(void){
 list nullStatementTreeToString(nullStatementTree nst){
     list string = createList();
     listCat(&string, spaces());
-    listCat(&string, "nullState(\n");
+    listCat(&string, "nullState(");
     indent();
     outdent();
-    listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
 }

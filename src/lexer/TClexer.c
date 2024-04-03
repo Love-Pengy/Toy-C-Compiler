@@ -376,9 +376,10 @@ token getLexeme(void){
                 return(lexeme);
             }
             else{
-                currentChar = getChar();
                 charConcat(output, currentChar);
+                currentChar = getChar();
                 if(currentChar == '\''){
+                    charConcat(output, currentChar);    
                     lexeme = createToken("CHARLITERAL", output);
                     if(debug_scanner){
                         printToken(lexeme);

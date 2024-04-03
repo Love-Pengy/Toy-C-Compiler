@@ -45,6 +45,9 @@ list readStatementTreeToString(readStatementTree rs){
     listCat(&string, "readState(");
     indent();
     for(int i = 0; i < rs->numIds; i++){
+        if((!(i == 0)) && (1 != (rs->numIds - 2))){
+            listCat(&string, ", ");
+        }
         listCat(&string, rs->ids[i]);
     }
     outdent();

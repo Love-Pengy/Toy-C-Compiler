@@ -66,10 +66,12 @@ list functionDefinitionTreeToString(functionDefinitionTree fst){
     listCat(&string, spaces());
     listCat(&string, "funcDef(\n");
     indent();
+    listCat(&string, spaces());
     listCat(&string, (fst)->type);    
     listCat(&string, " ");
     listCat(&string, (fst)->id);
-    listCat(&string, " ");
+    listCat(&string, " \n");
+    indent();
     if((fst)->varAmount){
         for(int i = 0; i < (fst)->varAmount; i++){
             llistCat(&string, variableDefinitionTreeToString(((fst)->vDef[i])));

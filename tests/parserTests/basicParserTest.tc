@@ -2,7 +2,8 @@
 int a;
 char b;
 
-int main(){
+int main(int something, char somethingElse){
+    ;
     write("Enter an upper bound for loop: ");
     read(a);
     b = 1;

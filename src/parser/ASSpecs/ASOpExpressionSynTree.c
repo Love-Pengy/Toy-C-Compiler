@@ -31,8 +31,8 @@ list opExpressionTreeToString(opExpressionTree oe){
     listCat(&string, spaces());
     listCat(&string, "expr(\n");
     indent();
-    llistCat(&string, operatorTreeToString(oe->op));
     llistCat(&string, expressionTreeToString(oe->exp1)); 
+    llistCat(&string, operatorTreeToString(oe->op));
     llistCat(&string, expressionTreeToString(oe->exp2)); 
     outdent();
     listCat(&string, spaces());
