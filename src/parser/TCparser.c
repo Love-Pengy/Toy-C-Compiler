@@ -524,14 +524,22 @@ expressionTree relopExpression(void){
     re1 = simpleExpression();
     expressionTree re2 = initExpressionTree();
     opExpressionTree currentOp = initOpExpressionTree();
+    expressionTree tempExpression = initExpressionTree();
     expressionTree output = initExpressionTree();
-    operatorTree operator = initOperatorTree();
+    operatorTree operator = initOperatorTree(); 
     currentOp = NULL;
+    bool first = true;
     while(!strcmp(currentToken->lexeme, "RELOP")){
         operator = createOperatorTree(currentToken->value);
         getNextToken(); 
         re2 = simpleExpression();
-        currentOp = createOpExpressionTree(&operator, &re1, &re2);
+        if(first){
+            currentOp = createOpExpressionTree(&operator, &re1, &re2);
+            first = false;
+            continue;
+        }
+        tempExpression = createExpressionTree(Expr, &currentOp);
+        currentOp = createOpExpressionTree(&operator, &tempExpression, &re2);
     }
     exiting("relopExpression");
     if(currentOp == NULL){

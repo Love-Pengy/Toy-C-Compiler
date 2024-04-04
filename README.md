@@ -1,19 +1,27 @@
-# Compiler
-+ Compiler made in C for EGRE 591
+# Toy C Compiler
 
-Name: Brandon Frazier
+Name: Brandon Frazier 
+
 Language: C
+
 Build tool: Make
 
-# Instructions: 
+## Instructions 
 
-+ For building: 
++ Building 
     + Use command "make" or "make generate"
 
-+ For running: 
-    + Use command "make run ARGS="<arguments>""
-    or
-    + Run executable "tc" and use arguments as usual 
++ Running
+    + Use command "make run ARGS="[arguments]"  where [arguments] is replaced with the normal arguments that you would have after the executable if running it direct
 
-+ For cleaning: 
+        or
+
+    + Run executable "tc" in the bin folder and use arguments as usual 
+
++ Cleaning
     + Use command "make clean"
+
++ Testing:    
+    + To test use the same method as running except replace the word "run" with test 
+        + test will run gdb as normal with the arguments supplied
+    + if you uncomment the line starting with ADDARGS in the Makefile it will run it with the -fsanitize=address flag

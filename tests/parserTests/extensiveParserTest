@@ -1,9 +1,5 @@
 //B. Frazier 4/3/24
-/*
-need to test: 
-    + expr
-*/
-/*
+
 int a;
 char b;
 
@@ -75,9 +71,8 @@ char testFuncCall(char function){
     printf();
     printf("expr1", "expr2", 3, four, '5', printf("seven"), 8<9, -10, !11);
 }
-*/
+
 int opExpressionTest(){
-    /*
     a = 1 + 2;
     b = a + b;
     c = '1' + '2';
@@ -139,20 +134,17 @@ int opExpressionTest(){
     c = '1' <= '2';
     d = "wow" <= "wow";
     e = printf("1") <= printf("2");
-    //THIS IS WRONG
     f = a <= a < b;
     g = a <= -a;
     h = a <= !a;
-     */
     a = 1 < 2;
     b = a < b;
     c = '1' < '2';
     d = "wow" < "wow";
     e = printf("1") < printf("2");
-    f = a < a < b;
+    f = a < a > b;
     g = a < -a;
     h = a < !a;
-    /*
     a = 1 > 2;
     b = a > b;
     c = '1' > '2';
@@ -177,6 +169,5 @@ int opExpressionTest(){
     f = a != a < b;
     g = a != -a;
     h = a != !a;
-    */
     return(1);
 }

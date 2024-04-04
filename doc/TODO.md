@@ -50,14 +50,13 @@
 + ~~Debug WColumn memory issue~~
 + ~~change pretty printing indents to four spaces~~
 + ~~fix pretty printing that shit is NOT pretty~~ 
-
-+ for op expression trees I need to fix two op expression trees being within one another they are not showing up 
-+ make a free tree option for the ast when done with it
-+ Thoroughly test the parser before moving onto code generation 
-+ to make message pointer make more sense you might have to make it only go to the beginning/end of tokens 
++ ~~for op expression trees I need to fix two op expression trees being within one another they are not showing up~~ 
++ ~~Thoroughly test the parser before moving onto code generation~~ 
 
 
 THIS CAN BE DONE LATER WORK ON FUNCTIONALITY 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 + program, definition, statement, expression, and operator should all have the block look
     + others should be one liners with the expception of the following: 
++ make a free tree option for the ast when done with it
++ to make message pointer make more sense you might have to make it only go to the beginning/end of tokens 
