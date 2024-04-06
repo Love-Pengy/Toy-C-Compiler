@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../../include/symbols/TCsymbol.h"
 #include "../../include/symbols/TCSymbolTable.h"
+#include "../../lib/dynamicArray/dynamicArray.h"
 #define MAXSYMBOLS 1000
 
 struct symbolTableTypeStruct{
@@ -27,14 +28,13 @@ int addSymbol(symbolTable* symTab, symbol* sym){
     return(0);
 }
 
-
 //for getting the offset of a symbol
 //int findSymbol(symbolTable*, char*);
 //for getting the value of a symbol
 //symbol* findSymbol(symbolTable*, symbol*);
 symbol* getSymbol(symbolTable* symTable, symbol* sym){
     for(int i = 0; i < (*symTable)->amountSymbols; i++){
-        if(!strcmp(getId(&((*symTable)->symbols[i])), getId(sym))){
+        if(!strcmp(getId(((*symTable)->symbols[i])), getId((*sym)))){
             return((*symTable)->symbols);
         }
     }
@@ -42,15 +42,18 @@ symbol* getSymbol(symbolTable* symTable, symbol* sym){
 }
 
 char * symbolTableToString(symbolTable symTP){
-    //change this to a list
-    char * output = malloc(sizeof(char) * 10000);
-    output[0] = '\0';
-    strcpy(output, "{ ");
+    list output = createList(); 
+    listCat(&output, "{");
+
     for(int i = 0; i < symTP->amountSymbols; i++){
-        strcpy(output, symbolToString(symTP->symbols[i]));
+        listCat(&output, symbolToString(symTP->symbols[i]));
+        if(i != (symTP->amountSymbols - 1)){
+            listCat(&output, " ");
+        }
+        
     }
-    strcpy(output, "}\n");
-    return(output);
+    listCat(&output, "}\n");
+    return(listToString(output));
 }
 
 void freeSymbolTable(symbolTable* symTP){

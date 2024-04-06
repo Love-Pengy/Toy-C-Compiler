@@ -2,12 +2,11 @@
 #include "../../include/symbols/TCsymbol.h"
 #include <stdlib.h>
 #include <string.h>
- 
+#include "../../lib/dynamicArray/dynamicArray.h"
+
 struct symbolStructType{
     enum symbolType type;
     char *id;  
-    //this is an int because we're only doing ints for this part
-    int value;
 };
 
 symbol createSymbol(void){
@@ -16,8 +15,8 @@ symbol createSymbol(void){
     return(output);
 }
 
-char * getId(symbol* sym){
-    return((*sym)->id);
+char * getId(symbol sym){
+    return(sym->id);
 }
 void setId(symbol* sym, char* identifier){
     (*sym)->id = malloc(sizeof(char) * (strlen(identifier) + 1));
@@ -34,31 +33,28 @@ void setType(symbol* sym, enum symbolType newType){
 }
 
 char *symbolToString(symbol sym){
-    //random arbitrary malloc value
-    char* output = malloc(sizeof(char) * 1000);
-    output[0] = '\0';
-    strcpy(output, "[ ");
+    list output = createList();
+    if(sym->type == NONE){
+        return("[]\n");
+    }
+
+    listCat(&output, "[");
     switch(sym->type){
         case VAR: 
-            strcpy(output, "VAR ");
+            listCat(&output, "VAR, ");
             break;
         case LABEL: 
-            strcpy(output, "LABEL "); 
+            listCat(&output, "LABEL, "); 
             break;
         case OFFSET: 
-            strcpy(output, "OFFSET ");
+            listCat(&output, "OFFSET, ");
             break;
         default: 
-            strcpy(output, "NONE ");
+            listCat(&output, "NONE, ");
     }
-    strcpy(output, sym->id);
-    strcpy(output, " ");
-
-    char buffer[100];
-    sprintf(buffer, "%d", sym->value);
-    strcpy(output, buffer);
-    strcpy(output, "]");
-    return(output);
+    listCat(&output, sym->id);
+    listCat(&output, "]");
+    return(listToString(output));
 }
 
 

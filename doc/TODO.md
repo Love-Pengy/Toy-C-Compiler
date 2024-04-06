@@ -52,8 +52,14 @@
 + ~~for op expression trees I need to fix two op expression trees being within one another they are not showing up~~ 
 + ~~Thoroughly test the parser before moving onto code generation~~ 
 + ~~write out skeleton for symbols~~
-+ write out skeleton for symbol tables
-+ change symbol and symbol table functions to lists so I don't have to worry about it 
++ ~~write out skeleton for symbol tables~~
++ ~~change symbol and symbol table functions to lists so I don't have to worry about it~~
++ ~~test symbols and symbol tables~~
++ add semantic analysis to the parser 
+    + need to go through everytime you get an id and check if its defined or not
+    + if not defined and declaration then add to symbol table
+    + else fail because it was called without declaration
++ generate code given the valid AST
 
 THIS CAN BE DONE LATER WORK ON FUNCTIONALITY 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
