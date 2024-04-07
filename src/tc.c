@@ -8,6 +8,7 @@
 #include <string.h>
 #include "../include/parser/TCparser.h"
 #include "../include/parser/ASsynTree.h"
+#include  "../include/semanticAnalysis/TCSemantics.h"
 
 int main(int argc, char **argv){
     
@@ -28,22 +29,13 @@ int main(int argc, char **argv){
     }
 
     programTree program = toyCProgram();
+
     if(dump_abstractCode){
         printf("%s\n", listToString(programTreeToString(program)));
     }
 
-    /* just scanner
-    token currentLexeme;
-    while(strcmp(currentLexeme->lexeme, "EOF")){
-        //check if comment
-        if(currentLexeme == NULL){
-            continue;
-        }
-        currentLexeme = getLexeme();
-        while(currentLexeme == NULL){
-            currentLexeme = getLexeme();
-        }
-    }
-    */
+    checkSemantics(&program);
+    generateCode(&program);
+
     return(0);
 }

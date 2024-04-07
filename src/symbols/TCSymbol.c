@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "../../include/symbols/TCsymbol.h"
 #include <stdlib.h>
 #include <string.h>

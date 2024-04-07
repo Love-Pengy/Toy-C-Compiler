@@ -28,10 +28,23 @@ int addSymbol(symbolTable* symTab, symbol* sym){
     return(0);
 }
 
+bool symbolExists(symbolTable* table, char* checkId){
+    if(checkId == NULL){
+        return(false);
+    }
+    for(int i = 0; i < (*table)->amountSymbols; i++){
+        if(!strcmp(getId((*table)->symbols[i]), checkId)){
+            return(true);
+        }
+    }
+    return(false);
+}
+
 //for getting the offset of a symbol
 //int findSymbol(symbolTable*, char*);
 //for getting the value of a symbol
 //symbol* findSymbol(symbolTable*, symbol*);
+
 symbol* getSymbol(symbolTable* symTable, symbol* sym){
     for(int i = 0; i < (*symTable)->amountSymbols; i++){
         if(!strcmp(getId(((*symTable)->symbols[i])), getId((*sym)))){

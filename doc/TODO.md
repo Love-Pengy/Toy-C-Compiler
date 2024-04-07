@@ -55,6 +55,7 @@
 + ~~write out skeleton for symbol tables~~
 + ~~change symbol and symbol table functions to lists so I don't have to worry about it~~
 + ~~test symbols and symbol tables~~
+
 + add semantic analysis to the parser 
     + need to go through everytime you get an id and check if its defined or not
     + if not defined and declaration then add to symbol table

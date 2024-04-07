@@ -20,11 +20,20 @@ int main(void){
     addSymbol(&table,&s2);
     addSymbol(&table,&s3);
     
-
     //this should return false
     printf("DOUBLE SYMBOL TEST: %d\n", addSymbol(&table, &s1));
     printf("%s\n", symbolTableToString(table));    
+    
+    //this should return true
+    printf("EXISTS: %d\n", symbolExists(&table, "c"));
 
+    //this should return false
+    printf("DOES NOT EXIST: %d\n", symbolExists(&table, "banana"));
+    
+    //this should return false
+    printf("DOES NOT EXIST: %d\n", symbolExists(&table, ""));
+    printf("DOES NOT EXIST: %d\n", symbolExists(&table, NULL));
+    
     return(0);
 
 }

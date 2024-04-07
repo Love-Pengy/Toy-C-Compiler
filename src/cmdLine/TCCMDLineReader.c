@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include "../../include/cmdLine/TCCMDLineReader.h"
 #include <string.h>
-#include <ctype.h>
 #include "../../include/cmdLine/TCglobals.h"
 #include <stdbool.h>
 
