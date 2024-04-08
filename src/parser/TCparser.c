@@ -4,9 +4,11 @@
 #include "../../include/lexer/TClexer.h"
 #include "../../include/cmdLine/TCglobals.h"
 #include "../../include/parser/ASsynTree.h"
+#include "../../include/symbols/TCSymbolTable.h"
+#include "../../include/symbols/TCsymbol.h"
 #include <string.h>
 
-
+symbolTable symTable;
 token currentToken;
 
 //make it so that it knows stuff exists
@@ -62,6 +64,30 @@ void throwStateError(char *expected){
     exit(EXIT_FAILURE);
 }
 
+void throwDeclarationError(char* undeclared){
+    printf("%d: ", getLineNum());
+    printf("%s\n", getCurrentLine());
+    for(int i = 0; i < getPos(); i++){
+        printf(" ");
+    }
+
+    printf("^ '%s' undeclared\n", undeclared); 
+    fflush(stdout);
+    exit(EXIT_FAILURE);
+}
+
+void throwRedeclarationError(char* redeclared){
+    printf("%d: ", getLineNum());
+    printf("%s\n", getCurrentLine());
+    for(int i = 0; i < getPos(); i++){
+        printf(" ");
+    }
+
+    printf("^ '%s' redeclared\n", redeclared); 
+    fflush(stdout);
+    exit(EXIT_FAILURE);
+}
+
 void getNextToken(void){
     freeToken(currentToken);
     currentToken = getLexeme();
@@ -100,9 +126,12 @@ void exiting(char *exiteeLikeSomeTea){
     }
 }
 
+
+
 //think of this like A() its the state itself. The leaf is defined elsewhere
 programTree toyCProgram(void){
     entering("toyCProgram");
+    symTable = createSymbolTable();
     programTree output = initProgramTree(); 
     getNextToken();    
     definitionTree defHold = initDefinitionTree();    
@@ -113,6 +142,9 @@ programTree toyCProgram(void){
     }
 
     exiting("toyCProgram");
+    if(dump_symbolTable){
+        printf("%s\n", symbolTableToString(symTable)); 
+    }
     return(output);
 }
 
@@ -120,24 +152,27 @@ programTree toyCProgram(void){
 definitionTree definition(void){
     entering("definition");
     enum defTypeProd typeProd;
-    //char is four letters
     char *typeSpec = malloc(sizeof(char) * 5);
     void * ptr = malloc(sizeof(void*));
     char *idHold;
     variableDefinitionTree vdHold = initVariableDefinitionTree();
     functionDefinitionTree fsHold = initFunctionDefinitionTree();
+
     strcpy(typeSpec, type()); 
     if(!strcmp(currentToken->lexeme, "ID")){ 
         idHold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
         strcpy(idHold, currentToken->value);
         getNextToken();
         if(!strcmp(currentToken->lexeme, "SEMICOLON")){
+            if(symbolExists(&symTable, idHold)){
+                throwDeclarationError(idHold); 
+            }
             typeProd = variableDef;
             vdHold = createVariableDefinitionTree(typeSpec, &idHold, 1);
             ptr = &vdHold;
             accept(';');
         }
-        else{
+        else{ 
             typeProd = functionDef;
             fsHold = functionDefinition(typeSpec, idHold);
             ptr = &fsHold;
@@ -146,7 +181,8 @@ definitionTree definition(void){
     else{
         throwStateError("ID");   
     }
-    exiting("definition");
+
+    exiting("definition"); 
     if(typeProd == variableDef){
         return(createDefinitionTree(typeProd, ptr));
     }
@@ -177,8 +213,16 @@ char* type(void){
 functionDefinitionTree functionDefinition(char *type, char* id){
     entering("functionDefinition");  
     functionDefinitionTree fd = initFunctionDefinitionTree();
+    symbol currSym = createSymbol();
+
     addIdFunctionDefinition(&fd, id); 
     addTypeFunctionDefinition(&fd, type);
+
+    setSymbolType(&currSym, RTYPE);
+    setVarType(&currSym, type);
+    setId(&currSym, id);
+    addSymbol(&symTable, &currSym);
+
     functionHeader(&fd);
     functionBody(&fd);
     exiting("functionDefinition");
@@ -211,6 +255,7 @@ void formalParamList(functionDefinitionTree*v){
     char * idHold;
     variableDefinitionTree varDefHold = malloc(sizeof(variableDefinitionTree));
     int i = 0;
+    symbol currSym = createSymbol(); 
     strcpy(typeHold, type());
     if(!strcmp(currentToken->lexeme, "ID")){
         idHold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
@@ -219,6 +264,11 @@ void formalParamList(functionDefinitionTree*v){
         addVarDefFunctionDefinition(v, &varDefHold);
         i++;
         getNextToken();
+
+        setSymbolType(&currSym, VAR);
+        setVarType(&currSym, typeHold);
+        setId(&currSym, idHold);
+        addSymbol(&symTable, &currSym);
     }
     else{
         throwStateError("ID");
@@ -233,6 +283,11 @@ void formalParamList(functionDefinitionTree*v){
             varDefHold = createVariableDefinitionTree(typeHold, &idHold, 1);
             addVarDefFunctionDefinition(v, &varDefHold);
             i++;
+            currSym = createSymbol();
+            setSymbolType(&currSym, VAR);
+            setVarType(&currSym, typeHold);
+            setId(&currSym, idHold);
+            addSymbol(&symTable, &currSym);
             getNextToken();
         }
         else{
@@ -337,6 +392,7 @@ blockStatementTree compoundStatement(void){
     char * idHold;
     statementTree sHold = initStatementTree();
     variableDefinitionTree vHold = initVariableDefinitionTree();
+    symbol currSym = createSymbol();
     while(strcmp(currentToken->lexeme, "RCURLY") != 0){
         if(!strcmp(currentToken->value, "int") || !strcmp(currentToken->value, "char")){
             strcpy(typeHold, type());
@@ -344,9 +400,18 @@ blockStatementTree compoundStatement(void){
                 idHold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
                 strcpy(idHold, currentToken->value);
                 getNextToken();
+
+                setSymbolType(&currSym, VAR);
+                setVarType(&currSym, typeHold);
+                setId(&currSym, idHold);
+                if(!addSymbol(&symTable, &currSym)){
+                    throwRedeclarationError(idHold);
+                }
+
                 accept(';');
                 vHold = createVariableDefinitionTree(typeHold, &idHold, 1);
                 addVarDefBlockStatementTree(&bst, &vHold);
+
             }
         }
         else{

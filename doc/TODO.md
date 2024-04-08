@@ -60,6 +60,26 @@
     + need to go through everytime you get an id and check if its defined or not
     + if not defined and declaration then add to symbol table
     + else fail because it was called without declaration
+    + all expressions must be type compatible (only ints)
+    + SEMANTICS TO DO 
+        + primary
+            + tentative implementation 
+            + testing
+        + read
+            + tentative implementation 
+            + testing
+        + formal param list (function header AKA what is inside the paren)
+            + ~~tentative implementation~~ 
+            + ~~testing~~
+        + compound statement (function body)
+            + ~~tentative implementation~~ 
+            + ~~testing~~
+        + functionDefintion (grabbing return type)
+            + ~~tentative implementation~~
+            + ~~testing~~
+        + expression (assign op)
+            + tentative implementation 
+            + testing
 + generate code given the valid AST
 
 THIS CAN BE DONE LATER WORK ON FUNCTIONALITY 
@@ -68,3 +88,4 @@ vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
     + others should be one liners with the expception of the following: 
 + make a free tree option for the ast when done with it
 + to make message pointer make more sense you might have to make it only go to the beginning/end of tokens 
+    + fix semantic error handling (it points to the wrong place) 

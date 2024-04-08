@@ -8,7 +8,7 @@ BIN_DIR := ./bin
 .DEFAULT_GOAL := generate
 
 #if you wanna feel like a genius just get rid of debug symbol ;)
-DEBUG = @      
+DEBUG =       
 
 CFLAGS := -g -Wall
 

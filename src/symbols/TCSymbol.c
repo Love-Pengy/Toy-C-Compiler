@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../lib/dynamicArray/dynamicArray.h"
-
 struct symbolStructType{
     enum symbolType type;
-    char *id;  
+    char* varType;
+    char* id;  
 };
 
 symbol createSymbol(void){
@@ -23,12 +23,21 @@ void setId(symbol* sym, char* identifier){
     strcpy((*sym)->id, identifier);
 }
 
-enum symbolType getType(symbol sym){
+enum symbolType getSymbolType(symbol sym){
     return(sym->type);
 }
 
-void setType(symbol* sym, enum symbolType newType){
+void setSymbolType(symbol* sym, enum symbolType newType){
     (*sym)->type = newType;
+}
+
+char* getVarType(symbol sym){
+    return(sym->varType);
+}
+
+void setVarType(symbol* sym, char* vType){
+    (*sym)->varType = malloc(sizeof(char) * (strlen(vType) + 1));
+    strcpy((*sym)->varType, vType);
 }
 
 char *symbolToString(symbol sym){
@@ -45,12 +54,14 @@ char *symbolToString(symbol sym){
         case LABEL: 
             listCat(&output, "LABEL, "); 
             break;
-        case OFFSET: 
-            listCat(&output, "OFFSET, ");
+        case RTYPE: 
+            listCat(&output, "RTYPE, ");
             break;
         default: 
             listCat(&output, "NONE, ");
     }
+    listCat(&output, sym->varType);
+    listCat(&output, ", ");
     listCat(&output, sym->id);
     listCat(&output, "]");
     return(listToString(output));

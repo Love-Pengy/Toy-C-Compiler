@@ -8,7 +8,6 @@
 #include <string.h>
 #include "../include/parser/TCparser.h"
 #include "../include/parser/ASsynTree.h"
-#include  "../include/semanticAnalysis/TCSemantics.h"
 
 int main(int argc, char **argv){
     
@@ -34,8 +33,6 @@ int main(int argc, char **argv){
         printf("%s\n", listToString(programTreeToString(program)));
     }
 
-    checkSemantics(&program);
-    generateCode(&program);
 
     return(0);
 }
