@@ -1,0 +1,14 @@
+//B. Frazier 04/08/24
+
+
+int main(char a, char b){
+    int c;
+    read(c);
+    read(c, c, c, c, a, b);
+    if(a < b){
+        a = a*b; 
+    }
+    else{
+        b = a*c;
+    }
+}

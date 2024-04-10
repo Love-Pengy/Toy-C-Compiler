@@ -1,0 +1,9 @@
+//B. Frazier 04/08/24
+
+
+char main(char a, char b){
+    char c;
+    read(c);
+    read(c, c, c, c, a, b);
+    read(d);
+}

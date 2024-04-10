@@ -141,6 +141,17 @@ programTree toyCProgram(void){
         addDefinitionProgramTree(&output,&defHold);
     }
 
+    if(!symbolExists(&symTable, "main")){    
+        printf("%d: ", getLineNum());
+        printf("%s\n", getCurrentLine());
+        for(int i = 0; i < getPos(); i++){
+            printf(" ");
+        }
+        printf("^ main function not declared\n"); 
+        fflush(stdout);
+        exit(EXIT_FAILURE);
+    }
+    
     exiting("toyCProgram");
     if(dump_symbolTable){
         printf("%s\n", symbolTableToString(symTable)); 
@@ -165,7 +176,7 @@ definitionTree definition(void){
         getNextToken();
         if(!strcmp(currentToken->lexeme, "SEMICOLON")){
             if(symbolExists(&symTable, idHold)){
-                throwDeclarationError(idHold); 
+                throwRedeclarationError(idHold); 
             }
             typeProd = variableDef;
             vdHold = createVariableDefinitionTree(typeSpec, &idHold, 1);
@@ -501,6 +512,9 @@ readStatementTree readStatement(void){
         getNextToken();
         accept('(');
         if(!strcmp(currentToken->lexeme, "ID")){
+            if(!symbolExists(&symTable, currentToken->value)){
+                throwDeclarationError(currentToken->value); 
+            }
             addIdReadStatement(&output, currentToken->value);
             getNextToken();
         }
@@ -510,6 +524,9 @@ readStatementTree readStatement(void){
         while(!strcmp(currentToken->lexeme, "COMMA")){
             accept(',');
             if(!strcmp(currentToken->lexeme, "ID")){
+                if(!symbolExists(&symTable, currentToken->value)){
+                    throwDeclarationError(currentToken->value); 
+                }
                 addIdReadStatement(&output, currentToken->value);
                 getNextToken();
             }
@@ -558,7 +575,6 @@ newLineStatementTree newLineStatement(void){
 }
 
 expressionTree expression(void){
-    //both relops and the operator are going to be part of the opExpressionTree and then the opExpressionTree goes into the expressionTree
     entering("expression");
     expressionTree et1  = initExpressionTree();
     et1 = relopExpression();
@@ -568,7 +584,6 @@ expressionTree expression(void){
     currentOp = NULL;
     while(!strcmp(currentToken->lexeme, "ASSIGNOP")){
         operatorTree operator = createOperatorTree(currentToken->value);
-        //this needs to be recurssion of some sort because the expression can be another expression
         getNextToken();
         et2 = relopExpression();
         currentOp = createOpExpressionTree(&operator, &et1, &et2);
@@ -674,8 +689,9 @@ expressionTree primary(void){
     expressionTree output = initExpressionTree();
     functionCallTree holdf = initFunctionCallTree();
     expressionTree holde = initExpressionTree();
+    char* idHold = NULL;
     if(!strcmp(currentToken->lexeme, "ID")){
-        char * idHold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
+        idHold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
         strcpy(idHold, currentToken->value);
         getNextToken();
         type = ID;
@@ -731,6 +747,13 @@ expressionTree primary(void){
     }
     else{
         throwStateError("ID, NUMBER, STRING, CHARLITERAL, LPAREN, -, or NOT");
+    }
+
+    if(type == ID){        
+        if(!symbolExists(&symTable, idHold)){
+            printf("TEST: %s\n", idHold);
+            throwDeclarationError(idHold); 
+        }
     }
     exiting("primary");
     return(output);
