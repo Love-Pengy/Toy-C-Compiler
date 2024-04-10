@@ -1,14 +1,29 @@
 //B. Frazier 04/08/24
 
-
-int main(char a, char b){
+int main(int a, int b){
     int c;
+    int d;
+    char e;
     read(c);
     read(c, c, c, c, a, b);
     if(a < b){
         a = a*b; 
     }
     else{
-        b = a*c;
+        if(a >= b == 'c' && d){
+            if(a <= b){
+                c = -c + b;
+                c = !c - b;
+            }
+            b = a*c;
+        }
     }
+    if(a != b){
+        write("meow");
+    }
+    while(a || b % c){
+        newline;
+    }
+    a = a+e;
+    ;
 }

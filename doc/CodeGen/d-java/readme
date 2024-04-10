@@ -1,0 +1,200 @@
+May 20, 1997
+
+What
+----
+D-Java is a java class file disassembler written in C.
+
+How to use
+----------
+        D-Java [-afhv] [-e [+]<logfile>] [[-n <info>]...] [-o <format>]
+               [-]|[classfile...]
+
+All output is to stdout.
+
+Detailed usage
+--------------
+        D-Java [options] ClassFile[.class]...
+
+If the first classfile is '-' then D-Java will take input from stdin.
+This means D-Java can be chained.  For example, you could do
+'cat MyClass.class | D-Java - > MyClass.dis'.
+
+        -a
+                Only show the names of ClassFile and Method attributes.
+                This is useful for when there might be extra attributes in
+                the class file, and you'd like to know what they are.
+                - This option is ignored for jasmin output.
+
+        -e [+]<logfile>
+                Redirect stderr to <logfile>.  If '+' is the first
+                character, D-Java will append.
+                Example: '-e +errors' appends to an existing file 'errors'.
+
+        -f
+                Only show the field and method declarations.  No method
+                bodies are shown.
+                - This option is ignored for jasmin output.
+
+        -h
+                Show a detailed help screen.
+
+        -n <info>
+                Don't output any debugging info, as specified by <info>.
+                <info> can be either 'lvt' or 'lnt'.
+                Use '-n lvt -n lnt' to disable display of both.
+                Note: Most class files have line number tables. (hint-hint)
+                I recommend using '-n lnt' for jasmin output because
+                the code will be riddled with many '.line' directives
+                otherwise.
+
+        -o <format>
+                Output in a specific format, where <format> can be one of:
+                    * jasmin
+                    * default (automatic if '-o' is not specified)
+
+        -v
+                Verbose.  D-Java will be slightly more detailed when
+                disassembling.
+
+        --
+                A double '-' signals the end of the options.  This is useful
+                for those cases where there is a '-' as the first letter of
+                a file name.
+                Example: 'D-Java -n lnt -- -ClassWithDashInFront'
+
+More examples: 'D-Java -f Animator'
+               'D-Java -o jasmin Animator.class'
+               'D-Java -vo jasmin -n lvt -n lnt Animator > Animator.dis'
+               'D-Java -f -- -ClassWithDashInFront'
+               'D-Java -e +djava.err -o jasmin TicTacToe'
+               'cat Blink.class | D-Java -av - > Blink.dis'
+               'D-Java -v -o jasmin -e djava.err -- -CoolClassWithDash'
+
+Compiling
+---------
+Just use gnumake from the source directory.  I've included a makefile.
+Everything should compile okay.  Please note that I've used the 'long
+long' type and some zero-length arrays.  I'm not sure which compilers
+out there, other than GCC, handle these C-extensions.
+
+Notes
+-----
+- Rumour has it that D-Java works in linux with dosemu.  I have not
+personally confirmed this, though.
+
+- DOS users must have a DPMI server, as D-Java uses DPMI.  This means
+running the program in a DOS shell in windows, or having EMM386 properly
+set up.  (Hmm... I forget if EMM386 provides DPMI support.)
+
+- The '.class' extension is optional, but if it is not specified it will
+be appended automatically.  This means D-Java will complain about not
+being able to find 'SomeCode.ext.class' when you specified 'SomeCode.ext'.
+
+- I wasn't sure what other compilers out there supported such things as
+a 'long long' type and zero-length arrays, so the main source file
+(d-java.c) checks for a gnu compiler.  As the code stands right now,
+gcc and/or gnumake must be used.
+
+Bug fixes
+---------
+19-Apr-1997
+        Fixed a bug relating to jasmin output, especially code with
+        lookupswitch and tableswitch.  It turned out that I had
+        'optimized' a section of code, and misused a variable.  I
+        should have known better -- hand optimization, especially with
+        good C compilers is bad.  I learned my lesson.
+
+21-Apr-1997
+        Fixed two more jasmin output bugs.  There shouldn't be any more
+        core dumps.  In fixing the first problem, I had introduced an extra
+        line of code for no particular reason.  Fixing the second problem
+        also removed two more extraneous lines of code.
+
+21-Apr-1997
+        Fixed a bug in 'tableswitch' output.  If there was a negative value
+        in the list, the list wouldn't display.
+
+22-Apr-1997
+        Fixed a 'lookupswitch' bug.  It wasn't printing "\n  default : " in
+        front of the last label.
+
+22-Apr-1997
+	I think I fixed all the problems relating to negative tableswitch
+        and lookupswitch values.  I was using unsigned instead of signed
+        quantities.  I also fixed the 'Label0' problem once and for all
+        (I hope) by removing a few lines of extraneous code.  Similar to
+        three bug fixes ago.
+
+24-Apr-1997
+        No more allocating zero bytes.  This wasn't necessarily bad, but I
+        avoided this situation nonetheless.  As well, I think I've fixed
+        another jasmin output bug regarding crashes.  (I switched the
+        evaluation order of an expression in one of the while loops.)
+        AND, I fixed a bug that was trying to free unallocated memory.
+        (big oops)
+
+25-Apr-1997
+	A big thank you to Robert Lynch for helping me to track down some of
+        this stuff.  Bruce Perens also deserves some credit for his Electric
+        Fence, which helped me track down all the suspicious memory accesses.
+
+12-May-1997
+        Fixed the crash problem when D-Java encounters an error.  Basically,
+        I removed an unnecessary call to freeClassFile(), which was being
+        passed a pointer to a classfile struct which had already been freed.
+        I also fixed a bug in the function that decodes UTF8 for display.
+        I was doing incorrect logic for testing the first few bits of the
+        bytes.
+
+20-May-1997
+        Changed 'attributes' to 'attributes_count' in the part that frees 
+        the fields in freeClassFile() in reclass.c.  This was a typo.
+
+Known problems
+--------------
+- I compiled D-Java with DJGPP, a GCC implementation for DOS.  Windows NT
+will not recognize long filenames with this implementation because an NT
+console uses Win32, so D-Java must be recompiled with a GCC for Win32 in
+order to work properly.  I think Cygnus (www.cygnus.com) has one such
+compiler.  I haven't bothered to compile with this myself due to time
+constraints.
+
+Background
+----------
+I wrote D-Java because I wanted to learn about the VM and bytecode.
+It was written in C because I didn't know java at the time, and because
+I thought that implementing everything in C would give me a more in-depth
+understanding.  I needed to implement such things as a UTF8 decoder and
+a long (I use a 'long long' type) to string converter, which java already
+does quite nicely.
+
+Since D-Java performs so similarly to javap, I decided to release the
+source code as well, so that others could get a better glimpse under the
+hood of a class file.  D-Java has a few more options, and is a bit more
+versatile than javap in that it can output to different assembler formats.
+Currently, though, it only outputs to either a default format or jasmin
+format.  I will add javaa output support soon.
+
+Don't hesitate to contact me with any questions, bug reports, or
+suggestions.
+
+Plans
+-----
+- Smarter error recovery, whatever that means.
+
+Legal
+-----
+Copyright (c) 1996,1997 Shawn Silverman
+
+I'm no lawyer, but I'd still like to say that I'm not responsible for any
+damages arising out of the use of any piece of D-Java.  Also, there are no
+warranties, express or implied.  (Do I really need to say that?)
+
+Current contact info
+--------------------
+          email:- umsilve1@cc.umanitoba.ca
+D-Java web page:- http://home.cc.umanitoba.ca/~umsilve1/djava
+Check often for frequent updates and fixes.
+
+Enjoy,
+        -Shawn

@@ -66,10 +66,13 @@ test:
 	$(DEBUG)gdb --args $(BIN_DIR)/tc $(ARGS)
 
 test2:
-	$(DEBUG)gdb --args $(BIN_DIR)/tc $(ARGS)
+	$(debug)gdb --args $(bin_dir)/tc $(args)
 
 run: 
 	$(DEBUG)./$(BIN_DIR)/tc $(ARGS)
+
+
+
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Makefiles. Initially, all the .d files will be missing, and we don't want those

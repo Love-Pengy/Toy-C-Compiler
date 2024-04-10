@@ -58,28 +58,29 @@
 
 + add semantic analysis to the parser 
     + ~~all programs must have a main function otherwise it is not valid~~
-    + need to go through everytime you get an id and check if its defined or not
-    + if not defined and declaration then add to symbol table
-    + else fail because it was called without declaration
+    + ~~need to go through everytime you get an id and check if its defined or not~~
+    + ~~if not defined and declaration then add to symbol table~~
+    + ~~else fail because it was called without declaration~~
     + all expressions must be type compatible (only ints)
-    + SEMANTICS TO DO 
-        + primary
-            + ~~tentative implementation~~ 
-            + testing
-        + read
+    + ~~SEMANTICS TO DO~~ 
+        + ~~primary~~
             + ~~tentative implementation~~ 
             + ~~testing~~
-        + formal param list (function header AKA what is inside the paren)
+        + ~~read~~
             + ~~tentative implementation~~ 
             + ~~testing~~
-        + compound statement (function body)
+        + ~~formal param list (function header AKA what is inside the paren)~~
             + ~~tentative implementation~~ 
             + ~~testing~~
-        + functionDefintion (grabbing return type)
+        + ~~compound statement (function body)~~
+            + ~~tentative implementation~~ 
+            + ~~testing~~
+        + ~~functionDefintion (grabbing return type)~~
             + ~~tentative implementation~~
             + ~~testing~~
-+ generate code given the valid AST
++ fix checker for compatible types (currently isn't checking properly but is implemented)
 + make symbol table global so that it can be printed from main 
++ generate code given the valid AST
 
 
 THIS CAN BE DONE LATER WORK ON FUNCTIONALITY 

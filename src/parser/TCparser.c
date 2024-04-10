@@ -10,6 +10,8 @@
 
 symbolTable symTable;
 token currentToken;
+//charliteral, stringliteral, number, id (can be broken down into one of these parts)
+char* currentType = NULL;
 
 //make it so that it knows stuff exists
 programTree toyCProgram(void);
@@ -127,8 +129,18 @@ void exiting(char *exiteeLikeSomeTea){
 }
 
 
+void throwTypeCompatibilityError(char* expectedType){
+    printf("%d: ", getLineNum());
+    printf("%s\n", getCurrentLine());
+    for(int i = 0; i < getPos(); i++){
+        printf(" ");
+    }
 
-//think of this like A() its the state itself. The leaf is defined elsewhere
+    printf("^ Expected Type: %s\n", expectedType); 
+    fflush(stdout);
+    exit(EXIT_FAILURE);
+}
+
 programTree toyCProgram(void){
     entering("toyCProgram");
     symTable = createSymbolTable();
@@ -143,11 +155,7 @@ programTree toyCProgram(void){
 
     if(!symbolExists(&symTable, "main")){    
         printf("%d: ", getLineNum());
-        printf("%s\n", getCurrentLine());
-        for(int i = 0; i < getPos(); i++){
-            printf(" ");
-        }
-        printf("^ main function not declared\n"); 
+        printf("main function expected\n");
         fflush(stdout);
         exit(EXIT_FAILURE);
     }
@@ -405,6 +413,7 @@ blockStatementTree compoundStatement(void){
     variableDefinitionTree vHold = initVariableDefinitionTree();
     symbol currSym = createSymbol();
     while(strcmp(currentToken->lexeme, "RCURLY") != 0){
+        currSym = createSymbol();
         if(!strcmp(currentToken->value, "int") || !strcmp(currentToken->value, "char")){
             strcpy(typeHold, type());
             if(!strcmp(currentToken->lexeme, "ID")){
@@ -595,6 +604,8 @@ expressionTree expression(void){
     else{
         output = createExpressionTree(Expr, &currentOp);
     }
+    
+    currentType = NULL;
     return(output);
 }
 
@@ -693,6 +704,17 @@ expressionTree primary(void){
     if(!strcmp(currentToken->lexeme, "ID")){
         idHold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
         strcpy(idHold, currentToken->value);
+
+        if(currentType != NULL){
+            if(strcmp(currentType, currentToken->lexeme)){
+                throwTypeCompatibilityError(currentType);
+            }
+        }
+        if(strcmp(currentToken->lexeme, "ID")){
+            currentType = malloc(sizeof(char) * (strlen(currentToken->lexeme) + 1));
+            currentType = currentToken->lexeme; 
+        }
+
         getNextToken();
         type = ID;
         output = createExpressionTree(type, &idHold);
@@ -706,6 +728,17 @@ expressionTree primary(void){
         type = Number;
         char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
         strcpy(hold, currentToken->value);
+
+        if(currentType != NULL){
+            if(strcmp(currentType, currentToken->lexeme)){
+                throwTypeCompatibilityError(currentType);
+            }
+        }
+        if(strcmp(currentToken->lexeme, "ID")){
+            currentType = malloc(sizeof(char) * (strlen(currentToken->lexeme) + 1));
+            currentType = currentToken->lexeme; 
+        }
+
         output = createExpressionTree(type, &hold);
         getNextToken();
     }
@@ -714,6 +747,17 @@ expressionTree primary(void){
         char * hold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
         strcpy(hold, currentToken->value);
         output = createExpressionTree(type, &hold);
+
+        if(currentType != NULL){
+            if(strcmp(currentType, currentToken->lexeme)){
+                throwTypeCompatibilityError(currentType);
+            }
+        }
+        if(strcmp(currentToken->lexeme, "ID")){
+            currentType = malloc(sizeof(char) * (strlen(currentToken->lexeme) + 1));
+            currentType = currentToken->lexeme; 
+        }
+
         getNextToken();
     }
     else if(!strcmp(currentToken->lexeme, "CHARLITERAL")){
@@ -722,6 +766,17 @@ expressionTree primary(void){
         hold[0] = '\0';
         strcpy(hold, currentToken->value);
         output = createExpressionTree(type, &hold);
+
+        if(currentType != NULL){
+            if(strcmp(currentType, currentToken->lexeme)){
+                throwTypeCompatibilityError(currentType);
+            }
+        }
+        if(strcmp(currentToken->lexeme, "ID")){
+            currentType = malloc(sizeof(char) * (strlen(currentToken->lexeme) + 1));
+            currentType = currentToken->lexeme; 
+        }
+
         getNextToken();
     }
     else if(!strcmp(currentToken->lexeme, "LPAREN")){
@@ -748,7 +803,7 @@ expressionTree primary(void){
     else{
         throwStateError("ID, NUMBER, STRING, CHARLITERAL, LPAREN, -, or NOT");
     }
-
+    
     if(type == ID){        
         if(!symbolExists(&symTable, idHold)){
             printf("TEST: %s\n", idHold);
@@ -756,6 +811,7 @@ expressionTree primary(void){
         }
     }
     exiting("primary");
+    
     return(output);
 }
 
