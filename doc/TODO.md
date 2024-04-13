@@ -55,13 +55,12 @@
 + ~~write out skeleton for symbol tables~~
 + ~~change symbol and symbol table functions to lists so I don't have to worry about it~~
 + ~~test symbols and symbol tables~~
-
-+ add semantic analysis to the parser 
++ ~~add semantic analysis to the parser~~ 
     + ~~all programs must have a main function otherwise it is not valid~~
     + ~~need to go through everytime you get an id and check if its defined or not~~
     + ~~if not defined and declaration then add to symbol table~~
     + ~~else fail because it was called without declaration~~
-    + all expressions must be type compatible (only ints)
+    + ~~all expressions must be type compatible (only ints)~~
     + ~~SEMANTICS TO DO~~ 
         + ~~primary~~
             + ~~tentative implementation~~ 
@@ -78,8 +77,34 @@
         + ~~functionDefintion (grabbing return type)~~
             + ~~tentative implementation~~
             + ~~testing~~
-+ fix checker for compatible types (currently isn't checking properly but is implemented)
-+ make symbol table global so that it can be printed from main 
++ ~~fix checker for compatible types (currently isn't checking properly but is implemented)~~
++ ~~make symbol table global so that it can be printed from main~~ 
++ make the templates for all of the functions 
+    + ToyCProgram
+    + Definition 
+    + Type
+    + FunctionDefinition 
+    + FunctionHeader
+    + FunctionBody 
+    + FormalParamList
+    + Statement
+    + ExpressionStatement
+    + BreakStatement
+    + CompoundStatement
+    + IfStatement
+    + NullStatement
+    + ReturnStatement
+    + WhileStatement
+    + ReadStatement
+    + WriteStatement
+    + newLineStatement
+    + Expression
+    + RelopExpression
+    + SimpleExpression
+    + Term
+    + Primary
+    + FunctionCall
+    + ActualParameters
 + generate code given the valid AST
 
 

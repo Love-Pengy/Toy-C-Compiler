@@ -28,6 +28,15 @@ int addSymbol(symbolTable* symTab, symbol* sym){
     return(0);
 }
 
+symbol findSymbol(symbolTable* table, char* search){
+    for(int i = 0; i < (*table)->amountSymbols; i++){
+        if(!strcmp(getId((*table)->symbols[i]), search)){
+            return((*table)->symbols[i]);
+        }
+    }
+    return(NULL);
+}
+
 bool symbolExists(symbolTable* table, char* checkId){
     if(checkId == NULL){
         return(false);

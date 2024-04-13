@@ -8,7 +8,6 @@
 #include "../../include/symbols/TCsymbol.h"
 #include <string.h>
 
-symbolTable symTable;
 token currentToken;
 //charliteral, stringliteral, number, id (can be broken down into one of these parts)
 char* currentType = NULL;
@@ -161,9 +160,6 @@ programTree toyCProgram(void){
     }
     
     exiting("toyCProgram");
-    if(dump_symbolTable){
-        printf("%s\n", symbolTableToString(symTable)); 
-    }
     return(output);
 }
 
@@ -701,19 +697,34 @@ expressionTree primary(void){
     functionCallTree holdf = initFunctionCallTree();
     expressionTree holde = initExpressionTree();
     char* idHold = NULL;
+    symbol sym = NULL;
+    char* currType = malloc(sizeof(char) * 6);
+    currType[0] = '\0';
+
     if(!strcmp(currentToken->lexeme, "ID")){
         idHold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
         strcpy(idHold, currentToken->value);
-
         if(currentType != NULL){
-            if(strcmp(currentType, currentToken->lexeme)){
+            sym = findSymbol(&symTable, idHold);  
+            if(!sym){
+                throwDeclarationError(idHold); 
+            }
+            strcpy(currType, getVarType(sym));
+            if(strcmp(currentType, currType)){
                 throwTypeCompatibilityError(currentType);
             }
         }
-        if(strcmp(currentToken->lexeme, "ID")){
-            currentType = malloc(sizeof(char) * (strlen(currentToken->lexeme) + 1));
-            currentType = currentToken->lexeme; 
+        else{            
+            sym = findSymbol(&symTable, idHold);  
+            if(!sym){
+                throwDeclarationError(idHold); 
+            }
+            strcpy(currType, getVarType(sym));
         }
+
+        currentType = malloc(sizeof(char) * (strlen(currentToken->value)));
+        currentType[0] = '\0';
+        strcpy(currentType, currType);
 
         getNextToken();
         type = ID;
@@ -734,10 +745,12 @@ expressionTree primary(void){
                 throwTypeCompatibilityError(currentType);
             }
         }
-        if(strcmp(currentToken->lexeme, "ID")){
-            currentType = malloc(sizeof(char) * (strlen(currentToken->lexeme) + 1));
-            currentType = currentToken->lexeme; 
+        else{
+            currType = "int";
         }
+        currentType = malloc(sizeof(char) * (strlen(currentToken->lexeme)));
+        currentType[0] = '\0';
+        strcpy(currentType, currentToken->value);
 
         output = createExpressionTree(type, &hold);
         getNextToken();
@@ -753,10 +766,13 @@ expressionTree primary(void){
                 throwTypeCompatibilityError(currentType);
             }
         }
-        if(strcmp(currentToken->lexeme, "ID")){
-            currentType = malloc(sizeof(char) * (strlen(currentToken->lexeme) + 1));
-            currentType = currentToken->lexeme; 
+        else{
+            currType = "STRING";
         }
+
+        currentType = malloc(sizeof(char) * (strlen(currentToken->lexeme)));
+        currentType[0] = '\0';
+        strcpy(currentType, currentToken->lexeme);
 
         getNextToken();
     }
@@ -772,10 +788,13 @@ expressionTree primary(void){
                 throwTypeCompatibilityError(currentType);
             }
         }
-        if(strcmp(currentToken->lexeme, "ID")){
-            currentType = malloc(sizeof(char) * (strlen(currentToken->lexeme) + 1));
-            currentType = currentToken->lexeme; 
+        else{
+            currType = "CHARLITERAL";   
         }
+
+        currentType = malloc(sizeof(char) * (strlen(currentToken->lexeme)));
+        currentType[0] = '\0';
+        strcpy(currentType, currentToken->lexeme);
 
         getNextToken();
     }
@@ -804,12 +823,6 @@ expressionTree primary(void){
         throwStateError("ID, NUMBER, STRING, CHARLITERAL, LPAREN, -, or NOT");
     }
     
-    if(type == ID){        
-        if(!symbolExists(&symTable, idHold)){
-            printf("TEST: %s\n", idHold);
-            throwDeclarationError(idHold); 
-        }
-    }
     exiting("primary");
     
     return(output);

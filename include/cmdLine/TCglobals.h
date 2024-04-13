@@ -2,6 +2,7 @@
 
 #include <stdbool.h>
 #include <stdio.h>
+#include "../../include/symbols/TCSymbolTable.h"
 
 #ifndef TCGLOBALS
 #define TCGLOBALS
@@ -19,5 +20,6 @@ extern char *inputFileName;
 extern char *author;
 extern char *outputFileName;
 extern FILE *filePointer;
+extern symbolTable symTable;
 
 #endif

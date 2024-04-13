@@ -9,6 +9,10 @@ java <FILE> to run it
 + run make
 + d-java -help for help 
 
+# use d-java
+javac JavaFile.java // compilation
+java JavaFile // execution
+djava -o jasmin JavaFile.class // disassembly
 
 
 + if not doing functions theres only one symbol table

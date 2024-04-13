@@ -19,6 +19,7 @@ int main(int argc, char **argv){
 
     //parse command line flags
     cmdLineParser(argv);
+
     filePointer = fopen(inputFileName, "r");
 
     
@@ -31,6 +32,10 @@ int main(int argc, char **argv){
 
     if(dump_abstractCode){
         printf("%s\n", listToString(programTreeToString(program)));
+    }
+
+    if(dump_symbolTable){
+        printf("%s\n", symbolTableToString(symTable)); 
     }
 
 

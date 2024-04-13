@@ -1,16 +1,19 @@
 //B. Frazier 04/08/24
 
 int main(int a, int b){
+    char e;
+    //a = a+e;
+
+
     int c;
     int d;
-    char e;
     read(c);
     read(c, c, c, c, a, b);
     if(a < b){
         a = a*b; 
     }
     else{
-        if(a >= b == 'c' && d){
+        if(a >= b){
             if(a <= b){
                 c = -c + b;
                 c = !c - b;
@@ -24,6 +27,5 @@ int main(int a, int b){
     while(a || b % c){
         newline;
     }
-    a = a+e;
     ;
 }

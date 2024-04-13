@@ -1,13 +1,8 @@
 //B. Frazier 3/16/24
-#ifndef STDBOOL
-    #define STDBOOL
-    #include <stdbool.h>
-#endif
 
-#ifndef TCGLOBALS
-    #define TCGLOBALS
-    #include "../../include/cmdLine/TCglobals.h"
-#endif
+#include <stdbool.h>
+#include "../../include/cmdLine/TCglobals.h"
+#include "../../include/symbols/TCSymbolTable.h"
 
 char *inputFileName = "";
 bool debug_scanner = false;
@@ -20,7 +15,7 @@ bool verbose = false;
 char *author = "Brandon Frazier";
 char *outputFileName = "";
 FILE* filePointer = NULL;
-
+symbolTable symTable = NULL; 
 
 void turnVerboseOn(){
       debug_scanner = true;
