@@ -38,6 +38,6 @@ int main(int argc, char **argv){
         printf("%s\n", symbolTableToString(symTable)); 
     }
 
-
+    generateJasminCode(program);
     return(0);
 }
