@@ -17,5 +17,6 @@ symbol findSymbol(symbolTable*, char*);
 symbol* getSymbol(symbolTable*, symbol*);
 char * symbolTableToString(symbolTable);
 void freeSymbolTable(symbolTable*);
+int getSymbolTableSize(symbolTable);
 
 #endif

@@ -1,6 +1,7 @@
 //B. Frazier 3/16/24
 
 #include "../../lib/dynamicArray/dynamicArray.h"
+#include <stdio.h>
 
 #ifndef ASSYNTREE
 #define ASSYNTREE
@@ -40,6 +41,7 @@ programTree initProgramTree(void);
 void addDefinitionProgramTree(programTree *, definitionTree*);
 programTree createProgramTree(definitionTree*, int);
 list programTreeToString(programTree);
+void generateProgramTree(programTree, FILE*);
 
 //funcdef 
 functionDefinitionTree initFunctionDefinitionTree(void);

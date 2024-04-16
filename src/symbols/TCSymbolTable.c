@@ -86,3 +86,8 @@ void freeSymbolTable(symbolTable* symTP){
     } 
     free((*symTP));
 }
+
+
+int getSymbolTableSize(symbolTable sym){
+    return(sym->amountSymbols);
+}

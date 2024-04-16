@@ -21,5 +21,6 @@ extern char *author;
 extern char *outputFileName;
 extern FILE *filePointer;
 extern symbolTable symTable;
+extern char* TAB;
 
 #endif

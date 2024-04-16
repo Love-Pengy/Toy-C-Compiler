@@ -16,7 +16,7 @@ char *author = "Brandon Frazier";
 char *outputFileName = "";
 FILE* filePointer = NULL;
 symbolTable symTable = NULL; 
-
+char* TAB = "    ";
 void turnVerboseOn(){
       debug_scanner = true;
       debug_parser = true;

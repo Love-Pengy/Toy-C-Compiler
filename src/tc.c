@@ -8,6 +8,7 @@
 #include <string.h>
 #include "../include/parser/TCparser.h"
 #include "../include/parser/ASsynTree.h"
+#include "../include/codeGeneration/CGCodeGenerator.h"
 
 int main(int argc, char **argv){
     

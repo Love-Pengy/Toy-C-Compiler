@@ -106,7 +106,8 @@
     + FunctionCall
     + ActualParameters
 + generate code given the valid AST
-
++ debug output file 
+    + currently it outputs with the file name '..j' in the root directory (means that the header of the file is jsut '.' 
 
 THIS CAN BE DONE LATER WORK ON FUNCTIONALITY 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../include/cmdLine/TCglobals.h"
+#include "../../include/parser/TCparser.h"
 
 //traverse the AST and convert each part to its respective instructions
 //for each tree implement a "generate code" function the implements its respective template
@@ -34,6 +35,5 @@ void generateJasminCode(programTree program){
 
     FILE* fptr = fopen(newInputFile, "w");
 
-
-    generateProgramTree(fptr);
+    generateProgramTree(program, fptr);
 }

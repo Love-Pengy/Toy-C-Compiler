@@ -172,7 +172,7 @@ definitionTree definition(void){
     char *idHold;
     variableDefinitionTree vdHold = initVariableDefinitionTree();
     functionDefinitionTree fsHold = initFunctionDefinitionTree();
-
+    symbol currSym = createSymbol();
     strcpy(typeSpec, type()); 
     if(!strcmp(currentToken->lexeme, "ID")){ 
         idHold = malloc(sizeof(char) * (strlen(currentToken->value) + 1));
@@ -186,6 +186,14 @@ definitionTree definition(void){
             vdHold = createVariableDefinitionTree(typeSpec, &idHold, 1);
             ptr = &vdHold;
             accept(';');
+            
+            setSymbolType(&currSym, VAR);
+            setVarType(&currSym, typeSpec);
+            setId(&currSym, idHold);
+
+            if(!addSymbol(&symTable, &currSym)){
+                throwRedeclarationError(idHold);
+            }
         }
         else{ 
             typeProd = functionDef;
@@ -236,7 +244,10 @@ functionDefinitionTree functionDefinition(char *type, char* id){
     setSymbolType(&currSym, RTYPE);
     setVarType(&currSym, type);
     setId(&currSym, id);
-    addSymbol(&symTable, &currSym);
+
+    if(!addSymbol(&symTable, &currSym)){
+        throwRedeclarationError(id);
+    }
 
     functionHeader(&fd);
     functionBody(&fd);
@@ -280,10 +291,13 @@ void formalParamList(functionDefinitionTree*v){
         i++;
         getNextToken();
 
+
         setSymbolType(&currSym, VAR);
         setVarType(&currSym, typeHold);
         setId(&currSym, idHold);
-        addSymbol(&symTable, &currSym);
+        if(!addSymbol(&symTable, &currSym)){
+            throwRedeclarationError(idHold);
+        }
     }
     else{
         throwStateError("ID");
@@ -298,11 +312,15 @@ void formalParamList(functionDefinitionTree*v){
             varDefHold = createVariableDefinitionTree(typeHold, &idHold, 1);
             addVarDefFunctionDefinition(v, &varDefHold);
             i++;
+
             currSym = createSymbol();
             setSymbolType(&currSym, VAR);
             setVarType(&currSym, typeHold);
             setId(&currSym, idHold);
-            addSymbol(&symTable, &currSym);
+
+            if(!addSymbol(&symTable, &currSym)){
+                throwRedeclarationError(idHold);
+            }
             getNextToken();
         }
         else{
@@ -420,6 +438,7 @@ blockStatementTree compoundStatement(void){
                 setSymbolType(&currSym, VAR);
                 setVarType(&currSym, typeHold);
                 setId(&currSym, idHold);
+
                 if(!addSymbol(&symTable, &currSym)){
                     throwRedeclarationError(idHold);
                 }

@@ -4,6 +4,9 @@
 #include "../../../include/parser/ASsynTree.h"
 #include <stdlib.h>
 #include "../../../include/parser/prettyPrinting.h"
+#include "../../../include/cmdLine/TCglobals.h"
+#include "../../../include/symbols/TCSymbolTable.h"
+
 //this can hold 0 or more definitions
 struct programTreeType{
     //array that holds all of the definitions
@@ -45,4 +48,18 @@ list programTreeToString(programTree pst){
     listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
+}
+
+
+void generateProgramTree(programTree pst, FILE *fptr){
+    fprintf(fptr, ".method public static main([Ljava/lang/String;)V\n");  
+    fprintf(fptr, "%s", TAB); 
+    fprintf(fptr, ".limit stack %d\n", getSymbolTableSize(symTable)); 
+    fprintf(fptr, "%s", TAB); 
+    fprintf(fptr, ".limit locals %d\n", getSymbolTableSize(symTable)); 
+    
+    for(int i = 0; i < pst->numDefs; i++){
+        //generateDefinitionTree(fptr);
+    }
+
 }
