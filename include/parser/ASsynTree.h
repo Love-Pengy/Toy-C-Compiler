@@ -49,6 +49,7 @@ void addTypeFunctionDefinition(functionDefinitionTree*,char *);
 void addIdFunctionDefinition(functionDefinitionTree*, char *);
 void addVarDefFunctionDefinition(functionDefinitionTree*, variableDefinitionTree*);
 void addStatementFunctionDefinition(functionDefinitionTree*, statementTree*);
+void generateDefinitionTree(definitionTree, FILE*);
 
 functionDefinitionTree createFunctionDefinitionTree(char*, char*, variableDefinitionTree*, int, statementTree*);
 list functionDefinitionTreeToString(functionDefinitionTree);

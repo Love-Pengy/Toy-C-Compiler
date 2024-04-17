@@ -741,7 +741,7 @@ expressionTree primary(void){
             strcpy(currType, getVarType(sym));
         }
 
-        currentType = malloc(sizeof(char) * (strlen(currentToken->value)));
+        currentType = malloc(sizeof(char) * (strlen(currType) + 1));
         currentType[0] = '\0';
         strcpy(currentType, currType);
 
@@ -760,7 +760,7 @@ expressionTree primary(void){
         strcpy(hold, currentToken->value);
 
         if(currentType != NULL){
-            if(strcmp(currentType, currentToken->lexeme)){
+            if(strcmp(currentType, currentToken->lexeme) && strcmp(currentType, "int")){
                 throwTypeCompatibilityError(currentType);
             }
         }

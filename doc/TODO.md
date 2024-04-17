@@ -79,9 +79,12 @@
             + ~~testing~~
 + ~~fix checker for compatible types (currently isn't checking properly but is implemented)~~
 + ~~make symbol table global so that it can be printed from main~~ 
-+ make the templates for all of the functions 
-    + ToyCProgram
-    + Definition 
++ ~~debug output file~~ 
+    + ~~currently it outputs with the file name '..j' in the root directory (means that the header of the file is jsut '.'~~ 
+
++ write generate functions for the following portions of the AST
+    + ~~ToyCProgram~~
+    + ~~Definition~~
     + Type
     + FunctionDefinition 
     + FunctionHeader
@@ -105,9 +108,7 @@
     + Primary
     + FunctionCall
     + ActualParameters
-+ generate code given the valid AST
-+ debug output file 
-    + currently it outputs with the file name '..j' in the root directory (means that the header of the file is jsut '.' 
++ thorougly test code generation
 
 THIS CAN BE DONE LATER WORK ON FUNCTIONALITY 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv

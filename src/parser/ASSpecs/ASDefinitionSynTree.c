@@ -65,4 +65,15 @@ list definitionTreeToString(definitionTree dst){
     return(string);
 }
 
-
+void generateDefinitionTree(definitionTree dst, FILE* fptr){
+    switch(dst->type){
+        case functionDef: 
+            //generateFunctionDefinition(dst->fDef, fptr);
+            break;
+        case variableDef:
+            //generateVariableDefinition(dst->vDef, fptr);
+            break;
+        default:
+            break; 
+    }
+}

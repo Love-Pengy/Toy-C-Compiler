@@ -59,7 +59,7 @@ void generateProgramTree(programTree pst, FILE *fptr){
     fprintf(fptr, ".limit locals %d\n", getSymbolTableSize(symTable)); 
     
     for(int i = 0; i < pst->numDefs; i++){
-        //generateDefinitionTree(fptr);
+        generateDefinitionTree(pst->dTrees[i], fptr);
     }
 
 }
