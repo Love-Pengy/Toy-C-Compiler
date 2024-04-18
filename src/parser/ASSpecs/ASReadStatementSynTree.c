@@ -3,6 +3,7 @@
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
 #include "../../../include/parser/prettyPrinting.h"
+#include "../../../include/cmdLine/TCglobals.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -55,3 +56,19 @@ list readStatementTreeToString(readStatementTree rs){
     return(string);
 }
 
+//this is assumed to be the scanner
+void generateReadStatement(readStatementTree rs, FILE* fptr){
+    //initializing 
+    fprintf(fptr, "%s\n", "new java/util/Scanner");
+    fprintf(fptr, "%s\n", "dup");
+    fprintf(fptr, "%s\n", "getstatic java/lang/system/<init>(Ljava/io/InputStream;)V");
+    fprintf(fptr, "%s\n", "invokespecial java/util/Scanner/<init>(Ljava/io/InputStream;)V");
+    //this is the reference to the object
+    fprintf(fptr, "%s%d\n", "astore_", getSymbolTableSize(symTable));
+
+    for(int i = 0; i < rs->numIds; i++){
+        fprintf(fptr, "%s%d\n", "aload_", getSymbolTableSize(symTable));
+        fprintf(fptr, "%s\n", "invokevirtual java/util/Scanner/nextInt()I");    
+        fprintf(fptr, "%s%d\n", "istore_", getSymbolIndex(symTable, rs->ids[i]));
+    }
+}

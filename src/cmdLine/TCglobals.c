@@ -17,6 +17,10 @@ char *outputFileName = "";
 FILE* filePointer = NULL;
 symbolTable symTable = NULL; 
 char* TAB = "    ";
+int TOPVARIABLE = 0;
+int STACKSIZE = 1000;
+int CURRENTLABEL = 1;  
+
 void turnVerboseOn(){
       debug_scanner = true;
       debug_parser = true;

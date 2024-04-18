@@ -13,6 +13,10 @@ struct operatorTreeType{
     char* op;
 };
 
+char* getOperator(operatorTree opTree){
+    return(opTree->op);
+}
+
 operatorTree initOperatorTree(void){
     operatorTree oper = malloc(sizeof(struct operatorTreeType));
     return(oper);

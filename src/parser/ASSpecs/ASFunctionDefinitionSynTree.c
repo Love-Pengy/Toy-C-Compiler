@@ -84,3 +84,7 @@ list functionDefinitionTreeToString(functionDefinitionTree fst){
     return(string);
 }
 
+void generateFunctionDefinitionTree(functionDefinitionTree fst, FILE* fptr){
+    //header empty because the only function definitions that are allowed without EC is the main function and that requires certain params therefore this is not needed
+    generateStatementTree(fst->sDef, fptr);
+}

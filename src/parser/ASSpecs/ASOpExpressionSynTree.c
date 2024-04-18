@@ -12,6 +12,9 @@ struct opExpressionTreeType{
     expressionTree exp2;
 };
 
+char* getOperatorFromTree(opExpressionTree opTree){
+    return(getOperator(opTree->op));  
+}
 
 opExpressionTree initOpExpressionTree(void){
     opExpressionTree oet = malloc(sizeof(struct opExpressionTreeType));

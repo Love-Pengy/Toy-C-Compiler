@@ -33,3 +33,6 @@ list nullStatementTreeToString(nullStatementTree nst){
     return(string);
 }
 
+void generateNullStatementTree(nullStatementTree nst, FILE* fptr){
+    //null statement :3
+}

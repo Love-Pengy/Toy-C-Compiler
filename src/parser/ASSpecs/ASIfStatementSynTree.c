@@ -46,3 +46,23 @@ list ifStatementTreeToString(ifStatementTree ist){
     return(string);
 }
 
+//evaluate primitives on their own. For instance if you have if(1) always go inside of the if statement
+void generateIfStatementTree(ifStatementTree ist, FILE* fptr){    
+    switch(getExpressionType(ist->exp)){
+        case funcCall: 
+            //skip becasue no functions
+            break;
+        case Expr: 
+            if(ist->elseExpression != NULL){
+                generateIfElseStatement(ist->exp, ist->ifExpression, ist->elseExpression, fptr);
+            }
+            else{
+                generateIfStatement(ist->exp, ist->ifExpression, fptr);
+            }
+            break;
+        default: 
+            break;
+    }   
+
+}
+

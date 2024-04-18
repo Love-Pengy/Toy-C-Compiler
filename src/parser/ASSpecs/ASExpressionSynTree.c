@@ -3,6 +3,7 @@
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/prettyPrinting.h"
 #include "../../../include/parser/ASsynTree.h"
+#include "../../../include/cmdLine/TCglobals.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -137,3 +138,84 @@ list expressionTreeToString(expressionTree exprT){
     return(string);
 }
 
+
+void generateExpressionTree(expressionTree exprT, FILE* fptr){
+    if(exprT == NULL){
+    }
+    switch(exprT->type){
+        case Number:
+            fprintf(fptr, "%s%s\n", "iconst_", exprT->number);  
+            break;
+        case ID:
+            fprintf(fptr, "%s%d\n", "iload_", getSymbolIndex(symTable,exprT->id));
+            break;
+        case CharLiteral:
+            //only doing ints
+            break;
+        case StringLiteral:
+            //only doing ints
+            break;
+        case funcCall:
+            //not doing functions
+            break;
+        case Expr:
+            generateOpExpressionTree(exprT->exp);
+            break;
+        case Minus:
+            generateMinusTree(exprT->min);
+            break;
+        case Not:
+            generateNotTree(exprT->not);
+            break;
+        default:
+            printf("internal error\n");
+            break;
+    }
+}
+
+void generateIfStatement(expressionTree operation, statementTree ifStat, FILE* fptr){
+    generateExpressionTree(operation, fptr); 
+    char* operator;
+    switch(getExpressionType(operation)){
+        case Expr: 
+            //get the operator and slap the needed thingy at the end with the label 
+            operator = getOperatorFromTree(operation->exp);
+            if(!strcmp(operator, "||")){
+                //compare the first one if you get the first one go inside of the statement
+                //if first is false check if second is false if it is skip over statement
+            }
+            else if(!strcmp(operator, "&&")){
+                //compare both of them and if either is false go to the next label 
+            }
+            else if(!strcmp(operator, "<=")){
+                //if_icmpgt
+            }
+            else if(!strcmp(operator, "<")){
+                //this can be if_icmplt
+            }
+            else if(!strcmp(operator, ">")){
+                //if_icmple then skip statement 
+            }
+            else if(!strcmp(operator, ">=")){
+                //if_icmplt then skip statemnet 
+            }
+            else if(!strcmp(operator, "!=")){
+                //if_icmpeq
+            }
+            else{
+                printf("ERROR: CHECK OPERATOR\n");
+                fflush(stdout);
+                exit(EXIT_FAILURE);
+            }
+        case Number:   
+            //if it is not zero then go to the label 
+        case ID:    
+            //get the value and then if it is not zero go to label 
+        case Minus: 
+            //if this is not zero then go to label 
+        case Not: 
+            //if this is 0 go to label 
+        default: 
+            break;
+    }
+}

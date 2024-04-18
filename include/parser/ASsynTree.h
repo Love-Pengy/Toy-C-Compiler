@@ -35,6 +35,7 @@ enum defTypeProd {functionDef, variableDef, undefinedType};
 definitionTree initDefinitionTree(void);
 definitionTree createDefinitionTree(enum defTypeProd, void*);
 list definitionTreeToString(definitionTree);
+void generateDefinitionTree(definitionTree, FILE*);
 
 //Program 
 programTree initProgramTree(void);
@@ -49,7 +50,8 @@ void addTypeFunctionDefinition(functionDefinitionTree*,char *);
 void addIdFunctionDefinition(functionDefinitionTree*, char *);
 void addVarDefFunctionDefinition(functionDefinitionTree*, variableDefinitionTree*);
 void addStatementFunctionDefinition(functionDefinitionTree*, statementTree*);
-void generateDefinitionTree(definitionTree, FILE*);
+void generateFunctionDefinitionTree(functionDefinitionTree, FILE*);
+
 
 functionDefinitionTree createFunctionDefinitionTree(char*, char*, variableDefinitionTree*, int, statementTree*);
 list functionDefinitionTreeToString(functionDefinitionTree);
@@ -75,16 +77,19 @@ void addVarDefBlockStatementTree(blockStatementTree*, variableDefinitionTree*);
 blockStatementTree initBlockStatementTree(void);
 blockStatementTree createBlockStatementTree(variableDefinitionTree *, int, statementTree *, int);
 list blockStatementTreeToString(blockStatementTree);
+void generateBlockStatementTree(blockStatementTree, FILE*);
 
 //ifState 
 ifStatementTree initIfStatementTree(void);
 list ifStatementTreeToString(ifStatementTree);
 ifStatementTree createIfStatementTree(expressionTree*, statementTree*, statementTree*);
+void generateIfStatementTree(ifStatementTree, FILE*);
 
 //nullState
 nullStatementTree initNullStatementTree(void);
 nullStatementTree createNullStatementTree(void);
 list nullStatementTreeToString(nullStatementTree);
+void generateNullStatementTree(nullStatementTree, FILE*);
 
 //returnState
 returnStatementTree initReturnStatementTree(void);
@@ -102,6 +107,7 @@ readStatementTree initReadStatementTree(void);
 void addIdReadStatement(readStatementTree *, char *);
 list readStatementTreeToString(readStatementTree);
 readStatementTree createReadStatementTree(char**, int);
+void generateReadStatement(readStatementTree, FILE*);
 
 
 //writeState
@@ -130,10 +136,12 @@ void addNewlineStateStatementTree(statementTree*, newLineStatementTree*);
 void addReadStateStatementTree(statementTree*, readStatementTree*);
 list statementTreeToString(statementTree);
 statementTree createStatementTree(enum statementType,  void*);
+void generateStatementTree(statementTree, FILE*);
 
 //expression
 expressionStatementTree createExpressionStatementTree(expressionTree*);
 list expressionStatementTreeToString(expressionStatementTree);
+void generateExpressionStatementTree(expressionStatementTree, FILE*);
 
 //funcCall
 functionCallTree initFunctionCallTree(void);
@@ -141,11 +149,13 @@ list functionCallTreeToString(functionCallTree);
 functionCallTree createFunctionCallTree(char *, expressionTree*, int);
 void addIdFunctionCallTree(functionCallTree*, char*);
 void addExpressionTreeFunctionCallTree(functionCallTree*, expressionTree*);
+void generateFunctionCallTree(functionCallTree, FILE*);
 
 //expr
 opExpressionTree initOpExpressionTree(void);
 list opExpressionTreeToString(opExpressionTree);
 opExpressionTree createOpExpressionTree(operatorTree*, expressionTree*, expressionTree*);
+char* getOperatorFromTree(opExpressionTree);
 
 //minus
 minusTree initMinusTree(void);
@@ -161,6 +171,7 @@ notTree createNotTree(expressionTree*);
 operatorTree initOperatorTree(void);
 list operatorTreeToString(operatorTree);
 operatorTree createOperatorTree(char*);
+char* getOperator(operatorTree);
 
 //expression
 enum expressionType {Number, ID, CharLiteral, StringLiteral, funcCall, Expr, Minus, Not, undefinedExpression};

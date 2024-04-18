@@ -4,14 +4,25 @@
 //
 // Will create file 'IfElse.class'
 
-public class IfElse {
+public class Operators {
    
     public static void main (String [] args) {
-        int i = 1000;
+        int i = 1000; 
+        int j = 10;
+        if((i < j) || (j < i))
+            System.out.println("if1");
+        if((i < j) && (j < i))
+            System.out.println("if2");
+        if(i <= 100)
+            System.out.println("if3");
+        if(i < 100)
+            System.out.println("if4");
         if(i > 100)
-            System.out.println("greater than 0");
-        else
-            System.out.println("less than or equal to 0");
+            System.out.println("if5");
+        if(i >= 100)
+            System.out.println("if6");
+        if(i != 100)
+            System.out.println("if7");
     }
 
 }

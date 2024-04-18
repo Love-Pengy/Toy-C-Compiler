@@ -18,5 +18,6 @@ symbol* getSymbol(symbolTable*, symbol*);
 char * symbolTableToString(symbolTable);
 void freeSymbolTable(symbolTable*);
 int getSymbolTableSize(symbolTable);
+int getSymbolIndex(symbolTable, char*);
 
 #endif

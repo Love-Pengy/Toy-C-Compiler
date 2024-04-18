@@ -91,3 +91,13 @@ void freeSymbolTable(symbolTable* symTP){
 int getSymbolTableSize(symbolTable sym){
     return(sym->amountSymbols);
 }
+
+//returns index if found, if not found return -1
+int getSymbolIndex(symbolTable table, char* identifier){
+    for(int i = 0; i < table->amountSymbols; i++){
+        if(!strcmp(getId(table->symbols[i]), identifier)){
+            return(i);
+        }
+    }
+    return(-1);
+}

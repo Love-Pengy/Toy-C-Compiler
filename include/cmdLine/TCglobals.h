@@ -22,5 +22,8 @@ extern char *outputFileName;
 extern FILE *filePointer;
 extern symbolTable symTable;
 extern char* TAB;
+extern int TOPVARIABLE;
+extern int STACKSIZE;
+extern int CURRENTLABEL;  
 
 #endif

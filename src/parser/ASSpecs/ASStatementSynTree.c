@@ -171,3 +171,44 @@ list statementTreeToString(statementTree state){
     return(string);
 }
 
+void generateStatementTree(statementTree state, FILE* fptr){
+    if(!(state->type == undefined)){
+        switch(state->type){
+            case exprState:
+                generateExpressionStatementTree(state->exp, fptr);
+                break;
+            case breakState:
+                //no doing break statements
+                break;
+            case blockState:
+                generateBlockStatementTree(state->blt, fptr);
+                break;
+            case ifState:
+                generateIfStatementTree(state->ist,fptr);
+                break;
+            case nullState:
+                generateNullStatementTree(state->nst, fptr);
+                break;
+            case returnState:
+                generateReturnStatementTree(state->rst, fptr);
+                break;
+            case whileState:
+                generateWhileStatementTree(state->wst, fptr);
+                break;
+            case readState:
+                generateReadStatement(state->book,fptr);
+                break;
+            case writeState:
+                generateWriteStatementTree(state->author, fptr);
+                break;
+            case newLineState:
+                generateNewLineStatementTree(state->nlst, fptr);
+                break;
+            default:
+                printf("internal error\n");
+                break;
+        }
+    }
+}
+
+

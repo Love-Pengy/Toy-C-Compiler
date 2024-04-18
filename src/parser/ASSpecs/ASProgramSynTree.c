@@ -53,10 +53,9 @@ list programTreeToString(programTree pst){
 
 void generateProgramTree(programTree pst, FILE *fptr){
     fprintf(fptr, ".method public static main([Ljava/lang/String;)V\n");  
-    fprintf(fptr, "%s", TAB); 
-    fprintf(fptr, ".limit stack %d\n", getSymbolTableSize(symTable)); 
-    fprintf(fptr, "%s", TAB); 
-    fprintf(fptr, ".limit locals %d\n", getSymbolTableSize(symTable)); 
+    fprintf(fptr, ".limit stack %d\n", STACKSIZE);
+    //+1 for the scanner object
+    fprintf(fptr, ".limit locals %d\n", (getSymbolTableSize(symTable)+1)); 
     
     for(int i = 0; i < pst->numDefs; i++){
         generateDefinitionTree(pst->dTrees[i], fptr);

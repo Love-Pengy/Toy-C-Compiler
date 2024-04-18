@@ -60,3 +60,11 @@ list blockStatementTreeToString(blockStatementTree bst){
     return(string);
 }
 
+void generateBlockStatementTree(blockStatementTree bst, FILE* fptr){
+    for(int i = 0; i < bst->vAmount; i++){
+        generateVariableDefinitionTree(bst->vdt[i], fptr);
+    }    
+    for(int i = 0; i < bst->sAmount; i++){
+        generateStatementTree(bst->statements[i]);
+    }
+}

@@ -85,20 +85,15 @@
 + write generate functions for the following portions of the AST
     + ~~ToyCProgram~~
     + ~~Definition~~
-    + Type
-    + FunctionDefinition 
-    + FunctionHeader
-    + FunctionBody 
-    + FormalParamList
-    + Statement
-    + ExpressionStatement
-    + BreakStatement
+    + ~~FunctionDefinition~~ 
+    + ~~Statement~~
+    + ~~ExpressionStatement~~
     + CompoundStatement
-    + IfStatement
-    + NullStatement
+    + ~~IfStatement~~
+    + ~~NullStatement~~
     + ReturnStatement
     + WhileStatement
-    + ReadStatement
+    + ~~ReadStatement~~
     + WriteStatement
     + newLineStatement
     + Expression
@@ -106,7 +101,6 @@
     + SimpleExpression
     + Term
     + Primary
-    + FunctionCall
     + ActualParameters
 + thorougly test code generation
 

@@ -66,3 +66,6 @@ list functionCallTreeToString(functionCallTree fct){
     return(string);
 }
 
+void generateFunctionCallTree(functionCallTree fct, FILE* fptr){
+    //nothing in here unless decide to do EC
+}
