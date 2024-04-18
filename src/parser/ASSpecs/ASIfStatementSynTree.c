@@ -54,10 +54,10 @@ void generateIfStatementTree(ifStatementTree ist, FILE* fptr){
             break;
         case Expr: 
             if(ist->elseExpression != NULL){
-                generateIfElseStatement(ist->exp, ist->ifExpression, ist->elseExpression, fptr);
+                //generateIfElseStatement(ist->exp, ist->ifExpression, ist->elseExpression, fptr);
             }
             else{
-                generateIfStatement(ist->exp, ist->ifExpression, fptr);
+                //generateIfStatement(ist->exp, ist->ifExpression, fptr);
             }
             break;
         default: 

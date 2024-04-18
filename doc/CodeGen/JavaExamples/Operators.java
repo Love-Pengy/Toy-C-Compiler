@@ -23,6 +23,8 @@ public class Operators {
             System.out.println("if6");
         if(i != 100)
             System.out.println("if7");
+        if(!(i==100))
+            System.out.println("if8");
     }
 
 }

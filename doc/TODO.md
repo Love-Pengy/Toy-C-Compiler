@@ -84,24 +84,45 @@
 
 + write generate functions for the following portions of the AST
     + ~~ToyCProgram~~
+        + ~~tested~~
     + ~~Definition~~
+        + ~~tested~~
     + ~~FunctionDefinition~~ 
+        + ~~tested~~
+            + works assuming that function call is valid (double check with prof)
     + ~~Statement~~
+        + tested
     + ~~ExpressionStatement~~
+        + tested
     + CompoundStatement
-    + ~~IfStatement~~
+        + tested
+    + IfStatement
+        + tested
+        + GENERATE IF STATEMENT IS IN THE EXPRESSION IMPLEMENTATION 
     + ~~NullStatement~~
+        + tested
     + ReturnStatement
+        + tested
     + WhileStatement
+        + tested
     + ~~ReadStatement~~
+        + tested
     + WriteStatement
+        + tested
     + newLineStatement
+        + tested
     + Expression
+        + tested
     + RelopExpression
+        + tested
     + SimpleExpression
+        + tested
     + Term
+        + tested
     + Primary
+        + tested
     + ActualParameters
+        + tested
 + thorougly test code generation
 
 THIS CAN BE DONE LATER WORK ON FUNCTIONALITY 

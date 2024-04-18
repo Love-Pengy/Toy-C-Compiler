@@ -36,5 +36,5 @@ list expressionStatementTreeToString(expressionStatementTree est){
 }
 
 void generateExpressionStatementTree(expressionStatementTree est, FILE* fptr){
-    generateExpressionTree(est->expression);
+    generateExpressionTree(est->expression, fptr);
 }

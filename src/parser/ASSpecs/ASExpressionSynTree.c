@@ -28,6 +28,7 @@ enum expressionType getExpressionType(expressionTree e){
     return(e->type);
 }
 
+
 expressionTree initExpressionTree(void){
     expressionTree est = malloc(sizeof(struct expressionTreeType));
     est->type = undefinedExpression;
@@ -159,13 +160,13 @@ void generateExpressionTree(expressionTree exprT, FILE* fptr){
             //not doing functions
             break;
         case Expr:
-            generateOpExpressionTree(exprT->exp);
+            //generateOpExpressionTree(exprT->exp);
             break;
         case Minus:
-            generateMinusTree(exprT->min);
+            //generateMinusTree(exprT->min);
             break;
         case Not:
-            generateNotTree(exprT->not);
+            //generateNotTree(exprT->not);
             break;
         default:
             printf("internal error\n");
@@ -178,7 +179,6 @@ void generateIfStatement(expressionTree operation, statementTree ifStat, FILE* f
     char* operator;
     switch(getExpressionType(operation)){
         case Expr: 
-            //get the operator and slap the needed thingy at the end with the label 
             operator = getOperatorFromTree(operation->exp);
             if(!strcmp(operator, "||")){
                 //compare the first one if you get the first one go inside of the statement
@@ -209,13 +209,56 @@ void generateIfStatement(expressionTree operation, statementTree ifStat, FILE* f
             }
         case Number:   
             //if it is not zero then go to the label 
+            if(strcmp(operation->number, "0")){
+                generateStatementTree(ifStat, fptr);
+            }
+            break;
         case ID:    
-            //get the value and then if it is not zero go to label 
+            //get the value and then if it is not zero go to statement 
+            //no label: if
+            //label 1: finished
+            fprintf(fptr, "%s%d\n", "iload_", getSymbolIndex(symTable, getId(findSymbol(&symTable, operation->id))));
+            fprintf(fptr, "%s\n", "bipush 0");
+            fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);
+            generateStatementTree(ifStat, fptr);
+            fprintf(fptr, "%s%d\n", "Label", CURRENTLABEL);
+            CURRENTLABEL++;
+            break;
+
         case Minus: 
             //if this is not zero then go to label 
+            generateMinusTree(operation->min, fptr);
+            fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);
+            generateStatementTree(ifStat, fptr);
+            fprintf(fptr, "%s%d\n", "Label", CURRENTLABEL);
+            CURRENTLABEL++;
         case Not: 
-            //if this is 0 go to label 
+            //if they are equal then go to the label 
+            generateNotTree(operation->not, fptr);
+            fprintf(fptr, "%s\n", "bipush 0");
+            fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);
+            generateStatementTree(ifStat, fptr);
+            fprintf(fptr, "%s%d\n", "Label", CURRENTLABEL);
+            
         default: 
             break;
     }
 }
+
+
+
+/*
+THIS IS FOR THE IF ELSE CHAIN
+            //get the value and then if it is not zero go to statement 
+            //label 1: else 
+            //no label: if
+            //label 2: finished
+            fprintf(fptr, "%s%d\n", "iload_", getSymbolIndex(symTable, getId(findSymbol(&symTable, operation->id))));
+            fprintf(fptr, "%s\n", "bipush 0");
+            fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);
+            generateStatementTree(ifStat, fptr);
+            fprintf(fptr, "%s%d\n", "goto Label", CURRENTLABEL+1);
+            fprintf(fptr, "%s%d\n", "Label", CURRENTLABEL);
+            generateStatementTree(else
+            break;
+*/

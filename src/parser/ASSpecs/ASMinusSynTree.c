@@ -21,6 +21,10 @@ minusTree createMinusTree(expressionTree* ex){
     return(min);
 }
 
+expressionTree getMinusExpression(minusTree min){
+    return(min->exp);
+}
+
 list minusTreeToString(minusTree min){
     list string = createList();
     listCat(&string, spaces());
@@ -31,6 +35,12 @@ list minusTreeToString(minusTree min){
     listCat(&string, spaces());
     listCat(&string, ")\n");
     return(string);
+}
+
+void generateMinusTree(minusTree min, FILE* fptr){
+    generateExpressionTree(min->exp,fptr);
+    fprintf(fptr, "%s\n", "bipush -1");
+    fprintf(fptr, "%s\n", "imul");
 }
 
 

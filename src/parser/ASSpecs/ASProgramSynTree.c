@@ -60,5 +60,8 @@ void generateProgramTree(programTree pst, FILE *fptr){
     for(int i = 0; i < pst->numDefs; i++){
         generateDefinitionTree(pst->dTrees[i], fptr);
     }
+    
+    fprintf(fptr, "return\n"); 
+    fprintf(fptr, ".end method"); 
 
 }

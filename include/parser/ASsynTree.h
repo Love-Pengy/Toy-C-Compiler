@@ -60,6 +60,8 @@ list functionDefinitionTreeToString(functionDefinitionTree);
 variableDefinitionTree initVariableDefinitionTree(void);
 variableDefinitionTree createVariableDefinitionTree(char *, char**, int);
 list variableDefinitionTreeToString(variableDefinitionTree);
+void generateVariableDefinitionTree(variableDefinitionTree, FILE*);
+
 
 //exprState 
 expressionStatementTree initExpressionStatementTree(void);
@@ -161,12 +163,15 @@ char* getOperatorFromTree(opExpressionTree);
 minusTree initMinusTree(void);
 list minusTreeToString(minusTree);
 minusTree createMinusTree(expressionTree*);
+expressionTree getMinusExpression(minusTree);
+void generateMinusTree(minusTree, FILE*);
+
 
 //not
 notTree initNotTree(void);
 list notTreeToString(notTree);
 notTree createNotTree(expressionTree*);
-
+void generateNotTree(notTree, FILE*);
 //Operator
 operatorTree initOperatorTree(void);
 list operatorTreeToString(operatorTree);
@@ -179,5 +184,6 @@ enum expressionType getExpressionType(expressionTree);
 expressionTree initExpressionTree(void);
 expressionTree createExpressionTree(enum expressionType, void*);
 list expressionTreeToString(expressionTree);
+void generateExpressionTree(expressionTree, FILE*);
 
 #endif

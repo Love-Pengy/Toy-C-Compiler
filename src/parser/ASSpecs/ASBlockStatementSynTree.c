@@ -65,6 +65,6 @@ void generateBlockStatementTree(blockStatementTree bst, FILE* fptr){
         generateVariableDefinitionTree(bst->vdt[i], fptr);
     }    
     for(int i = 0; i < bst->sAmount; i++){
-        generateStatementTree(bst->statements[i]);
+        generateStatementTree(bst->statements[i], fptr);
     }
 }

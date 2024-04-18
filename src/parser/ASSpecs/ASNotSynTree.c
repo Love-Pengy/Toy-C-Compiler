@@ -33,3 +33,7 @@ list notTreeToString(notTree not){
     return(string);
 }
 
+//no not evaluation is done within this function
+void generateNotTree(notTree not, FILE* fptr){
+    generateExpressionTree(not->exp,fptr);
+}
