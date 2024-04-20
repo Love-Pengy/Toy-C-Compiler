@@ -3,6 +3,8 @@
 #include "../../../include/parser/prettyPrinting.h"
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
+#include "../../../include/cmdLine/TCglobals.h"
+#include "../../../include/symbols/TCSymbolTable.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -46,20 +48,50 @@ list ifStatementTreeToString(ifStatementTree ist){
     return(string);
 }
 
-//evaluate primitives on their own. For instance if you have if(1) always go inside of the if statement
 void generateIfStatementTree(ifStatementTree ist, FILE* fptr){    
     switch(getExpressionType(ist->exp)){
         case funcCall: 
             //skip becasue no functions
+            printf("ERROR: Functions Not Allowed\n");
+            fflush(stdout);
+            exit(EXIT_FAILURE);
             break;
+
         case Expr: 
-            if(ist->elseExpression != NULL){
+            if(ist->elseExpression != NULL){ 
+                //CURRENTLABEL + 1 is end CURRENTLABEL is else
                 //generateIfElseStatement(ist->exp, ist->ifExpression, ist->elseExpression, fptr);
+                fprintf(fptr, "bipush 0\n");
+                generateExpressionTree(ist->exp, fptr);
+                fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);  
+                generateStatementTree(ist->ifExpression, fptr);
+                fprintf(fptr, "%s%d\n", "goto Label", CURRENTLABEL+1);  
+                fprintf(fptr, "%s%d:\n", "Label", CURRENTLABEL); 
+                generateStatementTree(ist->elseExpression, fptr);
+                fprintf(fptr, "%s%d\n", "goto Label", CURRENTLABEL+1);  
+                fprintf(fptr, "Label%d:\n", CURRENTLABEL+1);
+                CURRENTLABEL += 2;
             }
             else{
-                //generateIfStatement(ist->exp, ist->ifExpression, fptr);
+                fprintf(fptr, "bipush 0\n");
+                generateExpressionTree(ist->exp, fptr);
+                fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);  
+                generateStatementTree(ist->ifExpression, fptr);
+                fprintf(fptr, "%s%d\n", "goto Label", CURRENTLABEL);  
+                fprintf(fptr, "%s%d:\n", "Label", CURRENTLABEL);
+                CURRENTLABEL++;
             }
             break;
+        case ID: 
+            generateExpressionTree(ist->exp, fptr);
+            fprintf(fptr, "bipush 0\n");
+            fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);  
+            generateStatementTree(ist->ifExpression, fptr);
+            fprintf(fptr, "%s%d\n", "goto Label", CURRENTLABEL);  
+            fprintf(fptr, "%s%d:\n", "Label", CURRENTLABEL);
+            CURRENTLABEL++;
+            break;
+
         default: 
             break;
     }   

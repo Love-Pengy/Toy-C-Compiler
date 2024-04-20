@@ -91,25 +91,23 @@
         + ~~tested~~
             + works assuming that function call is valid (double check with prof)
     + ~~Statement~~
-        + tested
-    + ~~ExpressionStatement~~
+        + ~~tested~~
+    + ~~ExprssionStatement~~
         + tested
     + CompoundStatement
         + tested
-    + IfStatement
-        + tested
-        + GENERATE IF STATEMENT IS IN THE EXPRESSION IMPLEMENTATION 
+    + ~~IfStatement~~
+        + ~~tested~~
     + ~~NullStatement~~
-        + tested
-    + ReturnStatement
-        + tested
-    + WhileStatement
+        + ~~tested~~
+    + ~~ReturnStatement~~
+    + ~~WhileStatement~~
         + tested
     + ~~ReadStatement~~
         + tested
-    + WriteStatement
+    + ~~WriteStatement~~
         + tested
-    + newLineStatement
+    + ~~newLineStatement~~
         + tested
     + Expression
         + tested

@@ -6,9 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-
-
 struct operatorTreeType{
     char* op;
 };

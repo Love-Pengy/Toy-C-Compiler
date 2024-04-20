@@ -40,5 +40,6 @@ int main(int argc, char **argv){
     }
 
     generateJasminCode(program);
+
     return(0);
 }

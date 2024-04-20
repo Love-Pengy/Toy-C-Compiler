@@ -31,3 +31,8 @@ list newLineStatementTreeToString(newLineStatementTree n){
     return(string);
 }
 
+void generateNewLineStatementTree(newLineStatementTree nt, FILE* fptr){
+    fprintf(fptr, "getstatic java/lang/System/out Ljava/io/PrintStream;\n");
+    fprintf(fptr, "ldc \"\n\"\n");
+    fprintf(fptr, "invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V\n");
+}

@@ -97,12 +97,13 @@ void generateNullStatementTree(nullStatementTree, FILE*);
 returnStatementTree initReturnStatementTree(void);
 returnStatementTree createReturnStatementTree(expressionTree*);
 list returnStatementTreeToString(returnStatementTree);
+void generateReturnStatementTree(returnStatementTree, FILE*);
 
 //whileState
 whileStatementTree initWhileStatementTree(void);
 whileStatementTree createWhileStatementTree(expressionTree*, statementTree*);
 list whileStatementTreeToString(whileStatementTree);
-
+void generateWhileStatementTree(whileStatementTree, FILE*);
 
 //readState
 readStatementTree initReadStatementTree(void);
@@ -117,11 +118,13 @@ writeStatementTree initWriteStatementTree(void);
 void addExpressionTreeWriteStatementTree(writeStatementTree*, expressionTree*);
 list writeStatementTreeToString(writeStatementTree);
 writeStatementTree createWriteStatementTree(expressionTree*,int);
+void generateWriteStatementTree(writeStatementTree, FILE*);
 
 //newLineState
 newLineStatementTree initNewLineStatementTree(void);
 list newLineStatementTreeToString(newLineStatementTree);
 newLineStatementTree createNewLineStatementTree(void);
+void generateNewLineStatementTree(newLineStatementTree, FILE*);
 
 //statement
 enum statementType {exprState, breakState, blockState, ifState, nullState, returnState, whileState, readState, writeState, newLineState, undefined};
@@ -172,6 +175,7 @@ notTree initNotTree(void);
 list notTreeToString(notTree);
 notTree createNotTree(expressionTree*);
 void generateNotTree(notTree, FILE*);
+
 //Operator
 operatorTree initOperatorTree(void);
 list operatorTreeToString(operatorTree);

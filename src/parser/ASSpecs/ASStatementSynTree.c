@@ -179,6 +179,9 @@ void generateStatementTree(statementTree state, FILE* fptr){
                 break;
             case breakState:
                 //no doing break statements
+                printf("ERROR: Break Statements Not Allowed\n");
+                fflush(stdout);
+                exit(EXIT_FAILURE);
                 break;
             case blockState:
                 generateBlockStatementTree(state->blt, fptr);
@@ -190,19 +193,19 @@ void generateStatementTree(statementTree state, FILE* fptr){
                 generateNullStatementTree(state->nst, fptr);
                 break;
             case returnState:
-                //generateReturnStatementTree(state->rst, fptr);
+                generateReturnStatementTree(state->rst, fptr);
                 break;
             case whileState:
-                //generateWhileStatementTree(state->wst, fptr);
+                generateWhileStatementTree(state->wst, fptr);
                 break;
             case readState:
                 generateReadStatement(state->book,fptr);
                 break;
             case writeState:
-                //generateWriteStatementTree(state->author, fptr);
+                generateWriteStatementTree(state->author, fptr);
                 break;
             case newLineState:
-                //generateNewLineStatementTree(state->nlst, fptr);
+                generateNewLineStatementTree(state->nlst, fptr);
                 break;
             default:
                 printf("internal error\n");

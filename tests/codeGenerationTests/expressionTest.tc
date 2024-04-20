@@ -1,0 +1,10 @@
+
+int main(int a){
+    int b; int c;
+    if(b){
+        ;
+    }
+    else{
+        ;
+    }
+}

@@ -3,6 +3,7 @@
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
 #include "../../../include/parser/prettyPrinting.h"
+#include "../../../include/cmdLine/TCglobals.h"
 #include <stdlib.h>
 
 
@@ -39,3 +40,13 @@ list whileStatementTreeToString(whileStatementTree ws){
     return(string);
 }
 
+void generateWhileStatementTree(whileStatementTree ws, FILE* fptr){
+    fprintf(fptr, "Label%d: \n", CURRENTLABEL);
+    generateExpressionTree(ws->exp, fptr);
+    fprintf(fptr, "bipush 0\n");
+    fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL+1);  
+    generateStatementTree(ws->st, fptr);
+    fprintf(fptr, "goto Label%d\n", CURRENTLABEL);
+    fprintf(fptr, "Label%d\n", CURRENTLABEL+1);
+    CURRENTLABEL += 2;
+}

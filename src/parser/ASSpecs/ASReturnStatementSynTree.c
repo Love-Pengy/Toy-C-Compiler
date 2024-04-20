@@ -43,3 +43,7 @@ list returnStatementTreeToString(returnStatementTree rsi){
     return(string);
 }
 
+void generateReturnStatementTree(returnStatementTree rsi, FILE* fptr){
+    //cannot have return statement because return statement must be a string which we do not have
+}
+
