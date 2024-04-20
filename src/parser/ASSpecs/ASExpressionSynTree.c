@@ -22,7 +22,9 @@ struct expressionTreeType{
     };
 };
 
-
+int getIdIndexFromExpression(expressionTree et){
+    return(getSymbolIndex(symTable, et->id));
+}
 
 enum expressionType getExpressionType(expressionTree e){
     return(e->type);
@@ -185,7 +187,7 @@ void generateExpressionTree(expressionTree exprT, FILE* fptr){
             exit(EXIT_FAILURE);
             break;
         case Expr:
-            generateOpExpressionTree(exprT->exp);
+            generateOpExpressionTree(exprT->exp, fptr);
             break;
         case Minus:
             generateMinusTree(exprT->min, fptr);

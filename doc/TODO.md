@@ -85,6 +85,8 @@
 + write generate functions for the following portions of the AST
     + ~~ToyCProgram~~
         + ~~tested~~
+    + ~~variableDefinition~~
+        + ~~tested~~
     + ~~Definition~~
         + ~~tested~~
     + ~~FunctionDefinition~~ 
@@ -101,6 +103,7 @@
     + ~~NullStatement~~
         + ~~tested~~
     + ~~ReturnStatement~~
+        + tested
     + ~~WhileStatement~~
         + tested
     + ~~ReadStatement~~
@@ -109,20 +112,22 @@
         + tested
     + ~~newLineStatement~~
         + tested
-    + Expression
+    + ~~expressionStatement~~
         + tested
-    + RelopExpression
+    + ~~Expression~~
         + tested
-    + SimpleExpression
+    + ~~OpExpression~~
+        + tested
+    + ~~blockStatement~~
         + tested
     + Term
         + tested
     + Primary
         + tested
-    + ActualParameters
+    + ~~functionCall~~
         + tested
 + thorougly test code generation
-
++ make symbol table be dynamically created, atm 
 THIS CAN BE DONE LATER WORK ON FUNCTIONALITY 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 + program, definition, statement, expression, and operator should all have the block look

@@ -47,6 +47,7 @@ list opExpressionTreeToString(opExpressionTree oe){
 
 //possible operators + - * / % || && <= < = > >= != 
 void generateOpExpressionTree(opExpressionTree oe, FILE* fptr){
+
     if(!strcmp(getOperator(oe->op), "+")){
         generateExpressionTree(oe->exp1, fptr);
         generateExpressionTree(oe->exp2, fptr);
@@ -84,6 +85,7 @@ void generateOpExpressionTree(opExpressionTree oe, FILE* fptr){
         fprintf(fptr, "Label%d:\n", CURRENTLABEL);
         fprintf(fptr, "bipush 1\n");
         fprintf(fptr, "Label%d:\n", CURRENTLABEL+1); 
+        CURRENTLABEL += 2;
     }
     else if(!strcmp(getOperator(oe->op), "&&")){
         generateExpressionTree(oe->exp1, fptr);
@@ -105,22 +107,75 @@ void generateOpExpressionTree(opExpressionTree oe, FILE* fptr){
         fprintf(fptr, "goto Label%d\n", CURRENTLABEL+2);
 
         fprintf(fptr, "Label%d:\n", CURRENTLABEL+2); 
+
+        CURRENTLABEL += 3;
     }
     else if(!strcmp(getOperator(oe->op), "<=")){
+        generateExpressionTree(oe->exp1, fptr);
+        generateExpressionTree(oe->exp2, fptr);
+        fprintf(fptr, "if_icmpgt Label%d\n", CURRENTLABEL+1);
+        fprintf(fptr, "bipush 1\n");
+        fprintf(fptr, "Label%d:\n", CURRENTLABEL);
+        fprintf(fptr, "bipush 0\n");
+        fprintf(fptr, "Label%d:\n", CURRENTLABEL+1);
+        CURRENTLABEL += 2;
     }
     else if(!strcmp(getOperator(oe->op), "<")){
+        generateExpressionTree(oe->exp1, fptr);
+        generateExpressionTree(oe->exp2, fptr);
+        fprintf(fptr, "if_icmpge Label%d\n", CURRENTLABEL+1);
+        fprintf(fptr, "bipush 1\n");
+        fprintf(fptr, "Label%d:\n", CURRENTLABEL);
+        fprintf(fptr, "bipush 0\n");
+        fprintf(fptr, "Label%d:\n", CURRENTLABEL+1);
+        CURRENTLABEL += 2;
     }
     //ASSIGNMENT OPERATOR
     else if(!strcmp(getOperator(oe->op), "=")){
+        //check if left side is an id first
+        if(!(getExpressionType(oe->exp1) == ID)){
+            printf("ERROR: Left Side of Assignment Is Not ID\n");
+            fflush(stdout);
+            exit(EXIT_FAILURE);
+        }
+        int index = getIdIndexFromExpression(oe->exp1);
+        generateExpressionTree(oe->exp2, fptr);
+        fprintf(fptr, "istore_%d\n", index);
     }
     else if(!strcmp(getOperator(oe->op), ">")){
+        generateExpressionTree(oe->exp1, fptr);
+        generateExpressionTree(oe->exp2, fptr);
+        fprintf(fptr, "if_icmple Label%d\n", CURRENTLABEL+1);
+        fprintf(fptr, "bipush 1\n");
+        fprintf(fptr, "Label%d:\n", CURRENTLABEL);
+        fprintf(fptr, "bipush 0\n");
+        fprintf(fptr, "Label%d:\n", CURRENTLABEL+1);
+        CURRENTLABEL += 2;    
     }
     else if(!strcmp(getOperator(oe->op), ">=")){
+        generateExpressionTree(oe->exp1, fptr);
+        generateExpressionTree(oe->exp2, fptr);
+        fprintf(fptr, "if_icmplt Label%d\n", CURRENTLABEL+1);
+        fprintf(fptr, "bipush 1\n");
+        fprintf(fptr, "Label%d:\n", CURRENTLABEL);
+        fprintf(fptr, "bipush 0\n");
+        fprintf(fptr, "Label%d:\n", CURRENTLABEL+1);
+        CURRENTLABEL += 2;    
     }
     else if(!strcmp(getOperator(oe->op), "!=")){
+        generateExpressionTree(oe->exp1, fptr);
+        generateExpressionTree(oe->exp2, fptr);
+        fprintf(fptr, "if_icmpeq Label%d\n", CURRENTLABEL+1);
+        fprintf(fptr, "bipush 1\n");
+        fprintf(fptr, "Label%d:\n", CURRENTLABEL);
+        fprintf(fptr, "bipush 0\n");
+        fprintf(fptr, "Label%d:\n", CURRENTLABEL+1);
+        CURRENTLABEL += 2;    
     }
     else{
-        //throw error
+        printf("ERROR: Invalid Operator\n");
+        fflush(stdout);
+        exit(EXIT_FAILURE);
     }
 
 }

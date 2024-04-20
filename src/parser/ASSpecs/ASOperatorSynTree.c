@@ -37,3 +37,5 @@ list operatorTreeToString(operatorTree oper){
     return(string);
 }
 
+//no generate because I just grabbed operators for what was needed 
+

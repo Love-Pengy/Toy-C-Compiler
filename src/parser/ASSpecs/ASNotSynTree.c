@@ -3,6 +3,7 @@
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/prettyPrinting.h"
 #include "../../../include/parser/ASsynTree.h"
+#include "../../../include/cmdLine/TCglobals.h"
 #include <stdlib.h>
 
 
@@ -33,7 +34,13 @@ list notTreeToString(notTree not){
     return(string);
 }
 
-//no not evaluation is done within this function
 void generateNotTree(notTree not, FILE* fptr){
     generateExpressionTree(not->exp,fptr);
+    fprintf(fptr, "bipush 1\n");
+    fprintf(fptr, "if_icmpeq Label%d\n", CURRENTLABEL);
+    fprintf(fptr, "bipush 1\n");
+    fprintf(fptr, "goto Label%d:\n", CURRENTLABEL+1);
+    fprintf(fptr, "Label%d:\n", CURRENTLABEL);
+    fprintf(fptr, "bipush 0\n");
+    fprintf(fptr, "Label%d\n", CURRENTLABEL+1);    
 }

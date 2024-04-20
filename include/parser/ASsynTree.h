@@ -161,6 +161,7 @@ opExpressionTree initOpExpressionTree(void);
 list opExpressionTreeToString(opExpressionTree);
 opExpressionTree createOpExpressionTree(operatorTree*, expressionTree*, expressionTree*);
 char* getOperatorFromTree(opExpressionTree);
+void generateOpExpressionTree(opExpressionTree, FILE*);
 
 //minus
 minusTree initMinusTree(void);
@@ -189,5 +190,7 @@ expressionTree initExpressionTree(void);
 expressionTree createExpressionTree(enum expressionType, void*);
 list expressionTreeToString(expressionTree);
 void generateExpressionTree(expressionTree, FILE*);
+int getIdIndexFromExpression(expressionTree);
+
 
 #endif

@@ -65,13 +65,12 @@ generate: $(BUILD_DIR)/$(TARGET_EXEC)
 test: 
 	$(DEBUG)gdb --args $(BIN_DIR)/tc $(ARGS)
 
-test2:
-	$(debug)gdb --args $(bin_dir)/tc $(args)
-
 run: 
 	$(DEBUG)./$(BIN_DIR)/tc $(ARGS)
 
-
+#args in this case is the file that you would like to thow into the assembler
+runJasmin: 
+	$(DEBUG)Java -jar ./doc/CodeGen/jasmin-2.4/jasmin.jar $(ARGS)
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Makefiles. Initially, all the .d files will be missing, and we don't want those
