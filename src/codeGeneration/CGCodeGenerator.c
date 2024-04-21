@@ -21,12 +21,22 @@ void generateJasminCode(programTree program){
         newInputFile = malloc(sizeof(char) * (strlen(inputFileName) + 2));
         newInputFile[0] = '\0';
         strcpy(newInputFile, inputFileName);
+
+        javaClassname = malloc(sizeof(char) * (strlen(newInputFile) + 1));
+        javaClassname[0] = '\0';
+        strcpy(javaClassname, newInputFile);
+
         strcat(newInputFile, ".j");
     }
     else if((inputFileName[0] == '.') && (strlen(last) == (strlen(inputFileName)-1))){ 
         newInputFile = malloc(sizeof(char) * (strlen(inputFileName) + 2));
         newInputFile[0] = '\0';
         strcpy(newInputFile, inputFileName);
+
+        javaClassname = malloc(sizeof(char) * (strlen(newInputFile) + 1));
+        javaClassname[0] = '\0';
+        strcpy(javaClassname, newInputFile);
+
         strcat(newInputFile, ".j");
     }
     else{
@@ -38,6 +48,11 @@ void generateJasminCode(programTree program){
             newInputFile[i] = inputFileName[i];
             newInputFile[i+1] = '\0';
         }
+
+        javaClassname = malloc(sizeof(char) * (strlen(newInputFile) + 1));
+        javaClassname[0] = '\0';
+        strcpy(javaClassname, newInputFile);
+
         strcat(newInputFile, ".j");
     }
     

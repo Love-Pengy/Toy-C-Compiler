@@ -70,7 +70,7 @@ run:
 
 #args in this case is the file that you would like to thow into the assembler
 runJasmin: 
-	$(DEBUG)Java -jar ./doc/CodeGen/jasmin-2.4/jasmin.jar $(ARGS)
+	$(DEBUG)java -jar ./doc/CodeGen/jasmin-2.4/jasmin.jar $(ARGS)
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing
 # Makefiles. Initially, all the .d files will be missing, and we don't want those

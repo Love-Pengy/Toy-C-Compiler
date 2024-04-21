@@ -81,6 +81,13 @@
 + ~~make symbol table global so that it can be printed from main~~ 
 + ~~debug output file~~ 
     + ~~currently it outputs with the file name '..j' in the root directory (means that the header of the file is jsut '.'~~ 
++ ~~change the code to abide by the following as the jvm is weird:~~  
+    + ~~istore~~
+        + ~~istore_n is for registers from 0-3~~
+        + ~~istore n is for the rest~~
+    + ~~iload~~
+        + ~~iload_n is for registers from 0-3~~
+        + ~~iload n is for the rest~~
 
 + write generate functions for the following portions of the AST
     + ~~ToyCProgram~~
@@ -127,7 +134,28 @@
     + ~~functionCall~~
         + tested
 + thorougly test code generation
-+ make symbol table be dynamically created, atm 
++ update readme.md to reflect what this project is 
++ update readme.txt to hold information for professor
++ update the cmdline parser to reglect the code gen changes 
++ update code to change behavior on newly implemented globals
++ update program spec to include the following: 
+    + .source singleAssignment.java
+        + attempting to skip over as source is not java file for us
+    + ~~.class  public singleassignment~~
+    + ~~.super  java/lang/Object~~
+    + cut the file name so you only get the end of it when creating the .class directive
+
++ NOTE:     
+    + compile ```javac <file.java>```
+    + run ```java <file>```
+
+    + make runJasmin ARGS="file.j"
+
+
+
+
+
+
 THIS CAN BE DONE LATER WORK ON FUNCTIONALITY 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 + program, definition, statement, expression, and operator should all have the block look

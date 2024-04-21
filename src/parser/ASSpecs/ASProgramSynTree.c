@@ -2,10 +2,12 @@
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
-#include <stdlib.h>
 #include "../../../include/parser/prettyPrinting.h"
 #include "../../../include/cmdLine/TCglobals.h"
 #include "../../../include/symbols/TCSymbolTable.h"
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
 
 //this can hold 0 or more definitions
 struct programTreeType{
@@ -52,8 +54,16 @@ list programTreeToString(programTree pst){
 
 
 void generateProgramTree(programTree pst, FILE *fptr){
+    
+    for(int i = 0; i < strlen(javaClassname); i++){
+        javaClassname[i] = tolower(javaClassname[i]);
+    }
+
+    fprintf(fptr, ".class  public %s\n", javaClassname); 
+    fprintf(fptr, ".super  java/lang/Object\n");
     fprintf(fptr, ".method public static main([Ljava/lang/String;)V\n");  
     fprintf(fptr, ".limit stack %d\n", STACKSIZE);
+
     //+1 for the scanner object
     fprintf(fptr, ".limit locals %d\n", (getSymbolTableSize(symTable)+1)); 
     

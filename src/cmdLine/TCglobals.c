@@ -20,6 +20,7 @@ char* TAB = "    ";
 int TOPVARIABLE = 0;
 int STACKSIZE = 1000;
 int CURRENTLABEL = 1;  
+char* javaClassname = NULL;
 
 void turnVerboseOn(){
       debug_scanner = true;

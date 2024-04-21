@@ -25,5 +25,6 @@ extern char* TAB;
 extern int TOPVARIABLE;
 extern int STACKSIZE;
 extern int CURRENTLABEL;  
+extern char* javaClassname; 
 
 #endif

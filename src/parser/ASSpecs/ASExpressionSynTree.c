@@ -143,6 +143,7 @@ list expressionTreeToString(expressionTree exprT){
 
 
 void generateExpressionTree(expressionTree exprT, FILE* fptr){
+    int index;
     if(exprT == NULL){
     }
     switch(exprT->type){
@@ -158,7 +159,13 @@ void generateExpressionTree(expressionTree exprT, FILE* fptr){
             CURRENTLABEL += 2;
             break;
         case ID:
-            fprintf(fptr, "%s%d\n", "iload_", getSymbolIndex(symTable,exprT->id));
+            index = getSymbolIndex(symTable, exprT->id);
+            if(index > 3){
+                fprintf(fptr, "%s%d\n", "iload ", getSymbolIndex(symTable,exprT->id));    
+            }
+            else {
+                fprintf(fptr, "%s%d\n", "iload_", getSymbolIndex(symTable,exprT->id));
+            }
             fprintf(fptr, "bipush 0\n");
             fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);  
             fprintf(fptr, "bipush 1\n");
@@ -204,18 +211,3 @@ void generateExpressionTree(expressionTree exprT, FILE* fptr){
 
 
 
-/*
-THIS IS FOR THE IF ELSE CHAIN
-            //get the value and then if it is not zero go to statement 
-            //label 1: else 
-            //no label: if
-            //label 2: finished
-            fprintf(fptr, "%s%d\n", "iload_", getSymbolIndex(symTable, getId(findSymbol(&symTable, operation->id))));
-            fprintf(fptr, "%s\n", "bipush 0");
-            fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);
-            generateStatementTree(ifStat, fptr);
-            fprintf(fptr, "%s%d\n", "goto Label", CURRENTLABEL+1);
-            fprintf(fptr, "%s%d\n", "Label", CURRENTLABEL);
-            generateStatementTree(else
-            break;
-*/

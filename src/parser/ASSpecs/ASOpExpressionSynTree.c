@@ -140,7 +140,13 @@ void generateOpExpressionTree(opExpressionTree oe, FILE* fptr){
         }
         int index = getIdIndexFromExpression(oe->exp1);
         generateExpressionTree(oe->exp2, fptr);
-        fprintf(fptr, "istore_%d\n", index);
+        
+        if(index > 3){
+            fprintf(fptr, "%s%d\n", "istore ", index);
+        }
+        else{
+            fprintf(fptr, "%s%d\n", "istore_", index);
+        }
     }
     else if(!strcmp(getOperator(oe->op), ">")){
         generateExpressionTree(oe->exp1, fptr);
