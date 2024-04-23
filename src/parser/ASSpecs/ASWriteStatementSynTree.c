@@ -2,8 +2,9 @@
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
-#include <stdlib.h>
 #include "../../../include/parser/prettyPrinting.h"
+#include "../../../include/cmdLine/TCglobals.h"
+#include <stdlib.h>
 
 
 struct writeStatementTreeType{
@@ -45,6 +46,12 @@ list writeStatementTreeToString(writeStatementTree ws){
 }
 
 void generateWriteStatementTree(writeStatementTree ws, FILE* fptr){
+
+    if(debug_codeGen){
+        printf("[Generating Write Statement]\n");
+        fflush(stdout);
+    }
+
     for(int i = 0; i < ws->amtExprs; i++){
         fprintf(fptr, "getstatic java/lang/System/out Ljava/io/PrintStream;\n");
         generateExpressionTree(ws->exprs[i], fptr);

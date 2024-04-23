@@ -142,12 +142,23 @@ list expressionTreeToString(expressionTree exprT){
 }
 
 void generateExpressionTree(expressionTree exprT, FILE* fptr){
+
+    if(debug_codeGen){
+        printf("[Generating Expression]\n");
+        fflush(stdout);
+    }
+
     int index;
     if(exprT == NULL){
     }
     switch(exprT->type){
         case Number:
-            fprintf(fptr, "%s%s\n", "bipush ", exprT->number);  
+            if(atoi(exprT->number) > 255){
+                fprintf(fptr, "%s%s\n", "ldc_w ", exprT->number);  
+            }
+            else{
+                fprintf(fptr, "%s%s\n", "bipush ", exprT->number);  
+            }
             break;
         case ID:
             index = getSymbolIndex(symTable, exprT->id);

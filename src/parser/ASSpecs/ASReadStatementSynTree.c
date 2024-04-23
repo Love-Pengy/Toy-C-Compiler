@@ -58,9 +58,15 @@ list readStatementTreeToString(readStatementTree rs){
 
 //this is assumed to be the scanner
 void generateReadStatement(readStatementTree rs, FILE* fptr){
+
+    if(debug_codeGen){
+        printf("[Generating Read Statement]\n");
+        fflush(stdout);
+    }
+
     int index;
     int index2;
-
+ 
     //initializing 
     fprintf(fptr, "%s\n", "new java/util/Scanner");
     fprintf(fptr, "%s\n", "dup");

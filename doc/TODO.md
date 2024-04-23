@@ -95,7 +95,7 @@
     + ~~.super  java/lang/Object~~
     + ~~cut the file name so you only get the end of it when creating the .class directive~~
 
-+ write generate functions for the following portions of the AST
++ ~~write generate functions for the following portions of the AST~~
     + ~~ToyCProgram~~
         + ~~tested~~
     + ~~variableDefinition~~
@@ -112,7 +112,7 @@
         + ~~tests:~~ 
             + ~~any expression~~
     + ~~IfStatement~~
-        + tests: 
+        + ~~tests: ~~
             + ~~single expression~~
             + ~~multiple expressions~~
             + ~~single int~~
@@ -175,17 +175,36 @@
             + ~~this is just the middle of the main function~~ 
     + ~~functionCall~~
         + ~~tested~~
++ ~~change the symbol table types to actual things rahter than LABEL or OFFSET~~
++ ~~change directive to ldc_w if number is larger than 255~~
 
-
++ ~~check how  a < b || !c is supposed to be evaluated~~
 + check if strings can go into read statements
-+ check how  a < b || !c is supposed to be evaluated
-+ change directive to ldc_w if number is larger than 255
+
++ let strings go into write statements and only write statements
+
 + thorougly test code generation
 + update readme.md to reflect what this project is 
 + update readme.txt to hold information for professor
 + update the cmdline parser to reglect the code gen changes 
 + update code to change behavior on newly implemented globals
++ test cmdline parser
+    + ~~help~~
+    + output
+        + test outputFileName
+    + class
+    + debug 
+        + 0
+        + 1
+        + 2
+        + 3
+    + abstract
+    + symbol
+    + code
+    + verbose
+    + version
 
++ change code gen messages to tell where it's coming from 
 + NOTE:     
     + compile ```javac <file.java>```
     + run ```java <file>```

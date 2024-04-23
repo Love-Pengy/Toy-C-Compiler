@@ -30,46 +30,53 @@ void generateJasminCode(programTree program){
         cut = strtok(NULL, ".");
     }       
     char* newInputFile = NULL;
-    
-    if(strlen(last) == strlen(inputFileName)){
-        newInputFile = malloc(sizeof(char) * (strlen(inputFileName) + 2));
-        newInputFile[0] = '\0';
-        strcpy(newInputFile, inputFileName);
 
-        javaClassname = malloc(sizeof(char) * (strlen(newInputFile) + 1));
-        javaClassname[0] = '\0';
-        javaClassname = getClassname(newInputFile);
-        strcat(newInputFile, ".j");
-    }
-    else if((inputFileName[0] == '.') && (strlen(last) == (strlen(inputFileName)-1))){ 
-        newInputFile = malloc(sizeof(char) * (strlen(inputFileName) + 2));
-        newInputFile[0] = '\0';
-        strcpy(newInputFile, inputFileName);
+    FILE* fptr;
 
-        javaClassname = malloc(sizeof(char) * (strlen(newInputFile) + 1));
-        javaClassname[0] = '\0';
-        javaClassname = getClassname(newInputFile);
+    if(outputFileName == NULL){
+        if(strlen(last) == strlen(inputFileName)){
+            newInputFile = malloc(sizeof(char) * (strlen(inputFileName) + 2));
+            newInputFile[0] = '\0';
+            strcpy(newInputFile, inputFileName);
 
-        strcat(newInputFile, ".j");
+            javaClassname = malloc(sizeof(char) * (strlen(newInputFile) + 1));
+            javaClassname[0] = '\0';
+            javaClassname = getClassname(newInputFile);
+            strcat(newInputFile, ".j");
+        }
+        else if((inputFileName[0] == '.') && (strlen(last) == (strlen(inputFileName)-1))){ 
+            newInputFile = malloc(sizeof(char) * (strlen(inputFileName) + 2));
+            newInputFile[0] = '\0';
+            strcpy(newInputFile, inputFileName);
+
+            javaClassname = malloc(sizeof(char) * (strlen(newInputFile) + 1));
+            javaClassname[0] = '\0';
+            javaClassname = getClassname(newInputFile);
+
+            strcat(newInputFile, ".j");
+        }
+        else{
+            int extSize = strlen(last); 
+            newInputFile = malloc(sizeof(char) * ((strlen(inputFileName) - extSize) + 2));
+            newInputFile[0] = '\0';
+            
+            for(int i = 0; i < (strlen(inputFileName) - (extSize+1)); i++){
+                newInputFile[i] = inputFileName[i];
+                newInputFile[i+1] = '\0';
+            }
+
+            javaClassname = malloc(sizeof(char) * (strlen(newInputFile) + 1));
+            javaClassname[0] = '\0';
+            javaClassname = getClassname(newInputFile);
+
+            strcat(newInputFile, ".j");
+        }
+        fptr = fopen(newInputFile, "w");
     }
     else{
-        int extSize = strlen(last); 
-        newInputFile = malloc(sizeof(char) * ((strlen(inputFileName) - extSize) + 2));
-        newInputFile[0] = '\0';
-        
-        for(int i = 0; i < (strlen(inputFileName) - (extSize+1)); i++){
-            newInputFile[i] = inputFileName[i];
-            newInputFile[i+1] = '\0';
-        }
-
-        javaClassname = malloc(sizeof(char) * (strlen(newInputFile) + 1));
-        javaClassname[0] = '\0';
-        javaClassname = getClassname(newInputFile);
-
-        strcat(newInputFile, ".j");
+        fptr = fopen(outputFileName, "w"); 
     }
-    
-    FILE* fptr = fopen(newInputFile, "w");
+
     generateProgramTree(program, fptr);
 }
 

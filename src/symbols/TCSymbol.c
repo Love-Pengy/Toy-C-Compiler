@@ -51,7 +51,7 @@ char *symbolToString(symbol sym){
         case VAR: 
             listCat(&output, "VAR, ");
             break;
-        case LABEL: 
+        case FUNCTION: 
             listCat(&output, "LABEL, "); 
             break;
         case RTYPE: 

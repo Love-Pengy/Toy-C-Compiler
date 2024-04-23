@@ -3,6 +3,7 @@
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/prettyPrinting.h"
 #include "../../../include/parser/ASsynTree.h"
+#include "../../../include/cmdLine/TCglobals.h"
 #include <stdlib.h>
 
 
@@ -32,6 +33,10 @@ list newLineStatementTreeToString(newLineStatementTree n){
 }
 
 void generateNewLineStatementTree(newLineStatementTree nt, FILE* fptr){
+    if(debug_codeGen){
+        printf("[Generating NewLine Statement]\n");
+        fflush(stdout);
+    }
     fprintf(fptr, "getstatic java/lang/System/out Ljava/io/PrintStream;\n");
     fprintf(fptr, "ldc \"\n\"\n");
     fprintf(fptr, "invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V\n");

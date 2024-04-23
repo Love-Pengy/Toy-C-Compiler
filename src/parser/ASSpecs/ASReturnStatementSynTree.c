@@ -3,6 +3,7 @@
 #include "../../../include/parser/prettyPrinting.h"
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
+#include "../../../include/cmdLine/TCglobals.h"
 #include <stdlib.h>
 
 
@@ -45,5 +46,9 @@ list returnStatementTreeToString(returnStatementTree rsi){
 
 void generateReturnStatementTree(returnStatementTree rsi, FILE* fptr){
     //cannot have return statement because return statement must be a string which we do not have
+    if(debug_codeGen){
+        printf("[Generating Return Statement]\n");
+        fflush(stdout);
+    }
 }
 

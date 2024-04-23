@@ -35,6 +35,10 @@ list notTreeToString(notTree not){
 }
 
 void generateNotTree(notTree not, FILE* fptr){
+    if(debug_codeGen){
+        printf("[Generating Not Tree]\n");
+        fflush(stdout);
+    }
     generateExpressionTree(not->exp,fptr);
     fprintf(fptr, "ifeq Label%d\n", CURRENTLABEL);
     fprintf(fptr, "bipush 0\n");

@@ -41,6 +41,12 @@ list whileStatementTreeToString(whileStatementTree ws){
 }
 
 void generateWhileStatementTree(whileStatementTree ws, FILE* fptr){
+    
+    if(debug_codeGen){
+        printf("[Generating While Statement]\n");
+        fflush(stdout);
+    }
+
     int label1 = CURRENTLABEL;
     int label2 = CURRENTLABEL+1;
     CURRENTLABEL += 2;

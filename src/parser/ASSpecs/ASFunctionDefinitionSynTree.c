@@ -3,6 +3,7 @@
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/prettyPrinting.h"
 #include "../../../include/parser/ASsynTree.h"
+#include "../../../include/cmdLine/TCglobals.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -86,5 +87,9 @@ list functionDefinitionTreeToString(functionDefinitionTree fst){
 
 void generateFunctionDefinitionTree(functionDefinitionTree fst, FILE* fptr){
     //header variables go in the symbol table therefore we don't need to do anything here 
+    if(debug_codeGen){
+        printf("[Generating Function Definition]\n");
+        fflush(stdout);
+    }
     generateStatementTree(fst->sDef, fptr);
 }

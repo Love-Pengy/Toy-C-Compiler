@@ -47,6 +47,11 @@ list opExpressionTreeToString(opExpressionTree oe){
 
 //possible operators + - * / % || && <= < = > >= != 
 void generateOpExpressionTree(opExpressionTree oe, FILE* fptr){
+    
+    if(debug_codeGen){
+        printf("[Generating Op Expression Tree]\n");
+        fflush(stdout);
+    }
 
     if(!strcmp(getOperator(oe->op), "+")){
         generateExpressionTree(oe->exp1, fptr);

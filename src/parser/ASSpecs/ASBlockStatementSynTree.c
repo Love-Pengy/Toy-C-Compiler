@@ -2,8 +2,9 @@
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
-#include <stdlib.h>
 #include "../../../include/parser/prettyPrinting.h"
+#include "../../../include/cmdLine/TCglobals.h"
+#include <stdlib.h>
 
 //varDef(Id+, Type)∗, Statement∗
 struct blockStatementTreeType{
@@ -61,6 +62,12 @@ list blockStatementTreeToString(blockStatementTree bst){
 }
 
 void generateBlockStatementTree(blockStatementTree bst, FILE* fptr){
+
+    if(debug_codeGen){
+        printf("[Generating Block Statement]\n");
+        fflush(stdout);
+    }
+
     for(int i = 0; i < bst->vAmount; i++){
         generateVariableDefinitionTree(bst->vdt[i], fptr);
     }    

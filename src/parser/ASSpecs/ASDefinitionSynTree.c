@@ -2,9 +2,10 @@
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
+#include "../../../include/parser/prettyPrinting.h"
+#include "../../../include/cmdLine/TCglobals.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include "../../../include/parser/prettyPrinting.h"
 
 
 //defTypeProd = {functionDef, variableDef}
@@ -66,6 +67,12 @@ list definitionTreeToString(definitionTree dst){
 }
 
 void generateDefinitionTree(definitionTree dst, FILE* fptr){
+
+    if(debug_codeGen){
+        printf("[Generating Definition]\n");
+        fflush(stdout);
+    }
+
     switch(dst->type){
         case functionDef: 
             generateFunctionDefinitionTree(dst->fDef, fptr);

@@ -2,8 +2,9 @@
 
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
-#include <stdlib.h>
 #include "../../../include/parser/prettyPrinting.h"
+#include "../../../include/cmdLine/TCglobals.h"
+#include <stdlib.h>
 
 
 struct expressionStatementTreeType{
@@ -36,5 +37,11 @@ list expressionStatementTreeToString(expressionStatementTree est){
 }
 
 void generateExpressionStatementTree(expressionStatementTree est, FILE* fptr){
+
+    if(debug_codeGen){
+        printf("[Generating Expression Statement]\n");
+        fflush(stdout);
+    }
+
     generateExpressionTree(est->expression, fptr);
 }

@@ -39,3 +39,4 @@ list operatorTreeToString(operatorTree oper){
 
 //no generate because I just grabbed operators for what was needed 
 
+

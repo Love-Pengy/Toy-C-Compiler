@@ -3,6 +3,7 @@
 #include "../../../include/parser/ASsynTree.h"
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/prettyPrinting.h"
+#include "../../../include/cmdLine/TCglobals.h"
 #include <stdlib.h>
 
 
@@ -35,4 +36,8 @@ list nullStatementTreeToString(nullStatementTree nst){
 
 void generateNullStatementTree(nullStatementTree nst, FILE* fptr){
     //null statement :3
+    if(debug_codeGen){
+        printf("[Generating Null Statement]\n");
+        fflush(stdout);
+    }
 }

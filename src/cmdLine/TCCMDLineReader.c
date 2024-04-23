@@ -84,7 +84,7 @@ void cmdLineParser(char ** input){
         else if(strcmp(input[i], "-output") == 0){
             if((i + 1) < arrayLength){
                 i++;
-                strcpy(inputFileName, input[i]);
+                strcpy(outputFileName, input[i]);
             }
             //case for when there are no more left
             else{

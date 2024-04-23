@@ -3,6 +3,7 @@
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
 #include "../../../include/parser/prettyPrinting.h"
+#include "../../../include/cmdLine/TCglobals.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -172,6 +173,12 @@ list statementTreeToString(statementTree state){
 }
 
 void generateStatementTree(statementTree state, FILE* fptr){
+
+    if(debug_codeGen){
+        printf("[Generating Statement Tree]\n");
+        fflush(stdout);
+    }
+
     if(!(state->type == undefined)){
         switch(state->type){
             case exprState:

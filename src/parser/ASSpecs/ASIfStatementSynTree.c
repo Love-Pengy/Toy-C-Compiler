@@ -50,6 +50,12 @@ list ifStatementTreeToString(ifStatementTree ist){
 
 
 void generateIfStatementTree(ifStatementTree ist, FILE* fptr){    
+    
+    if(debug_codeGen){ 
+        printf("[Generating If Statement]\n"); 
+        fflush(stdout);
+    }
+
     switch(getExpressionType(ist->exp)){
         case funcCall: 
             //skip becasue no functions

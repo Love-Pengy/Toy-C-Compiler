@@ -3,6 +3,7 @@
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/prettyPrinting.h"
 #include "../../../include/parser/ASsynTree.h"
+#include "../../../include/cmdLine/TCglobals.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -67,5 +68,10 @@ list functionCallTreeToString(functionCallTree fct){
 }
 
 void generateFunctionCallTree(functionCallTree fct, FILE* fptr){
+
+    if(debug_codeGen){
+        printf("[Debugging Function Call]\n");
+        fflush(stdout);
+    }
     //nothing in here unless decide to do EC
 }

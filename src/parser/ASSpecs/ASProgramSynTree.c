@@ -54,7 +54,12 @@ list programTreeToString(programTree pst){
 
 
 void generateProgramTree(programTree pst, FILE *fptr){
-    
+
+    if(debug_codeGen){
+        printf("[Generating Program Tree]\n");
+        fflush(stdout);
+    }
+
     for(int i = 0; i < strlen(javaClassname); i++){
         javaClassname[i] = tolower(javaClassname[i]);
     }

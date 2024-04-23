@@ -3,6 +3,7 @@
 #include "../../../lib/dynamicArray/dynamicArray.h"
 #include "../../../include/parser/ASsynTree.h"
 #include "../../../include/parser/prettyPrinting.h"
+#include "../../../include/cmdLine/TCglobals.h"
 #include <stdlib.h>
 
 struct minusTreeType{
@@ -38,9 +39,16 @@ list minusTreeToString(minusTree min){
 }
 
 void generateMinusTree(minusTree min, FILE* fptr){
+    
+    if(debug_codeGen){
+        printf("[Generating Minus Tree]\n");
+        fflush(stdout);
+    }
+
     generateExpressionTree(min->exp,fptr);
     fprintf(fptr, "%s\n", "bipush -1");
     fprintf(fptr, "%s\n", "imul");
+
 }
 
 
