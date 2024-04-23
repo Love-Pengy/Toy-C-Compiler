@@ -1,0 +1,9 @@
+int main(){
+    int a;
+    int b;
+    int c;
+    int d;
+    read(a, b, c, d);
+    write(a, b, c, d);
+    newline;
+}

@@ -674,6 +674,7 @@ expressionTree simpleExpression(void){
         et2 = term();
         if(first){
             currentOp = createOpExpressionTree(&operator, &et1, &et2);
+            first = false;
         }
         else{
             tmpCurrentOP = createExpressionTree(Expr, &currentOp);

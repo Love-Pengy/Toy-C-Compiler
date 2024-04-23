@@ -109,50 +109,48 @@
         + ~~tested~~
             + ~~(doing one at a time to make more manageable and accurate)~~
     + ~~ExpressionStatement~~
-        + tests: 
-            + any expression
+        + ~~tests:~~ 
+            + ~~any expression~~
     + ~~IfStatement~~
         + tests: 
             + ~~single expression~~
-            + multiple expressions
-            + single int
-            + single id
-            + not expressions
-            + not ints 
-            + bounds using 0
-            + minus ints
-            + else statment
-            + null statement
+            + ~~multiple expressions~~
+            + ~~single int~~
+            + ~~single id~~
+            + ~~not ints~~ 
+            + ~~not minus ints~~
+            + ~~bounds using 0~~
+            + ~~minus ints~~
+            + ~~else statment~~
     + ~~NullStatement~~
-        + tested
+        + ~~tested~~
     + ~~ReturnStatement~~
-        + tested
     + ~~WhileStatement~~
-        + tests
-            + single expression
-            + multiple expressions
-            + single int
-            + single id
-            + not expressions
-            + not ints 
-            + minus ints
-            + bounds using 0
-            + null statement
-    + ~~ReadStatement~~
-        + tests
-            + single id read
-            + multiple id read 
-    + ~~WriteStatement~~
-        + tests
+        + ~~tests~~
             + ~~single expression~~
             + multiple expressions
+            + ~~single int~~
+            + ~~single id~~
+            + ~~not expressions~~
+            + ~~not ints~~ 
+            + ~~minus ints~~
+            + ~~bounds using 0~~
+            + ~~null statement~~
+    + ~~ReadStatement~~
+        + tests
+            + ~~single id read~~
+            + ~~multiple id read~~ 
+    + ~~WriteStatement~~
+        + ~~tests~~
+            + ~~single expression~~
+            + ~~multiple expressions~~
             + ~~int~~ 
             + ~~not ints~~
             + ~~minus ints~~
     + ~~newLineStatement~~
         + ~~tested~~
     + ~~expressionStatement~~
-        + tested
+        + ~~tested~~
     + ~~Expression~~
         + tested
     + ~~OpExpression~~
@@ -173,11 +171,14 @@
             + ~~nested op trees~~
             + ~~negative sub~~
     + ~~blockStatement~~
-        + tested
-            + this is just the middle of the main function 
+        + ~~tested~~
+            + ~~this is just the middle of the main function~~ 
     + ~~functionCall~~
-        + ~~tested!!
+        + ~~tested~~
 
+
++ check if strings can go into read statements
++ check how  a < b || !c is supposed to be evaluated
 + change directive to ldc_w if number is larger than 255
 + thorougly test code generation
 + update readme.md to reflect what this project is 

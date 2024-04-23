@@ -64,7 +64,7 @@ void generateReadStatement(readStatementTree rs, FILE* fptr){
     //initializing 
     fprintf(fptr, "%s\n", "new java/util/Scanner");
     fprintf(fptr, "%s\n", "dup");
-    fprintf(fptr, "%s\n", "getstatic java/lang/system/<init>(Ljava/io/InputStream;)V");
+    fprintf(fptr, "%s\n", "getstatic java/lang/System/in Ljava/io/InputStream;");
     fprintf(fptr, "%s\n", "invokespecial java/util/Scanner/<init>(Ljava/io/InputStream;)V");
     //this is the reference to the object
     index = getSymbolTableSize(symTable);

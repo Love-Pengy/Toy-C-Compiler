@@ -41,12 +41,14 @@ list whileStatementTreeToString(whileStatementTree ws){
 }
 
 void generateWhileStatementTree(whileStatementTree ws, FILE* fptr){
-    fprintf(fptr, "Label%d: \n", CURRENTLABEL);
+    int label1 = CURRENTLABEL;
+    int label2 = CURRENTLABEL+1;
+    CURRENTLABEL += 2;
+    fprintf(fptr, "Label%d: \n", label1);
     generateExpressionTree(ws->exp, fptr);
     fprintf(fptr, "bipush 0\n");
-    fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL+1);  
+    fprintf(fptr, "%s%d\n", "if_icmpeq Label", label2);  
     generateStatementTree(ws->st, fptr);
-    fprintf(fptr, "goto Label%d\n", CURRENTLABEL);
-    fprintf(fptr, "Label%d\n", CURRENTLABEL+1);
-    CURRENTLABEL += 2;
+    fprintf(fptr, "goto Label%d\n", label1);
+    fprintf(fptr, "Label%d:\n", label2);
 }

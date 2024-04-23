@@ -48,6 +48,7 @@ list ifStatementTreeToString(ifStatementTree ist){
     return(string);
 }
 
+
 void generateIfStatementTree(ifStatementTree ist, FILE* fptr){    
     switch(getExpressionType(ist->exp)){
         case funcCall: 
@@ -83,16 +84,45 @@ void generateIfStatementTree(ifStatementTree ist, FILE* fptr){
             }
             break;
         case ID: 
-            generateExpressionTree(ist->exp, fptr);
-            fprintf(fptr, "bipush 0\n");
-            fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);  
-            generateStatementTree(ist->ifExpression, fptr);
-            fprintf(fptr, "%s%d\n", "goto Label", CURRENTLABEL);  
-            fprintf(fptr, "%s%d:\n", "Label", CURRENTLABEL);
-            CURRENTLABEL++;
+            if(ist->elseExpression == NULL){
+                generateExpressionTree(ist->exp, fptr);
+                fprintf(fptr, "bipush 0\n");
+                fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);  
+                generateStatementTree(ist->ifExpression, fptr);
+                fprintf(fptr, "%s%d\n", "goto Label", CURRENTLABEL);  
+                fprintf(fptr, "%s%d:\n", "Label", CURRENTLABEL);
+                CURRENTLABEL++;
+            }
+            else{
+                generateExpressionTree(ist->exp, fptr);
+                fprintf(fptr, "bipush 0\n");
+                fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);  
+                generateStatementTree(ist->ifExpression, fptr);
+                fprintf(fptr, "%s%d\n", "goto Label", CURRENTLABEL+1);  
+                fprintf(fptr, "%s%d:\n", "Label", CURRENTLABEL);
+                generateStatementTree(ist->elseExpression, fptr);
+                fprintf(fptr, "%s%d:\n", "Label", CURRENTLABEL+1);
+                CURRENTLABEL += 1;
+            }
             break;
 
         default: 
+            if(ist->elseExpression == NULL){
+                generateExpressionTree(ist->exp, fptr);
+                fprintf(fptr, "ifeq Label%d\n", CURRENTLABEL);
+                generateStatementTree(ist->ifExpression, fptr);
+                fprintf(fptr, "%s%d:\n", "Label", CURRENTLABEL);  
+                CURRENTLABEL++;
+            }
+            else{
+                generateExpressionTree(ist->exp, fptr);
+                fprintf(fptr, "ifeq Label%d\n", CURRENTLABEL);
+                generateStatementTree(ist->ifExpression, fptr); 
+                fprintf(fptr, "%s%d\n", "goto Label", CURRENTLABEL+1); 
+                fprintf(fptr, "%s%d:\n", "Label", CURRENTLABEL);  
+                generateStatementTree(ist->elseExpression, fptr);
+                fprintf(fptr, "%s%d:\n", "Label", CURRENTLABEL+1);  
+            }
             break;
     }   
 

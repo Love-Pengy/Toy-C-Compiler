@@ -1,13 +1,16 @@
 int main (){
     int a;
     int b;
-    a = 0;
+    int c;
+    a = 10;
     b = 1;
-    if(a < b){
-        a = 10;
+    c = 0;
+    if(c){
+        ;
     }
     else{
-
+        b = 11;
+        write(b);
+        newline;
     }
-
 }

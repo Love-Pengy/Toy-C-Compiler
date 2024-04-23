@@ -1,0 +1,11 @@
+int main(){
+    int a;
+    int b;
+    int c;
+    a = 0;
+    b = 10;
+    c = 1;
+    while(!-10){
+        ;
+    }
+}
