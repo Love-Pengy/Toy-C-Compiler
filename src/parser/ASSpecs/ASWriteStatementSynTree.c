@@ -48,6 +48,6 @@ void generateWriteStatementTree(writeStatementTree ws, FILE* fptr){
     for(int i = 0; i < ws->amtExprs; i++){
         fprintf(fptr, "getstatic java/lang/System/out Ljava/io/PrintStream;\n");
         generateExpressionTree(ws->exprs[i], fptr);
-        fprintf(fptr, "invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V\n");
+        fprintf(fptr, "invokevirtual java/io/PrintStream/print(I)V\n");
     }
 }

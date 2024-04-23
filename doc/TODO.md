@@ -88,6 +88,12 @@
     + ~~iload~~
         + ~~iload_n is for registers from 0-3~~
         + ~~iload n is for the rest~~
++ ~~update program spec to include the following:~~ 
+    + ~~.source singleAssignment.java~~
+        + ~~attempting to skip over as source is not java file for us~~
+    + ~~.class  public singleassignment~~
+    + ~~.super  java/lang/Object~~
+    + ~~cut the file name so you only get the end of it when creating the .class directive~~
 
 + write generate functions for the following portions of the AST
     + ~~ToyCProgram~~
@@ -98,52 +104,86 @@
         + ~~tested~~
     + ~~FunctionDefinition~~ 
         + ~~tested~~
-            + works assuming that function call is valid (double check with prof)
+            + ~~works assuming that function call is valid (double check with prof)~~
     + ~~Statement~~
         + ~~tested~~
-    + ~~ExprssionStatement~~
-        + tested
-    + CompoundStatement
-        + tested
+            + ~~(doing one at a time to make more manageable and accurate)~~
+    + ~~ExpressionStatement~~
+        + tests: 
+            + any expression
     + ~~IfStatement~~
-        + ~~tested~~
+        + tests: 
+            + ~~single expression~~
+            + multiple expressions
+            + single int
+            + single id
+            + not expressions
+            + not ints 
+            + bounds using 0
+            + minus ints
+            + else statment
+            + null statement
     + ~~NullStatement~~
-        + ~~tested~~
+        + tested
     + ~~ReturnStatement~~
         + tested
     + ~~WhileStatement~~
-        + tested
+        + tests
+            + single expression
+            + multiple expressions
+            + single int
+            + single id
+            + not expressions
+            + not ints 
+            + minus ints
+            + bounds using 0
+            + null statement
     + ~~ReadStatement~~
-        + tested
+        + tests
+            + single id read
+            + multiple id read 
     + ~~WriteStatement~~
-        + tested
+        + tests
+            + ~~single expression~~
+            + multiple expressions
+            + ~~int~~ 
+            + ~~not ints~~
+            + ~~minus ints~~
     + ~~newLineStatement~~
-        + tested
+        + ~~tested~~
     + ~~expressionStatement~~
         + tested
     + ~~Expression~~
         + tested
     + ~~OpExpression~~
-        + tested
+        + ~~tests ~~
+            + ~~+~~
+            + ~~-~~
+            + ~~*~~
+            + ~~/~~
+            + ~~%~~
+            + ~~||~~
+            + ~~&&~~
+            + ~~<=~~ 
+            + ~~< ~~
+            + ~~=~~ 
+            + ~~ >~~ 
+            + ~~ >=~~ 
+            + ~~!=~~
+            + ~~nested op trees~~
+            + ~~negative sub~~
     + ~~blockStatement~~
         + tested
-    + Term
-        + tested
-    + Primary
-        + tested
+            + this is just the middle of the main function 
     + ~~functionCall~~
-        + tested
+        + ~~tested!!
+
++ change directive to ldc_w if number is larger than 255
 + thorougly test code generation
 + update readme.md to reflect what this project is 
 + update readme.txt to hold information for professor
 + update the cmdline parser to reglect the code gen changes 
 + update code to change behavior on newly implemented globals
-+ update program spec to include the following: 
-    + .source singleAssignment.java
-        + attempting to skip over as source is not java file for us
-    + ~~.class  public singleassignment~~
-    + ~~.super  java/lang/Object~~
-    + cut the file name so you only get the end of it when creating the .class directive
 
 + NOTE:     
     + compile ```javac <file.java>```

@@ -76,10 +76,10 @@ void generateOpExpressionTree(opExpressionTree oe, FILE* fptr){
     else if(!strcmp(getOperator(oe->op), "||")){
         generateExpressionTree(oe->exp1, fptr);
         fprintf(fptr, "bipush 1\n");
-        fprintf(fptr, "if_cmpeq Label%d\n", CURRENTLABEL);
+        fprintf(fptr, "if_icmpeq Label%d\n", CURRENTLABEL);
         generateExpressionTree(oe->exp2, fptr);
         fprintf(fptr, "bipush 1\n");
-        fprintf(fptr, "if_cmpeq Label%d\n", CURRENTLABEL);
+        fprintf(fptr, "if_icmpeq Label%d\n", CURRENTLABEL);
         fprintf(fptr, "bipush 0\n");
         fprintf(fptr, "goto Label%d\n", CURRENTLABEL+1);
         fprintf(fptr, "Label%d:\n", CURRENTLABEL);
@@ -88,33 +88,36 @@ void generateOpExpressionTree(opExpressionTree oe, FILE* fptr){
         CURRENTLABEL += 2;
     }
     else if(!strcmp(getOperator(oe->op), "&&")){
+        int label1 = CURRENTLABEL;
+        int label2 = CURRENTLABEL+1;
+        int label3 = CURRENTLABEL+2;
+        CURRENTLABEL += 3;
         generateExpressionTree(oe->exp1, fptr);
         fprintf(fptr, "bipush 1\n");
-        fprintf(fptr, "if_cmpeq Label%d\n", CURRENTLABEL);
+        fprintf(fptr, "if_icmpeq Label%d\n", label1);
         fprintf(fptr, "bipush 0\n");
-        fprintf(fptr, "goto Label%d\n", CURRENTLABEL+2);
+        fprintf(fptr, "goto Label%d\n", label3);
 
-        fprintf(fptr, "Label%d:\n", CURRENTLABEL);
+        fprintf(fptr, "Label%d:\n", label1);
         generateExpressionTree(oe->exp2, fptr);
         fprintf(fptr, "bipush 1\n");
-        fprintf(fptr, "if_cmpeq Label%d\n", CURRENTLABEL+1);
+        fprintf(fptr, "if_icmpeq Label%d\n", label2);
         fprintf(fptr, "bipush 0\n");
-        fprintf(fptr, "goto Label%d\n", CURRENTLABEL+2);
+        fprintf(fptr, "goto Label%d\n", label3);
         
-        fprintf(fptr, "Label%d:\n", CURRENTLABEL+1);
+        fprintf(fptr, "Label%d:\n", label2);
         fprintf(fptr, "bipush 1\n");
+        fprintf(fptr, "goto Label%d\n", label3);
 
-        fprintf(fptr, "goto Label%d\n", CURRENTLABEL+2);
+        fprintf(fptr, "Label%d:\n", label3); 
 
-        fprintf(fptr, "Label%d:\n", CURRENTLABEL+2); 
-
-        CURRENTLABEL += 3;
     }
     else if(!strcmp(getOperator(oe->op), "<=")){
         generateExpressionTree(oe->exp1, fptr);
         generateExpressionTree(oe->exp2, fptr);
-        fprintf(fptr, "if_icmpgt Label%d\n", CURRENTLABEL+1);
+        fprintf(fptr, "if_icmpgt Label%d\n", CURRENTLABEL);
         fprintf(fptr, "bipush 1\n");
+        fprintf(fptr, "goto Label%d\n", CURRENTLABEL+1);
         fprintf(fptr, "Label%d:\n", CURRENTLABEL);
         fprintf(fptr, "bipush 0\n");
         fprintf(fptr, "Label%d:\n", CURRENTLABEL+1);
@@ -123,8 +126,9 @@ void generateOpExpressionTree(opExpressionTree oe, FILE* fptr){
     else if(!strcmp(getOperator(oe->op), "<")){
         generateExpressionTree(oe->exp1, fptr);
         generateExpressionTree(oe->exp2, fptr);
-        fprintf(fptr, "if_icmpge Label%d\n", CURRENTLABEL+1);
+        fprintf(fptr, "if_icmpge Label%d\n", CURRENTLABEL);
         fprintf(fptr, "bipush 1\n");
+        fprintf(fptr, "goto Label%d\n", CURRENTLABEL+1);
         fprintf(fptr, "Label%d:\n", CURRENTLABEL);
         fprintf(fptr, "bipush 0\n");
         fprintf(fptr, "Label%d:\n", CURRENTLABEL+1);
@@ -151,8 +155,9 @@ void generateOpExpressionTree(opExpressionTree oe, FILE* fptr){
     else if(!strcmp(getOperator(oe->op), ">")){
         generateExpressionTree(oe->exp1, fptr);
         generateExpressionTree(oe->exp2, fptr);
-        fprintf(fptr, "if_icmple Label%d\n", CURRENTLABEL+1);
+        fprintf(fptr, "if_icmple Label%d\n", CURRENTLABEL);
         fprintf(fptr, "bipush 1\n");
+        fprintf(fptr, "goto Label%d\n", CURRENTLABEL+1);
         fprintf(fptr, "Label%d:\n", CURRENTLABEL);
         fprintf(fptr, "bipush 0\n");
         fprintf(fptr, "Label%d:\n", CURRENTLABEL+1);
@@ -161,8 +166,9 @@ void generateOpExpressionTree(opExpressionTree oe, FILE* fptr){
     else if(!strcmp(getOperator(oe->op), ">=")){
         generateExpressionTree(oe->exp1, fptr);
         generateExpressionTree(oe->exp2, fptr);
-        fprintf(fptr, "if_icmplt Label%d\n", CURRENTLABEL+1);
+        fprintf(fptr, "if_icmplt Label%d\n", CURRENTLABEL);
         fprintf(fptr, "bipush 1\n");
+        fprintf(fptr, "goto Label%d\n", CURRENTLABEL+1);
         fprintf(fptr, "Label%d:\n", CURRENTLABEL);
         fprintf(fptr, "bipush 0\n");
         fprintf(fptr, "Label%d:\n", CURRENTLABEL+1);
@@ -171,8 +177,9 @@ void generateOpExpressionTree(opExpressionTree oe, FILE* fptr){
     else if(!strcmp(getOperator(oe->op), "!=")){
         generateExpressionTree(oe->exp1, fptr);
         generateExpressionTree(oe->exp2, fptr);
-        fprintf(fptr, "if_icmpeq Label%d\n", CURRENTLABEL+1);
+        fprintf(fptr, "if_icmpeq Label%d\n", CURRENTLABEL);
         fprintf(fptr, "bipush 1\n");
+        fprintf(fptr, "goto Label%d\n", CURRENTLABEL+1);
         fprintf(fptr, "Label%d:\n", CURRENTLABEL);
         fprintf(fptr, "bipush 0\n");
         fprintf(fptr, "Label%d:\n", CURRENTLABEL+1);

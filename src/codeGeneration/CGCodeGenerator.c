@@ -4,10 +4,24 @@
 #include "../../include/cmdLine/TCglobals.h"
 #include "../../include/parser/TCparser.h"
 
+char* getClassname(char* input){
+    char* copy = malloc(sizeof(char) * (strlen(inputFileName)+ 1));
+    copy[0] = '\0';
+    strcpy(copy, input);
+    char* cut = strtok(copy, "/");
+    char* last = NULL;
+    while(cut != NULL){
+        last = cut;
+        cut = strtok(NULL, "/");
+    }       
+    return(last);
+}
+
 //traverse the AST and convert each part to its respective instructions
 //for each tree implement a "generate code" function the implements its respective template
 void generateJasminCode(programTree program){ 
     char* original = malloc(sizeof(char) * (strlen(inputFileName)+ 1));
+    original[0] = '\0';
     strcpy(original, inputFileName);
     char* cut = strtok(original, ".");
     char* last = NULL;
@@ -24,8 +38,7 @@ void generateJasminCode(programTree program){
 
         javaClassname = malloc(sizeof(char) * (strlen(newInputFile) + 1));
         javaClassname[0] = '\0';
-        strcpy(javaClassname, newInputFile);
-
+        javaClassname = getClassname(newInputFile);
         strcat(newInputFile, ".j");
     }
     else if((inputFileName[0] == '.') && (strlen(last) == (strlen(inputFileName)-1))){ 
@@ -35,7 +48,7 @@ void generateJasminCode(programTree program){
 
         javaClassname = malloc(sizeof(char) * (strlen(newInputFile) + 1));
         javaClassname[0] = '\0';
-        strcpy(javaClassname, newInputFile);
+        javaClassname = getClassname(newInputFile);
 
         strcat(newInputFile, ".j");
     }
@@ -51,7 +64,7 @@ void generateJasminCode(programTree program){
 
         javaClassname = malloc(sizeof(char) * (strlen(newInputFile) + 1));
         javaClassname[0] = '\0';
-        strcpy(javaClassname, newInputFile);
+        javaClassname = getClassname(newInputFile);
 
         strcat(newInputFile, ".j");
     }
@@ -59,3 +72,4 @@ void generateJasminCode(programTree program){
     FILE* fptr = fopen(newInputFile, "w");
     generateProgramTree(program, fptr);
 }
+

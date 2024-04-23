@@ -665,12 +665,20 @@ expressionTree simpleExpression(void){
     opExpressionTree currentOp = initOpExpressionTree();
     expressionTree output = initExpressionTree();
     operatorTree operator = initOperatorTree();
+    expressionTree tmpCurrentOP = initExpressionTree();
     currentOp = NULL;
+    bool first = true;
     while(!strcmp(currentToken->lexeme, "ADDOP")){
         operator = createOperatorTree(currentToken->value);
         getNextToken();
         et2 = term();
-        currentOp = createOpExpressionTree(&operator, &et1, &et2);
+        if(first){
+            currentOp = createOpExpressionTree(&operator, &et1, &et2);
+        }
+        else{
+            tmpCurrentOP = createExpressionTree(Expr, &currentOp);
+            currentOp = createOpExpressionTree(&operator, &tmpCurrentOP, &et2);
+        }
     }
     exiting("simpleExpression");
     if(currentOp == NULL){
@@ -682,7 +690,6 @@ expressionTree simpleExpression(void){
     return(output);
 }
 
-//figure this out before moving on
 expressionTree term(void){
     entering("term");
     expressionTree st1 = initExpressionTree();
@@ -691,12 +698,21 @@ expressionTree term(void){
     opExpressionTree currentOP = initOpExpressionTree();
     operatorTree operator = initOperatorTree();
     expressionTree output = initExpressionTree();
+    expressionTree tmpCurrentOP = initExpressionTree();
     currentOP = NULL;
+    int count = 0;
     while(!strcmp(currentToken->lexeme, "MULOP")){
         operator = createOperatorTree(currentToken->value);
         getNextToken();
         st2 = primary();
-        currentOP = createOpExpressionTree(&operator,&st1,&st2);  
+        if(count){
+            tmpCurrentOP = createExpressionTree(Expr, &currentOP);
+            currentOP = createOpExpressionTree(&operator,&tmpCurrentOP,&st2);  
+        }
+        else{
+            currentOP = createOpExpressionTree(&operator,&st1,&st2);  
+        }
+        count++;
     }
     exiting("term");
     if(currentOP == NULL){

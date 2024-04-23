@@ -61,8 +61,8 @@ void generateIfStatementTree(ifStatementTree ist, FILE* fptr){
             if(ist->elseExpression != NULL){ 
                 //CURRENTLABEL + 1 is end CURRENTLABEL is else
                 //generateIfElseStatement(ist->exp, ist->ifExpression, ist->elseExpression, fptr);
-                fprintf(fptr, "bipush 0\n");
                 generateExpressionTree(ist->exp, fptr);
+                fprintf(fptr, "bipush 0\n");
                 fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);  
                 generateStatementTree(ist->ifExpression, fptr);
                 fprintf(fptr, "%s%d\n", "goto Label", CURRENTLABEL+1);  
@@ -73,8 +73,8 @@ void generateIfStatementTree(ifStatementTree ist, FILE* fptr){
                 CURRENTLABEL += 2;
             }
             else{
-                fprintf(fptr, "bipush 0\n");
                 generateExpressionTree(ist->exp, fptr);
+                fprintf(fptr, "bipush 0\n");
                 fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);  
                 generateStatementTree(ist->ifExpression, fptr);
                 fprintf(fptr, "%s%d\n", "goto Label", CURRENTLABEL);  

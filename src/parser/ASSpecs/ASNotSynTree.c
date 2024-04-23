@@ -36,11 +36,11 @@ list notTreeToString(notTree not){
 
 void generateNotTree(notTree not, FILE* fptr){
     generateExpressionTree(not->exp,fptr);
-    fprintf(fptr, "bipush 1\n");
-    fprintf(fptr, "if_icmpeq Label%d\n", CURRENTLABEL);
-    fprintf(fptr, "bipush 1\n");
-    fprintf(fptr, "goto Label%d:\n", CURRENTLABEL+1);
-    fprintf(fptr, "Label%d:\n", CURRENTLABEL);
+    fprintf(fptr, "ifeq Label%d\n", CURRENTLABEL);
     fprintf(fptr, "bipush 0\n");
-    fprintf(fptr, "Label%d\n", CURRENTLABEL+1);    
+    fprintf(fptr, "goto Label%d\n", CURRENTLABEL+1);
+    fprintf(fptr, "Label%d:\n", CURRENTLABEL);
+    fprintf(fptr, "bipush 1\n");
+    fprintf(fptr, "Label%d:\n", CURRENTLABEL+1);    
+    CURRENTLABEL+=2;
 }

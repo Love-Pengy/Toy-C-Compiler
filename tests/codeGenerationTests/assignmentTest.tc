@@ -1,3 +1,5 @@
 int main(int a){
     int b; int c; 
+    b = 10;
+    c = 11;
 }

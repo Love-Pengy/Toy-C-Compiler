@@ -8,7 +8,7 @@ BIN_DIR := ./bin
 .DEFAULT_GOAL := generate
 
 #if you wanna feel like a genius just get rid of debug symbol ;)
-DEBUG =@       
+DEBUG =       
 
 CFLAGS := -g -Wall
 
@@ -57,6 +57,8 @@ $(BUILD_DIR)/%.c.o: %.c
 clean:
 	$(DEBUG)rm -rf $(BUILD_DIR)/*
 	$(DEBUG)rm -rf $(BIN_DIR)/*
+	$(DEBUG)rm -f ./*.class
+	$(DEBUG)rm -f ./tests/codeGenerationTests/*.j
 	$(DEBUG)echo "Cleaning Has Completed"
 
 generate: $(BUILD_DIR)/$(TARGET_EXEC) 
@@ -69,7 +71,7 @@ run:
 	$(DEBUG)./$(BIN_DIR)/tc $(ARGS)
 
 #args in this case is the file that you would like to thow into the assembler
-runJasmin: 
+generateJasmin: 
 	$(DEBUG)java -jar ./doc/CodeGen/jasmin-2.4/jasmin.jar $(ARGS)
 
 # Include the .d makefiles. The - at the front suppresses the errors of missing

@@ -141,22 +141,13 @@ list expressionTreeToString(expressionTree exprT){
     return(string);
 }
 
-
 void generateExpressionTree(expressionTree exprT, FILE* fptr){
     int index;
     if(exprT == NULL){
     }
     switch(exprT->type){
         case Number:
-            fprintf(fptr, "%s%s\n", "iconst_", exprT->number);  
-            fprintf(fptr, "bipush 0\n");
-            fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);  
-            fprintf(fptr, "bipush 1\n");
-            fprintf(fptr, "%s%d\n", "goto Label", CURRENTLABEL+1);  
-            fprintf(fptr, "%s%d:\n", "Label", CURRENTLABEL);
-            fprintf(fptr, "bipush 0\n");
-            fprintf(fptr, "Label%d:\n", CURRENTLABEL+1);
-            CURRENTLABEL += 2;
+            fprintf(fptr, "%s%s\n", "bipush ", exprT->number);  
             break;
         case ID:
             index = getSymbolIndex(symTable, exprT->id);
@@ -166,14 +157,6 @@ void generateExpressionTree(expressionTree exprT, FILE* fptr){
             else {
                 fprintf(fptr, "%s%d\n", "iload_", getSymbolIndex(symTable,exprT->id));
             }
-            fprintf(fptr, "bipush 0\n");
-            fprintf(fptr, "%s%d\n", "if_icmpeq Label", CURRENTLABEL);  
-            fprintf(fptr, "bipush 1\n");
-            fprintf(fptr, "%s%d\n", "goto Label", CURRENTLABEL+1);  
-            fprintf(fptr, "%s%d:\n", "Label", CURRENTLABEL);
-            fprintf(fptr, "bipush 0\n");
-            fprintf(fptr, "Label%d:\n", CURRENTLABEL+1);
-            CURRENTLABEL += 2;
             break;
         case CharLiteral:
             //only doing ints
