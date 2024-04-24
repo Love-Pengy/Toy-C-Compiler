@@ -54,7 +54,18 @@ void generateWriteStatementTree(writeStatementTree ws, FILE* fptr){
 
     for(int i = 0; i < ws->amtExprs; i++){
         fprintf(fptr, "getstatic java/lang/System/out Ljava/io/PrintStream;\n");
-        generateExpressionTree(ws->exprs[i], fptr);
-        fprintf(fptr, "invokevirtual java/io/PrintStream/print(I)V\n");
+        if((getExpressionType(ws->exprs[i]) == StringLiteral) ||(getExpressionType(ws->exprs[i]) == CharLiteral)){
+            if(getExpressionType(ws->exprs[i]) == StringLiteral){
+                fprintf(fptr, "ldc \"%s\"\n", getStringFromExpression(ws->exprs[i]));
+            }
+            else{
+                fprintf(fptr, "ldc \"%s\"\n", getCharFromExpression(ws->exprs[i]));
+            }
+            fprintf(fptr, "invokevirtual java/io/PrintStream/print(Ljava/lang/String;)V\n");
+        }
+        else{ 
+            generateExpressionTree(ws->exprs[i], fptr);
+            fprintf(fptr, "invokevirtual java/io/PrintStream/print(I)V\n");
+        }
     }
 }

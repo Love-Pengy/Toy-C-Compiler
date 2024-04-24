@@ -16,6 +16,12 @@ void throwCmdLineError(char* error){
     exit(EXIT_FAILURE);
 }
 
+bool startsWithHyphen(char* input){
+    if(input[0] == '-'){
+        return(true);
+    }
+    return(false);
+}
 
 void cmdLineParser(char ** input){
     int arrayLength = -1;
@@ -81,7 +87,7 @@ void cmdLineParser(char ** input){
             }
         }
         else if(strcmp(input[i], "-output") == 0){
-            if((i + 1) < arrayLength){
+            if(((i + 1) < arrayLength) && !startsWithHyphen(input[i])){
                 i++;
                 outputFileName = malloc(sizeof(char) * strlen(input[i]));
                 outputFileName[0] = '\0';
@@ -93,7 +99,7 @@ void cmdLineParser(char ** input){
             }
         }
         else if(strcmp(input[i], "-class") == 0){
-            if((i + 1) < arrayLength){
+            if(((i + 1) < arrayLength) && !startsWithHyphen(input[i])){
                 i++;
                 javaClassname = malloc(sizeof(char) * strlen(input[i]));
                 javaClassname[0] = '\0';
@@ -116,6 +122,7 @@ void cmdLineParser(char ** input){
         else if(strcmp(input[i], "-version") == 0){
             printf("Toy C Compiler 0.9.5\n");
             printf("Created By Brandon Frazier\n");
+            exit(EXIT_SUCCESS);
         }
         else if(strcmp(input[i], "-verbose") == 0){ 
             turnVerboseOn();

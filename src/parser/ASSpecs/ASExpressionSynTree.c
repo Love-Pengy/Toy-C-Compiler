@@ -26,6 +26,47 @@ int getIdIndexFromExpression(expressionTree et){
     return(getSymbolIndex(symTable, et->id));
 }
 
+char* getStringFromExpression(expressionTree et){
+
+    char* newString = malloc(sizeof(char) * strlen(et->string));
+    newString[0] = '\0';
+
+    //get rid of "'s because for some reason I didn't take them out 
+    for(int i = 0; i < strlen(et->string); i++){
+        if(et->string[i] != '\"'){
+            if(strlen(newString) == 0){
+                newString[0] = et->string[i]; 
+                newString[strlen(newString)] = '\0'; 
+                continue;
+            }
+            newString[strlen(newString)] = et->string[i]; 
+            newString[(strlen(newString) + 1)] = '\0';
+        }
+    }
+
+    return(newString);
+}
+
+char* getCharFromExpression(expressionTree et){
+
+    char * newString = malloc(sizeof(char) * strlen(et->charLit));
+    newString[0] = '\0';
+
+    for(int i = 0; i < strlen(et->charLit); i++){
+        if(et->charLit[i] != '\''){
+            if(strlen(newString) == 0){
+                newString[0] = et->charLit[i]; 
+                newString[strlen(newString)] = '\0'; 
+                continue;
+            }
+            newString[strlen(newString)] = et->charLit[i]; 
+            newString[(strlen(newString) + 1)] = '\0';
+        }
+    }
+
+    return(newString);
+}
+
 enum expressionType getExpressionType(expressionTree e){
     return(e->type);
 }
@@ -171,15 +212,9 @@ void generateExpressionTree(expressionTree exprT, FILE* fptr){
             break;
         case CharLiteral:
             //only doing ints
-            printf("ERROR: Char Literals Not Allowed\n");
-            fflush(stdout);
-            exit(EXIT_FAILURE);
             break;
         case StringLiteral:
             //only doing ints
-            printf("ERROR: String Literals Not Allowed\n");
-            fflush(stdout);
-            exit(EXIT_FAILURE);
             break;
         case funcCall:
             //not doing functions

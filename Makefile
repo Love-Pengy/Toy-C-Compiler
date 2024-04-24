@@ -8,7 +8,7 @@ BIN_DIR := ./bin
 .DEFAULT_GOAL := generate
 
 #if you wanna feel like a genius just get rid of debug symbol ;)
-DEBUG =       
+DEBUG = @       
 
 CFLAGS := -g -Wall
 
@@ -52,7 +52,7 @@ $(BUILD_DIR)/%.c.o: %.c
 	$(DEBUG)$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 
-.PHONY: clean test test2 
+.PHONY: clean test run generate generateJasmin  
 
 clean:
 	$(DEBUG)rm -rf $(BUILD_DIR)/*

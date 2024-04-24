@@ -49,6 +49,8 @@
 + ~~Debug WColumn memory issue~~
 + ~~change pretty printing indents to four spaces~~
 + ~~fix pretty printing that shit is NOT pretty~~ 
++ ~~program, definition, statement, expression, and operator should all have the block look~~
+    + ~~others should be one liners with the expception of the following: ~~
 + ~~for op expression trees I need to fix two op expression trees being within one another they are not showing up~~ 
 + ~~Thoroughly test the parser before moving onto code generation~~ 
 + ~~write out skeleton for symbols~~
@@ -180,46 +182,37 @@
 + ~~check how  a < b || !c is supposed to be evaluated~~
 + ~~check if strings can go into read statements~~
 + ~~thorougly test code generation~~
-
-
-
-+ let strings go into write statements and only write statements
-+ update readme.md to reflect what this project is 
-+ update readme.txt to hold information for professor
-+ update the cmdline parser to reglect the code gen changes 
-+ update code to change behavior on newly implemented globals
-+ test cmdline parser
++ ~~change code gen messages to tell where it's coming from~~ 
++ ~~test expressions enclosed in parenthesis~~
++ ~~let strings and char's go into write statements and only write statements~~
++ ~~test cmdline parser~~
     + ~~help~~
     + ~~output~~
         + ~~test outputFileName~~
     + ~~class~~
-    + debug 
-        + 0
-        + 1
-        + 2
-        + 3
+    + ~~debug~~ 
+        + ~~0~~
+        + ~~1~~
+        + ~~2~~
+        + ~~3~~
     + ~~abstract~~
     + ~~symbol~~
     + ~~code~~
     + ~~verbose~~
     + ~~version~~
++ ~~update the cmdline parser to reglect the code gen changes~~ 
++ ~~update code to change behavior on newly implemented globals~~
++ ~~update readme.txt to hold information for professor~~
++ ~~add dates to the new test files~~
 
-+ change code gen messages to tell where it's coming from 
-+ NOTE:     
-    + compile ```javac <file.java>```
-    + run ```java <file>```
-
-    + make runJasmin ARGS="file.j"
-
-
-
++ update readme.md to reflect what this project is 
 
 
 
 THIS CAN BE DONE LATER WORK ON FUNCTIONALITY 
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-+ program, definition, statement, expression, and operator should all have the block look
-    + others should be one liners with the expception of the following: 
 + make a free tree option for the ast when done with it
+    + nope.
 + to make message pointer make more sense you might have to make it only go to the beginning/end of tokens 
     + fix semantic error handling (it points to the wrong place) 
+        + also nope

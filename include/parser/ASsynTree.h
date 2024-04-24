@@ -191,6 +191,8 @@ expressionTree createExpressionTree(enum expressionType, void*);
 list expressionTreeToString(expressionTree);
 void generateExpressionTree(expressionTree, FILE*);
 int getIdIndexFromExpression(expressionTree);
+char* getStringFromExpression(expressionTree);
+char* getCharFromExpression(expressionTree);
 
 
 #endif

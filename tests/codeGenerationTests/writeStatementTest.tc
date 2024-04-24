@@ -1,10 +1,9 @@
+//B. Frazier 04/23/24
+
 int main (){
-    int a;
-    a = 30;
-    int b;
-    b = 1;
-    int c;
-    c = -1;
-    write(a < b || b > c);
+    newline;
+    write("this is a string");
+    newline;
+    write('c');
     newline;
 }
