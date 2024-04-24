@@ -177,32 +177,32 @@
         + ~~tested~~
 + ~~change the symbol table types to actual things rahter than LABEL or OFFSET~~
 + ~~change directive to ldc_w if number is larger than 255~~
-
 + ~~check how  a < b || !c is supposed to be evaluated~~
-+ check if strings can go into read statements
++ ~~check if strings can go into read statements~~
++ ~~thorougly test code generation~~
+
+
 
 + let strings go into write statements and only write statements
-
-+ thorougly test code generation
 + update readme.md to reflect what this project is 
 + update readme.txt to hold information for professor
 + update the cmdline parser to reglect the code gen changes 
 + update code to change behavior on newly implemented globals
 + test cmdline parser
     + ~~help~~
-    + output
-        + test outputFileName
-    + class
+    + ~~output~~
+        + ~~test outputFileName~~
+    + ~~class~~
     + debug 
         + 0
         + 1
         + 2
         + 3
-    + abstract
-    + symbol
-    + code
-    + verbose
-    + version
+    + ~~abstract~~
+    + ~~symbol~~
+    + ~~code~~
+    + ~~verbose~~
+    + ~~version~~
 
 + change code gen messages to tell where it's coming from 
 + NOTE:     

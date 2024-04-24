@@ -37,7 +37,7 @@ list nullStatementTreeToString(nullStatementTree nst){
 void generateNullStatementTree(nullStatementTree nst, FILE* fptr){
     //null statement :3
     if(debug_codeGen){
-        printf("[Generating Null Statement]\n");
+        printf("[CODE GENERATOR] Generating Null Statement\n");
         fflush(stdout);
     }
 }

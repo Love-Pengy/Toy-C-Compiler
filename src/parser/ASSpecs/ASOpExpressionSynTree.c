@@ -49,7 +49,7 @@ list opExpressionTreeToString(opExpressionTree oe){
 void generateOpExpressionTree(opExpressionTree oe, FILE* fptr){
     
     if(debug_codeGen){
-        printf("[Generating Op Expression Tree]\n");
+        printf("[CODE GENERATOR] Generating Op Expression Tree\n");
         fflush(stdout);
     }
 

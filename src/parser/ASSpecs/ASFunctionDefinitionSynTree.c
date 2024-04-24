@@ -88,7 +88,7 @@ list functionDefinitionTreeToString(functionDefinitionTree fst){
 void generateFunctionDefinitionTree(functionDefinitionTree fst, FILE* fptr){
     //header variables go in the symbol table therefore we don't need to do anything here 
     if(debug_codeGen){
-        printf("[Generating Function Definition]\n");
+        printf("[CODE GENERATOR] Generating Function Definition\n");
         fflush(stdout);
     }
     generateStatementTree(fst->sDef, fptr);

@@ -64,7 +64,7 @@ list blockStatementTreeToString(blockStatementTree bst){
 void generateBlockStatementTree(blockStatementTree bst, FILE* fptr){
 
     if(debug_codeGen){
-        printf("[Generating Block Statement]\n");
+        printf("[CODE GENERATOR] Generating Block Statement\n");
         fflush(stdout);
     }
 

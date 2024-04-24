@@ -175,7 +175,7 @@ list statementTreeToString(statementTree state){
 void generateStatementTree(statementTree state, FILE* fptr){
 
     if(debug_codeGen){
-        printf("[Generating Statement Tree]\n");
+        printf("[CODE GENERATOR] Generating Statement Tree\n");
         fflush(stdout);
     }
 

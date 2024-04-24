@@ -36,7 +36,7 @@ list notTreeToString(notTree not){
 
 void generateNotTree(notTree not, FILE* fptr){
     if(debug_codeGen){
-        printf("[Generating Not Tree]\n");
+        printf("[CODE GENERATOR] Generating Not Tree\n");
         fflush(stdout);
     }
     generateExpressionTree(not->exp,fptr);

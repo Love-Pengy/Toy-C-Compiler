@@ -60,7 +60,7 @@ list readStatementTreeToString(readStatementTree rs){
 void generateReadStatement(readStatementTree rs, FILE* fptr){
 
     if(debug_codeGen){
-        printf("[Generating Read Statement]\n");
+        printf("[CODE GENERATOR] Generating Read Statement\n");
         fflush(stdout);
     }
 

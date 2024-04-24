@@ -54,7 +54,7 @@ void generateVariableDefinitionTree(variableDefinitionTree vdt, FILE* fptr){
     //this is empty because register values are linked to the index of the variable
     //in the symbolTable therefore definitions don't need to do any work
     if(debug_codeGen){
-        printf("[Generating Variable Definition]\n");
+        printf("[CODE GENERATOR] Generating Variable Definition\n");
         fflush(stdout);
     }
 

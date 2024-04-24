@@ -241,7 +241,7 @@ functionDefinitionTree functionDefinition(char *type, char* id){
     addIdFunctionDefinition(&fd, id); 
     addTypeFunctionDefinition(&fd, type);
 
-    setSymbolType(&currSym, RTYPE);
+    setSymbolType(&currSym, FUNCTION);
     setVarType(&currSym, type);
     setId(&currSym, id);
 

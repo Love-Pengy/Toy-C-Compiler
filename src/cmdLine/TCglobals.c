@@ -4,7 +4,6 @@
 #include "../../include/cmdLine/TCglobals.h"
 #include "../../include/symbols/TCSymbolTable.h"
 
-char *inputFileName = "";
 bool debug_scanner = false;
 bool debug_parser = false;
 bool debug_codeGen = false;
@@ -12,6 +11,7 @@ bool dump_abstractCode = false;
 bool dump_objectCode = false;
 bool dump_symbolTable = false;
 bool verbose = false;
+char *inputFileName = "";
 char *author = "Brandon Frazier";
 char *outputFileName = NULL;
 FILE* filePointer = NULL;

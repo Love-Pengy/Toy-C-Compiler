@@ -51,11 +51,11 @@ char *symbolToString(symbol sym){
         case VAR: 
             listCat(&output, "VAR, ");
             break;
-        case FUNCTION: 
+        case LABEL: 
             listCat(&output, "LABEL, "); 
             break;
-        case RTYPE: 
-            listCat(&output, "RTYPE, ");
+        case FUNCTION: 
+            listCat(&output, "FUNCTION, ");
             break;
         default: 
             listCat(&output, "NONE, ");
@@ -66,7 +66,6 @@ char *symbolToString(symbol sym){
     listCat(&output, "]");
     return(listToString(output));
 }
-
 
 void freeSymbol(symbol* sym){
     free((*sym)->id);

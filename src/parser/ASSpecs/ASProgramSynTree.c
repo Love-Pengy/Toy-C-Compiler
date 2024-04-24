@@ -56,7 +56,7 @@ list programTreeToString(programTree pst){
 void generateProgramTree(programTree pst, FILE *fptr){
 
     if(debug_codeGen){
-        printf("[Generating Program Tree]\n");
+        printf("[CODE GENERATOR] Generating Program Tree\n");
         fflush(stdout);
     }
 

@@ -41,7 +41,7 @@ list minusTreeToString(minusTree min){
 void generateMinusTree(minusTree min, FILE* fptr){
     
     if(debug_codeGen){
-        printf("[Generating Minus Tree]\n");
+        printf("[CODE GENERATOR] Generating Minus Tree\n");
         fflush(stdout);
     }
 

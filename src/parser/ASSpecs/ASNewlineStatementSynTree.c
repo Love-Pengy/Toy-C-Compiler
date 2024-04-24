@@ -34,7 +34,7 @@ list newLineStatementTreeToString(newLineStatementTree n){
 
 void generateNewLineStatementTree(newLineStatementTree nt, FILE* fptr){
     if(debug_codeGen){
-        printf("[Generating NewLine Statement]\n");
+        printf("[CODE GENERATOR] Generating NewLine Statement\n");
         fflush(stdout);
     }
     fprintf(fptr, "getstatic java/lang/System/out Ljava/io/PrintStream;\n");

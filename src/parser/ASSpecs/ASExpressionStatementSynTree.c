@@ -39,7 +39,7 @@ list expressionStatementTreeToString(expressionStatementTree est){
 void generateExpressionStatementTree(expressionStatementTree est, FILE* fptr){
 
     if(debug_codeGen){
-        printf("[Generating Expression Statement]\n");
+        printf("[CODE GENERATOR] Generating Expression Statement\n");
         fflush(stdout);
     }
 

@@ -69,7 +69,7 @@ list definitionTreeToString(definitionTree dst){
 void generateDefinitionTree(definitionTree dst, FILE* fptr){
 
     if(debug_codeGen){
-        printf("[Generating Definition]\n");
+        printf("[CODE GENERATOR] Generating Definition\n");
         fflush(stdout);
     }
 

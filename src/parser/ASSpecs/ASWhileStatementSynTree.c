@@ -43,7 +43,7 @@ list whileStatementTreeToString(whileStatementTree ws){
 void generateWhileStatementTree(whileStatementTree ws, FILE* fptr){
     
     if(debug_codeGen){
-        printf("[Generating While Statement]\n");
+        printf("[CODE GENERATOR] Generating While Statement\n");
         fflush(stdout);
     }
 

@@ -144,7 +144,7 @@ list expressionTreeToString(expressionTree exprT){
 void generateExpressionTree(expressionTree exprT, FILE* fptr){
 
     if(debug_codeGen){
-        printf("[Generating Expression]\n");
+        printf("[CODE GENERATOR] Generating Expression\n");
         fflush(stdout);
     }
 

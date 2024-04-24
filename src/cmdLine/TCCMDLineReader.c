@@ -50,8 +50,7 @@ void cmdLineParser(char ** input){
             }
             //display all messages
             if(strcmp(input[i], "0") == 0){
-                debug_scanner = true;
-                debug_parser = true;
+                turnVerboseOn();
                 if(CLINEDEBUG){
                     printf("Debug 0 Set\n");
                 }
@@ -84,11 +83,25 @@ void cmdLineParser(char ** input){
         else if(strcmp(input[i], "-output") == 0){
             if((i + 1) < arrayLength){
                 i++;
+                outputFileName = malloc(sizeof(char) * strlen(input[i]));
+                outputFileName[0] = '\0';
                 strcpy(outputFileName, input[i]);
             }
             //case for when there are no more left
             else{
                 throwCmdLineError("Output File Not Specified");
+            }
+        }
+        else if(strcmp(input[i], "-class") == 0){
+            if((i + 1) < arrayLength){
+                i++;
+                javaClassname = malloc(sizeof(char) * strlen(input[i]));
+                javaClassname[0] = '\0';
+                strcpy(javaClassname, input[i]);
+            }
+            //case for when there are no more left
+            else{
+                throwCmdLineError("Class File Not Specified");
             }
         }
         else if(strcmp(input[i], "-abstract") == 0){
@@ -101,7 +114,8 @@ void cmdLineParser(char ** input){
             dump_objectCode = true;
         }
         else if(strcmp(input[i], "-version") == 0){
-            printf("Toy C Compiler 1.0.0\n          Created By Brandon Frazier\n");
+            printf("Toy C Compiler 0.9.5\n");
+            printf("Created By Brandon Frazier\n");
         }
         else if(strcmp(input[i], "-verbose") == 0){ 
             turnVerboseOn();

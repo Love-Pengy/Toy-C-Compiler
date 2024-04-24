@@ -40,6 +40,14 @@ int main(int argc, char **argv){
     }
 
     generateJasminCode(program);
+    
+    if(dump_objectCode){
+        FILE* fptr = fopen(outputFileName, "r");
+        while(!feof(fptr)){
+            printf("%c", fgetc(fptr));  
+        }
+        fclose(fptr);
+    }
 
     return(0);
 }

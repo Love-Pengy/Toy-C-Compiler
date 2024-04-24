@@ -52,7 +52,7 @@ list ifStatementTreeToString(ifStatementTree ist){
 void generateIfStatementTree(ifStatementTree ist, FILE* fptr){    
     
     if(debug_codeGen){ 
-        printf("[Generating If Statement]\n"); 
+        printf("[CODE GENERATOR] Generating If Statement\n"); 
         fflush(stdout);
     }
 

@@ -70,7 +70,7 @@ list functionCallTreeToString(functionCallTree fct){
 void generateFunctionCallTree(functionCallTree fct, FILE* fptr){
 
     if(debug_codeGen){
-        printf("[Debugging Function Call]\n");
+        printf("[CODE GENERATOR] Debugging Function Call\n");
         fflush(stdout);
     }
     //nothing in here unless decide to do EC

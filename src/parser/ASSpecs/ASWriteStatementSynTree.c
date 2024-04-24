@@ -48,7 +48,7 @@ list writeStatementTreeToString(writeStatementTree ws){
 void generateWriteStatementTree(writeStatementTree ws, FILE* fptr){
 
     if(debug_codeGen){
-        printf("[Generating Write Statement]\n");
+        printf("[CODE GENERATOR] Generating Write Statement\n");
         fflush(stdout);
     }
 

@@ -47,7 +47,7 @@ list returnStatementTreeToString(returnStatementTree rsi){
 void generateReturnStatementTree(returnStatementTree rsi, FILE* fptr){
     //cannot have return statement because return statement must be a string which we do not have
     if(debug_codeGen){
-        printf("[Generating Return Statement]\n");
+        printf("[CODE GENERATOR] Generating Return Statement\n");
         fflush(stdout);
     }
 }
