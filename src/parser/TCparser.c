@@ -55,7 +55,7 @@ void throwError(char expected){
 void throwStateError(char *expected){
     printf("%d: ", getLineNum());
     printf("%s\n", getCurrentLine());
-
+       
     for(int i = 0; i < getPos(); i++){
         printf(" ");
     }
@@ -105,7 +105,6 @@ void accept(char terminal){
     else{
         throwError(terminal);
     }
-
 }
 
 
@@ -126,7 +125,6 @@ void exiting(char *exiteeLikeSomeTea){
         fflush(stdout);
     }
 }
-
 
 void throwTypeCompatibilityError(char* expectedType){
     printf("%d: ", getLineNum());
@@ -162,7 +160,6 @@ programTree toyCProgram(void){
     exiting("toyCProgram");
     return(output);
 }
-
 
 definitionTree definition(void){
     entering("definition");
@@ -786,7 +783,7 @@ expressionTree primary(void){
         }
         currentType = malloc(sizeof(char) * (strlen(currentToken->lexeme)));
         currentType[0] = '\0';
-        strcpy(currentType, currentToken->value);
+        strcpy(currentType, "int");
 
         output = createExpressionTree(type, &hold);
         getNextToken();

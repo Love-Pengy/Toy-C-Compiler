@@ -1,0 +1,37 @@
+int nonsense(int a, int b, int c) {
+  int k;
+  k = 1;
+  int x;
+  int w;
+  int v;
+  int z;
+  int d;
+  int zzz;
+  int y;
+//  x = k * 10 - s(z) % 2 / 15 + 66;
+  x = k * 10 - 2 % 2 / (15 + 66);
+  read(w);
+  /*/*   /*  */*/*/
+  write(' '); write("hi mom");
+  write(v); newline; break;
+  if(x < 5)
+      ;
+  else {
+    x = 55; newline;
+  }
+  while(a){}{}{}{};
+  return (((z - 2)));
+  write(a,b,"bye now");
+  "helloThere                        25";
+  while( z > (10 * d)) 
+    break;
+  return;
+  if(zzz) write(zzz);
+  y != z;
+  k(a,b,c);
+  {{{  x123456 = k + -s % 15 + 4; }}}
+  ;;;;
+}
+
+int main() {
+}

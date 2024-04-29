@@ -1,0 +1,6 @@
+int main() {
+  int x;
+  x = 5;
+  write("x = "); write(x); newline;
+  return;
+}

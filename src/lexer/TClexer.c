@@ -184,11 +184,17 @@ token getLexeme(void){
                 return(NULL);
             }
             else if((strlen(currentLine) > (currentIndex + 1)) &&(currentLine[currentIndex + 1]) == '*'){
-                int count = 1;
-                int start = 0;
+                //overall count of begginners
+                int count = 0;
+                //start of group comments
+                int start = 1;
+                //end of the comments
                 int end = 0;
+                
+                int first = 1;
 
-                while(count){
+                while(count || first){
+                    first = 0;
                     currentChar = getChar();
                     if((int)currentChar == (char)0xFF){
                         throwLexerError("Comment Not Ended");
@@ -199,6 +205,7 @@ token getLexeme(void){
                     if((currentChar == '/') && (!start)){
                         if(end){
                             count--;
+                            end = 0;
                         }
                         else{
                             start = 1;
@@ -207,6 +214,7 @@ token getLexeme(void){
                     else if((currentChar == '*') && (!end)){
                         if(start){
                             count++;
+                            start = 0;
                         }
                         else{
                             end = 1;
@@ -595,11 +603,14 @@ int getLineNum(void){
     return(currentLineIndex);
 }
 //will return the current index starting at 0
-int getPos(void){
+int getPos(void) {
     return(currentIndex);
 }
 
-//will return the current line
-char *getCurrentLine(void){
+// will return the current line
+char *getCurrentLine(void) {
+    if (currentLine == NULL) {
+        return(" ");
+    }
     return(currentLine);
 }
