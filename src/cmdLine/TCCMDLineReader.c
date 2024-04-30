@@ -120,7 +120,7 @@ void cmdLineParser(char ** input){
             dump_objectCode = true;
         }
         else if(strcmp(input[i], "-version") == 0){
-            printf("Toy C Compiler 0.9.8\n");
+            printf("Toy C Compiler 1.0.0\n");
             printf("Created By Brandon Frazier\n");
             exit(EXIT_SUCCESS);
         }

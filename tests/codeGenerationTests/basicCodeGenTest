@@ -5,7 +5,6 @@ int b;
 
 int main(int something, int somethingElse){
     b = b + 1;
-    /*
     ;
     write("Enter an upper bound for loop: ");
     read(a);
@@ -13,5 +12,4 @@ int main(int something, int somethingElse){
         write(b); write(" ");
     }
     newline;
-    */
 }
