@@ -44,6 +44,7 @@ CPPFLAGS := $(INC_FLAGS) -MMD -MP
 # The final build step.
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 	$(DEBUG)$(CXX) $(OBJS) $(ADDARGS) -o $@ $(LDFLAGS)
+	$(DEBUG)mkdir -p ./bin 
 	$(DEBUG)mv ./build/tc ./bin/tc
 
 # Build step for C source
