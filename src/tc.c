@@ -14,7 +14,7 @@ int main(int argc, char **argv){
     
     //check if only runner was called 
     if(argc < 2){
-        printf("Amount of arguments is not correct");
+        printf("Amount of arguments is not correct\n");
         exit(EXIT_FAILURE);
     }
 
